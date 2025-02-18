@@ -104,7 +104,7 @@ class TipoGabineteController {
             // Verifica se o tipo de gabinete existe
             $buscaTipoGabinete = $this->tipoGabineteModel->busca('tipo_gabinete_id', $dados['tipo_gabinete_id']);
             if (!$buscaTipoGabinete) {
-                return ['status' => 'not_found'];
+                return ['status' => 'not_found', 'message' => 'Tipo de gabinete não encontrado',];
             }
 
             // Atualiza os dados do tipo de gabinete
@@ -143,7 +143,7 @@ class TipoGabineteController {
 
         // Valida a coluna de busca
         if (!in_array($coluna, $colunasPermitidas)) {
-            return ['status' => 'bad_request'];
+            return ['status' => 'bad_request', 'message' => 'Campos obrigatórios não enviados'];
         }
 
         try {
@@ -152,7 +152,7 @@ class TipoGabineteController {
             if ($resultado) {
                 return ['status' => 'success', 'dados' => $resultado];
             } else {
-                return ['status' => 'not_found'];
+                return ['status' => 'not_found', 'message' => 'Tipo de gabinete não encontrado'];
             }
         } catch (PDOException $e) {
             // Trata erros internos

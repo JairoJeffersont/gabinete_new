@@ -182,7 +182,7 @@ class ClienteController {
 
         // Valida a coluna de busca
         if (!in_array($coluna, $colunasPermitidas)) {
-            return ['status' => 'bad_request'];
+            return ['status' => 'bad_request', 'message' => 'Campos obrigatórios não enviados'];
         }
 
         try {
@@ -191,7 +191,7 @@ class ClienteController {
             if ($resultado) {
                 return ['status' => 'success', 'dados' => $resultado];
             } else {
-                return ['status' => 'not_found'];
+                return ['status' => 'not_found', 'message' => 'Cliente não encontrado'];
             }
         } catch (PDOException $e) {
             // Trata erros internos

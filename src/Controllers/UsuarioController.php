@@ -143,7 +143,7 @@ class UsuarioController {
             // Verifica se o usuário existe
             $buscaUsuario = $this->usuarioModel->busca('usuario_id', $dados['usuario_id']);
             if (!$buscaUsuario) {
-                return ['status' => 'not_found'];
+                return ['status' => 'not_found', 'message' => 'Usuário não encontrado'];
             }
 
             // Atualiza os dados do usuário
@@ -182,7 +182,7 @@ class UsuarioController {
 
         // Valida a coluna de busca
         if (!in_array($coluna, $colunasPermitidas)) {
-            return ['status' => 'bad_request'];
+            return ['status' => 'bad_request', 'message' => 'Campos obrigatórios faltando'];
         }
 
         try {
@@ -191,7 +191,7 @@ class UsuarioController {
             if ($resultado) {
                 return ['status' => 'success', 'dados' => $resultado];
             } else {
-                return ['status' => 'not_found'];
+                return ['status' => 'not_found', 'message' => 'Usuário não encontrado'];
             }
         } catch (PDOException $e) {
             // Trata erros internos
@@ -245,7 +245,7 @@ class UsuarioController {
             // Verifica se o usuário existe
             $usuario = $this->usuarioModel->busca('usuario_id', $id);
             if (!$usuario) {
-                return ['status' => 'not_found'];
+                return ['status' => 'not_found', 'message' => 'Usuário não encontrado'];
             }
 
             // Remove o usuário

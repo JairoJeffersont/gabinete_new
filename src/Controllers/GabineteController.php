@@ -163,7 +163,7 @@ class GabineteController {
 
         // Valida a coluna de busca
         if (!in_array($coluna, $colunasPermitidas)) {
-            return ['status' => 'bad_request'];
+            return ['status' => 'bad_request', 'message' => 'Campos obrigatórios não enviados'];
         }
 
         try {
@@ -172,7 +172,7 @@ class GabineteController {
             if ($resultado) {
                 return ['status' => 'success', 'dados' => $resultado];
             } else {
-                return ['status' => 'not_found'];
+                return ['status' => 'not_found', 'message' => 'Gabinete não encontrado'];
             }
         } catch (PDOException $e) {
             // Trata erros internos
@@ -211,7 +211,7 @@ class GabineteController {
                 $totalPaginas = ceil($total / $itens);
                 return ['status' => 'success', 'total_paginas' => $totalPaginas, 'dados' => $resultado];
             } else {
-                return ['status' => 'not_found'];
+                return ['status' => 'not_found', 'message' => 'Nenhum gabinete encontrado'];
             }
         } catch (PDOException $e) {
             // Trata erros internos

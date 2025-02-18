@@ -52,7 +52,7 @@ class TipoUsuarioController {
         try {
             $buscaUsuarioTipo = $this->usuarioTipoModel->busca('usuario_tipo_id', $dados['usuario_tipo_id']);
             if (!$buscaUsuarioTipo) {
-                return ['status' => 'not_found'];
+                return ['status' => 'not_found', 'message' => 'Tipo de usuário não encontrado'];
             }
 
             $this->usuarioTipoModel->atualizar($dados);
@@ -68,7 +68,7 @@ class TipoUsuarioController {
         $colunasPermitidas = ['usuario_tipo_id', 'usuario_tipo_nome'];
 
         if (!in_array($coluna, $colunasPermitidas)) {
-            return ['status' => 'bad_request'];
+            return ['status' => 'bad_request', 'message' => 'Campos obrigatórios faltando'];
         }
 
         try {
@@ -99,7 +99,7 @@ class TipoUsuarioController {
 
     public function apagarUsuarioTipo($usuarioTipoId) {
         if (!isset($usuarioTipoId)) {
-            return ['status' => 'bad_request'];
+            return ['status' => 'bad_request', 'message' => 'Campos obrigatórios faltando'];
         }
 
         try {
