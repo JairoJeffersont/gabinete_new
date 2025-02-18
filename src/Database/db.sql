@@ -59,7 +59,8 @@ CREATE TABLE
 
 INSERT INTO usuario_tipo (usuario_tipo_id, usuario_tipo_nome, usuario_tipo_descricao) 
   VALUES 
-    (UUID(), 'Administrador', 'Usuario administrativo'),
+    (UUID(), 'Administrador', 'Usuario root do sistema'),
+    (UUID(), 'Administrativo', 'Usuario administrativo'),
     (UUID(), 'Comunicação', 'Usuario da assessoria de comunicação'),
     (UUID(), 'Legislativo', 'Usuario da assessoria legislativa'),
     (UUID(), 'Orçamento', 'Usuario da assessoria orçamentária'),

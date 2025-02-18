@@ -128,7 +128,6 @@ class ClienteModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
     /**
      * Busca um cliente específico com base em uma coluna e valor.
      * 
