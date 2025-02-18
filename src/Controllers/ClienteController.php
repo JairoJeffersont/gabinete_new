@@ -18,7 +18,7 @@ class ClienteController {
 
     public function novoCliente($dados) {
         try {
-            $this->clienteModel->criar($dados);
+            $this->clienteModel->criarCliente($dados);
             return ['status' => 'success', 'message' => 'Cliente inserido com sucesso'];
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
@@ -33,7 +33,7 @@ class ClienteController {
 
     public function atualizarCliente($dados) {
         try {
-            $this->clienteModel->atualizar($dados);
+            $this->clienteModel->atualizarCliente($dados);
             return ['status' => 'success', 'message' => 'Cliente atualizado com sucesso'];
         } catch (PDOException $e) {
             $erro_id = uniqid();
@@ -44,7 +44,7 @@ class ClienteController {
 
     public function listarClientes($itens, $pagina, $ordem, $ordenarPor) {
         try {
-            $resultado = $this->clienteModel->listar($itens, $pagina, $ordem, $ordenarPor);
+            $resultado = $this->clienteModel->listarCliente($itens, $pagina, $ordem, $ordenarPor);
 
             if ($resultado) {
                 $total = (isset($resultado[0]['total_cliente'])) ? $resultado[0]['total_cliente'] : 0;
@@ -62,13 +62,13 @@ class ClienteController {
 
     public function apagarCliente($clienteId) {
         try {
-            $buscaCliente = $this->clienteModel->busca('cliente_id', $clienteId);
+            $buscaCliente = $this->clienteModel->buscaCliente('cliente_id', $clienteId);
 
             if (!$buscaCliente) {
                 return ['status' => 'not_found', 'message' => 'Cliente não encontrado'];
             }
 
-            $this->clienteModel->apagar($clienteId);
+            $this->clienteModel->apagarCliente($clienteId);
             return ['status' => 'success', 'message' => 'Cliente apagado com sucesso'];
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), 'FOREIGN KEY') !== false) {

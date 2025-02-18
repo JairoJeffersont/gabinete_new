@@ -12,7 +12,7 @@ class ClienteModel {
         $this->conn = Database::getConnection();
     }
 
-    public function criar($dados) {
+    public function criarCliente($dados) {
 
         $query = 'INSERT INTO cliente(cliente_id, cliente_nome, cliente_email, cliente_telefone, cliente_ativo, cliente_endereco, cliente_cep, cliente_cpf) VALUES (UUID(), :cliente_nome, :cliente_email, :cliente_telefone, :cliente_ativo, :cliente_endereco, :cliente_cep, :cliente_cpf);';
 
@@ -28,7 +28,7 @@ class ClienteModel {
         return $stmt->execute();
     }
 
-    public function atualizar($dados) {
+    public function atualizarCliente($dados) {
 
         $query = 'UPDATE cliente SET cliente_nome = :cliente_nome, cliente_email = :cliente_email, cliente_telefone = :cliente_telefone, cliente_ativo = :cliente_ativo, cliente_endereco = :cliente_endereco, cliente_cep = :cliente_cep, cliente_cpf = :cliente_cpf WHERE cliente_id = :cliente_id';
 
@@ -46,7 +46,7 @@ class ClienteModel {
         return $stmt->execute();
     }
 
-    public function listar($itens, $pagina, $ordem, $ordenarPor) {
+    public function listarCliente($itens, $pagina, $ordem, $ordenarPor) {
 
         $offset = ($pagina - 1) * $itens;
 
@@ -60,7 +60,7 @@ class ClienteModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function busca($coluna, $valor) {
+    public function buscaCliente($coluna, $valor) {
         $query = "SELECT * FROM cliente WHERE $coluna = :valor";
 
         $stmt = $this->conn->prepare($query);
@@ -70,7 +70,7 @@ class ClienteModel {
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
-    public function apagar($cliente_id) {
+    public function apagarCliente($cliente_id) {
         $query = 'DELETE FROM cliente WHERE cliente_id = :cliente_id';
 
         $stmt = $this->conn->prepare($query);
