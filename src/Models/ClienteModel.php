@@ -67,7 +67,7 @@ class ClienteModel {
         $stmt->bindValue(':valor', $valor, PDO::PARAM_STR);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: null;
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
     public function apagar($cliente_id) {

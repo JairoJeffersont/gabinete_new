@@ -31,7 +31,6 @@ class ClienteController {
         }
     }
 
-
     public function atualizarCliente($dados) {
         try {
             $this->clienteModel->atualizar($dados);
