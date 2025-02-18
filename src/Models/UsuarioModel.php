@@ -100,8 +100,7 @@ class UsuarioModel {
     public function listarUsuarios($itens, $pagina, $ordem, $ordenarPor) {
         $offset = ($pagina - 1) * $itens;
 
-        $query = "SELECT usuario.*, (SELECT COUNT(usuario_id) FROM usuario) as total_usuarios FROM usuario 
-                  ORDER BY $ordenarPor $ordem LIMIT :itens OFFSET :offset";
+        $query = "SELECT usuario.*, (SELECT COUNT(usuario_id) FROM usuario) as total_usuarios FROM usuario ORDER BY $ordenarPor $ordem LIMIT :itens OFFSET :offset";
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindValue(':itens', $itens, PDO::PARAM_INT);
