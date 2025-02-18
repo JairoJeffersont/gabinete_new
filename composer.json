@@ -1,0 +1,26 @@
+{
+    "name": "jairosantos/gabinete_mvc",
+    "description": "Sistema de Gestão de gabinete político",
+    "type": "project",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "GabineteMvc\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jairo Santos",
+            "email": "jairojeffersont@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "allow-plugins": {
+            "symfony/flex": true
+        }
+    }
+}
