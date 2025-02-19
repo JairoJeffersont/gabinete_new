@@ -92,8 +92,7 @@ class Database {
             } catch (PDOException $e) {
                 // Caso ocorra algum erro, registra o erro e retorna null
                 $log->novoLog('db_error', $e->getMessage());
-                echo 'erro do banco';
-                exit;
+                header('Location: ?secao=fatal-error');
                 return null; // Retorna null caso a conexão falhe
             }
         }
