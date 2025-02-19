@@ -108,9 +108,13 @@ class UsuarioController {
 
     public function atualizarUsuario($dados) {
         try {
-            $buscaUsuario = $this->usuarioModel->buscaUsuario('usuario_id', $dados['usuario_id']);
+            $buscaUsuario = $this->usuarioModel->buscaUsuario($dados['usuario_id'], 'usuario_id');
             if (!$buscaUsuario) {
                 return ['status' => 'not_found'];
+            }
+
+            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 1) {
+                return ['status' => 'forbidden', 'message' => 'Você não tem autorização para editar usuários'];
             }
 
             $this->usuarioModel->atualizarUsuario($dados);

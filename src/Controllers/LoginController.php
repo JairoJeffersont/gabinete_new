@@ -34,9 +34,9 @@ class LoginController {
             if (password_verify($senha, $buscaUsuario['dados']['usuario_senha'])) {
                 session_start();
 
-                $buscaPolitco = $this->gabineteController->buscarGabinete($buscaUsuario['dados']['usuario_gabinete']);
+                $buscaGabinete = $this->gabineteController->buscarGabinete($buscaUsuario['dados']['usuario_gabinete']);
 
-                if (!$buscaPolitco['status'] = 'success') {
+                if (!$buscaGabinete['status'] = 'success') {
                     return ['status' => 'error', 'message' => 'Erro interno do servidor.', 'id_erro' => $buscaUsuario['error_id']];
                 }
 
@@ -45,8 +45,8 @@ class LoginController {
                     'usuario_nome' => $buscaUsuario['dados']['usuario_nome'],
                     'usuario_tipo' => $buscaUsuario['dados']['usuario_tipo'],
                     'usuario_gabinete' => $buscaUsuario['dados']['usuario_gabinete'],
-                    'gabinete_funcionarios' => $buscaPolitco['dados']['gabinete_funcionarios'],
-                    'gabinete_politico' => $buscaPolitco['dados']['gabinete_politico']
+                    'gabinete_funcionarios' => $buscaGabinete['dados']['gabinete_funcionarios'],
+                    'gabinete_politico' => $buscaGabinete['dados']['gabinete_politico']
                 ];
 
                 $this->logger->novoLog('login_log', $buscaUsuario['dados']['usuario_gabinete'] . ' | ' . $buscaUsuario['dados']['usuario_nome']);

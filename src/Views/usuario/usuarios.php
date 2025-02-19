@@ -26,12 +26,13 @@ $busca = $usuarioController->listarUsuarios($_SESSION['gabinete_funcionarios'], 
             <div class="card mb-2 card-description ">
                 <div class="card-header bg-primary text-white px-2 py-1 card_descricao"><i class="bi bi-people-fill"></i> Adicionar usuários</div>
                 <div class="card-body card_descricao_body p-2">
-                    <p class="card-text mb-0">Todos os campos são obrigatórios</p>
+                    <p class="card-text mb-0">Todos os campos são obrigatórios | Somente usuários administrativos podem inserir novos usuários</p>
                 </div>
             </div>
 
             <div class="card mb-2 card-description ">
                 <div class="card-body card_descricao_body p-2">
+                    <p class="card-text mb-0">Gabinete: <b><?php echo $_SESSION['gabinete_politico'] ?></b></p>
                     <p class="card-text mb-0">Usuários permitidos: <?php echo $_SESSION['gabinete_funcionarios'] ?></p>
                 </div>
             </div>
