@@ -7,17 +7,6 @@ CREATE TABLE
     PRIMARY KEY (tipo_gabinete_id)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
-
-INSERT INTO tipo_gabinete (tipo_gabinete_id, tipo_gabinete_nome, tipo_gabinete_informacoes)
-  VALUES
-    (1, 'Outro', 'Gabinete administrativo'),
-    (2, 'Deputado Federal', 'Gabinete destinado a um deputado federal no Congresso Nacional'),
-    (3, 'Deputado Estadual', 'Gabinete destinado a um deputado estadual nas assembleias estaduais'),
-    (4, 'Vereador', 'Gabinete destinado a um vereador nas câmaras municipais'),
-    (5, 'Prefeito', 'Gabinete destinado ao prefeito de um município'),
-    (6, 'Governador', 'Gabinete destinado ao governador de um estado'),
-    (7, 'Senador', 'Gabinete destinado a um senador no Senado Federal');  
-
 CREATE TABLE
   cliente (
     cliente_id varchar(36) NOT NULL,
@@ -35,10 +24,6 @@ CREATE TABLE
     CONSTRAINT fk_gabinete_tipo FOREIGN KEY (cliente_gabinete_tipo) REFERENCES tipo_gabinete (tipo_gabinete_id)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
-CREATE VIEW view_cliente AS SELECT cliente.*, tipo_gabinete.tipo_gabinete_nome FROM cliente INNER JOIN tipo_gabinete ON cliente.cliente_gabinete_tipo = tipo_gabinete.tipo_gabinete_id;
-
-INSERT INTO cliente (cliente_id, cliente_nome, cliente_email, cliente_telefone, cliente_ativo, cliente_usuarios, cliente_gabinete_nome, cliente_gabinete_estado, cliente_gabinete_tipo) 
-  VALUES (1,'CLIENTE SISTEMA', 'CLIENTE@CLIENTE.COM', '000000', 1, 1, 'GABINETE SISTEMA', 'DF', 1);
 
 CREATE TABLE
   usuario_tipo (
@@ -47,15 +32,6 @@ CREATE TABLE
     usuario_tipo_descricao varchar(255) NOT NULL,
     PRIMARY KEY (usuario_tipo_id, usuario_tipo_nome)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
-INSERT INTO usuario_tipo (usuario_tipo_id, usuario_tipo_nome, usuario_tipo_descricao) 
-  VALUES 
-    (1, 'Administrador', 'Usuario root do sistema'),
-    (2, 'Administrativo', 'Usuario administrativo'),
-    (3, 'Comunicação', 'Usuario da assessoria de comunicação'),
-    (4, 'Legislativo', 'Usuario da assessoria legislativa'),
-    (5, 'Orçamento', 'Usuario da assessoria orçamentária'),
-    (6, 'Secretaria', 'Usuario da secretaria do gabinete');  
 
 CREATE TABLE
   usuario (
@@ -75,8 +51,31 @@ CREATE TABLE
     CONSTRAINT fk_usuario_tipo FOREIGN KEY (usuario_tipo) REFERENCES usuario_tipo (usuario_tipo_id)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
+INSERT INTO tipo_gabinete (tipo_gabinete_id, tipo_gabinete_nome, tipo_gabinete_informacoes)
+  VALUES
+    (1, 'Outro', 'Gabinete administrativo'),
+    (2, 'Deputado Federal', 'Gabinete destinado a um deputado federal no Congresso Nacional'),
+    (3, 'Deputado Estadual', 'Gabinete destinado a um deputado estadual nas assembleias estaduais'),
+    (4, 'Vereador', 'Gabinete destinado a um vereador nas câmaras municipais'),
+    (5, 'Prefeito', 'Gabinete destinado ao prefeito de um município'),
+    (6, 'Governador', 'Gabinete destinado ao governador de um estado'),
+    (7, 'Senador', 'Gabinete destinado a um senador no Senado Federal');  
+
+INSERT INTO cliente (cliente_id, cliente_nome, cliente_email, cliente_telefone, cliente_ativo, cliente_usuarios, cliente_gabinete_nome, cliente_gabinete_estado, cliente_gabinete_tipo) 
+  VALUES (1,'CLIENTE SISTEMA', 'CLIENTE@CLIENTE.COM', '000000', 1, 1, 'GABINETE SISTEMA', 'DF', 1);
+
+INSERT INTO usuario_tipo (usuario_tipo_id, usuario_tipo_nome, usuario_tipo_descricao) 
+  VALUES 
+    (1, 'Administrador', 'Usuario root do sistema'),
+    (2, 'Administrativo', 'Usuario administrativo'),
+    (3, 'Comunicação', 'Usuario da assessoria de comunicação'),
+    (4, 'Legislativo', 'Usuario da assessoria legislativa'),
+    (5, 'Orçamento', 'Usuario da assessoria orçamentária'),
+    (6, 'Secretaria', 'Usuario da secretaria do gabinete');  
+
 INSERT INTO usuario (usuario_id, usuario_cliente, usuario_nome, usuario_email, usuario_aniversario, usuario_telefone, usuario_senha, usuario_tipo, usuario_ativo) 
   VALUES (1, 1, 'USUÁRIO SISTEMA', 'USUARIO@SISTEMA.COM', '2000-01-01', '55555555', '123456789', 1, 1);
 
+CREATE VIEW view_cliente AS SELECT cliente.*, tipo_gabinete.tipo_gabinete_nome FROM cliente INNER JOIN tipo_gabinete ON cliente.cliente_gabinete_tipo = tipo_gabinete.tipo_gabinete_id;
 CREATE VIEW view_usuario AS SELECT usuario.*, cliente.cliente_nome, usuario_tipo.usuario_tipo_nome FROM usuario INNER JOIN cliente ON usuario.usuario_cliente = cliente.cliente_id INNER JOIN usuario_tipo ON usuario.usuario_tipo = usuario_tipo.usuario_tipo_id;   
 
