@@ -31,3 +31,25 @@ a {
 .dropdown-item-custom{
     font-size: 0.8em;
 }
+
+.form_custom {
+    font-size: 0.9em;
+}
+
+.form_custom input,
+.form_custom select,
+.form_custom textarea,
+.form_custom button,
+.form_custom a {
+    font-size: inherit;
+}
+
+.custom-table {
+    font-size: 0.9em;
+    background-color: white;
+}
+
+.custom-alert {
+    font-weight: 600;
+    font-size: 0.9em;
+}

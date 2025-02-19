@@ -6,6 +6,7 @@ $rotas = [
     'login' => './src/Views/login/login.php',
     'sair' => './src/Views/login/sair.php',
     'home' => './src/Views/home/home.php',
+    'usuarios' => './src/Views/usuario/usuarios.php',
 ];
 
 if (array_key_exists($pagina, $rotas)) {
