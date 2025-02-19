@@ -39,6 +39,7 @@ $busca = $usuarioController->listarUsuarios($_SESSION['gabinete_funcionarios'], 
             <div class="card shadow-sm mb-2">
                 <div class="card-body p-2">
                     <?php
+
                     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_salvar'])) {
                         if ($_POST['usuario_senha'] !== $_POST['usuario_senha2']) {
                             echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">As senha não conferem</div>';
@@ -63,9 +64,7 @@ $busca = $usuarioController->listarUsuarios($_SESSION['gabinete_funcionarios'], 
                                 if ($result['status'] == 'success') {
                                     echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
                                     $busca = $usuarioController->listarUsuarios($_SESSION['gabinete_funcionarios'], 1, 'asc', 'usuario_nome');
-                                } else if ($result['status'] == 'duplicated' || $result['status'] == 'file_not_permited' || $result['status'] == 'too_big' || $result['status'] == 'bad_request' || $result['status'] == 'invalid_email') {
-                                    echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
-                                } else if ($result['status'] == 'forbidden') {
+                                } else if ($result['status'] == 'forbidden' || $result['status'] == 'bad_request' || $result['status'] == 'invalid_email') {
                                     echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . '</div>';
                                 } else if ($result['status'] == 'error') {
                                     echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . ' ' . (isset($result['error_id']) ? ' | Código do erro: ' . $result['error_id'] : '') . '</div>';
@@ -74,10 +73,6 @@ $busca = $usuarioController->listarUsuarios($_SESSION['gabinete_funcionarios'], 
                                 echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">Não existem mais licenças disponíveis</div>';
                             }
                         }
-                    }
-
-                    if ($_SESSION['usuario_tipo'] == 2) {
-                        echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">Você não tem autorização para inserir novos usuários</div>';
                     }
 
                     ?>

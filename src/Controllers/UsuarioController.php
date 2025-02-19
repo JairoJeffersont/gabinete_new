@@ -88,6 +88,11 @@ class UsuarioController {
     // USUARIO CONTROLLER
     public function novoUsuario($dados) {
         try {
+
+            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 1) {
+                return ['status' => 'forbidden', 'message' => 'Você não tem autorização para inserir novos usuários'];
+            }
+
             $this->usuarioModel->criarUsuario($dados);
             return ['status' => 'success', 'message' => 'Usuário inserido com sucesso'];
         } catch (PDOException $e) {
