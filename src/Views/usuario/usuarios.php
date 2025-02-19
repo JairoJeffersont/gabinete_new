@@ -10,8 +10,6 @@ $usuarioController = new UsuarioController();
 
 $busca = $usuarioController->listarUsuarios($_SESSION['gabinete_funcionarios'], 1, 'asc', 'usuario_nome', $_SESSION['usuario_gabinete']);
 
-
-
 ?>
 <div class="d-flex" id="wrapper">
     <?php include './src/Views/menus/side_bar.php'; ?>
@@ -34,7 +32,7 @@ $busca = $usuarioController->listarUsuarios($_SESSION['gabinete_funcionarios'], 
 
             <div class="card mb-2 card-description ">
                 <div class="card-body card_descricao_body p-2">
-                    <p class="card-text mb-0">Gabinete: <b><?php echo $_SESSION['gabinete_politico'] ?></b></p>
+                    <p class="card-text mb-0">Gabinete: <b><?php echo $_SESSION['gabinete_politico'] . '/' . $_SESSION['gabinete_estado'] ?></b></p>
                     <p class="card-text mb-0">Usuários permitidos: <?php echo $_SESSION['gabinete_funcionarios'] ?></p>
                 </div>
             </div>

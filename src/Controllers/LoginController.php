@@ -46,10 +46,11 @@ class LoginController {
                     'usuario_tipo' => $buscaUsuario['dados']['usuario_tipo'],
                     'usuario_gabinete' => $buscaUsuario['dados']['usuario_gabinete'],
                     'gabinete_funcionarios' => $buscaGabinete['dados']['gabinete_funcionarios'],
-                    'gabinete_politico' => $buscaGabinete['dados']['gabinete_politico']
+                    'gabinete_politico' => $buscaGabinete['dados']['gabinete_politico'],
+                    'gabinete_estado' => $buscaGabinete['dados']['gabinete_estado']
                 ];
 
-                $this->logger->novoLog('login_log', $buscaUsuario['dados']['usuario_gabinete'] . ' | ' . $buscaUsuario['dados']['usuario_nome']);
+                $this->logger->novoLog('login_log', $buscaGabinete['dados']['gabinete_politico'].' - '.$buscaUsuario['dados']['usuario_gabinete'] . ' | ' . $buscaUsuario['dados']['usuario_nome']);
                 return ['status' => 'success', 'message' => 'Usuário verificado com sucesso.'];
             } else {
                 return ['status' => 'wrong_password', 'message' => 'Senha incorreta.'];
