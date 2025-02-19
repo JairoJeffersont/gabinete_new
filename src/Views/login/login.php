@@ -16,6 +16,7 @@ $loginController = new LoginController();
         <h2 class="login_title mb-2">Gabinete Digital</h2>
         <p class="text-white">Gestão de gabinete parlamentar</p>
         <?php
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_logar'])) {
 
             $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
@@ -35,7 +36,6 @@ $loginController = new LoginController();
             } else if ($resultado['status'] == 'wrong_password' || $resultado['status'] == 'error' || $resultado['status'] == 'deactived') {
                 echo '<div class="alert alert-danger px-2 rounded-5 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $resultado['message'] . '</div>';
             }
-            
         }
 
         ?>
