@@ -42,6 +42,21 @@ class ClienteController {
         }
     }
 
+    public function buscaCliente($id) {
+        try {
+            $resultado = $this->clienteModel->buscaCliente('cliente_id', $id);
+            if ($resultado) {
+                return ['status' => 'success', 'dados' => $resultado];
+            } else {
+                return ['status' => 'not_found', 'message' => 'Cliente não encontrado'];
+            }
+        } catch (PDOException $e) {
+            $erro_id = uniqid();
+            $this->logger->novoLog('gabinete_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
     public function listarClientes($itens, $pagina, $ordem, $ordenarPor) {
         try {
             $resultado = $this->clienteModel->listarCliente($itens, $pagina, $ordem, $ordenarPor);

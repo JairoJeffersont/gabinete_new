@@ -65,6 +65,21 @@ class GabineteController {
         }
     }
 
+    public function buscarTipoGabinete($id) {
+        try {
+            $resultado = $this->gabineteModel->buscaTipoGabinete($id);
+            if ($resultado) {
+                return ['status' => 'success', 'dados' => $resultado];
+            } else {
+                return ['status' => 'not_found', 'message' => 'Tipo de gabinete não encontrado'];
+            }
+        } catch (PDOException $e) {
+            $erro_id = uniqid();
+            $this->logger->novoLog('gabinete_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
     public function apagarTipoGabinete($id) {
         try {
 
