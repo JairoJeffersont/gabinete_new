@@ -24,7 +24,6 @@ CREATE TABLE
     CONSTRAINT fk_gabinete_tipo FOREIGN KEY (cliente_gabinete_tipo) REFERENCES tipo_gabinete (tipo_gabinete_id)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
-
 CREATE TABLE
   usuario_tipo (
     usuario_tipo_id varchar(36) NOT NULL,
