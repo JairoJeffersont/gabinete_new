@@ -159,9 +159,9 @@ class UsuarioController {
         }
     }
 
-    public function apagarUsuario($coluna, $id) {
+    public function apagarUsuario($id) {
         try {
-            $buscaUsuario = $this->usuarioModel->buscaUsuario('usuario_id', $id);
+            $buscaUsuario = $this->usuarioModel->buscaUsuario($id, 'usuario_id');
 
             if (!$buscaUsuario) {
                 return ['status' => 'not_found', 'message' => 'Usuário não encontrado'];

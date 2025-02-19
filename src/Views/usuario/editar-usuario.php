@@ -68,6 +68,19 @@ if ($buscaUsuario['status'] != 'success' || empty($idGet)) {
                         }
                     }
 
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_apagar'])) {
+                        $result = $usuarioController->apagarUsuario($idGet);
+
+                        if ($result['status'] == 'success') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
+                            header('Location: ?secao=usuarios');
+                        } else if ($result['status'] == 'forbidden') {
+                            echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . '</div>';
+                        } else if ($result['status'] == 'error') {
+                            echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . ' ' . (isset($result['error_id']) ? ' | Código do erro: ' . $result['error_id'] : '') . '</div>';
+                        }
+                    }
+
                     ?>
 
                     <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
@@ -107,6 +120,7 @@ if ($buscaUsuario['status'] != 'success' || empty($idGet)) {
                         </div>
                         <div class="col-md-3 col-12">
                             <button type="submit" class="btn btn-success btn-sm" name="btn_atualizar"><i class="bi bi-floppy-fill"></i> Salvar</button>
+                            <button type="submit" class="btn btn-danger btn-sm" name="btn_apagar"><i class="bi bi-trash-fill"></i> Apagar</button>
                         </div>
                     </form>
                 </div>
