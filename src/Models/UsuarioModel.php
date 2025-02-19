@@ -87,6 +87,19 @@ class UsuarioModel {
         return $stmt->execute();
     }
 
+    public function atualizarUsuarioTipo($dados) {
+        $query = 'UPDATE usuario_tipo 
+                  SET usuario_tipo_nome = :usuario_tipo_nome, usuario_tipo_descricao = :usuario_tipo_descricao 
+                  WHERE usuario_tipo_id = :usuario_tipo_id';
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':usuario_tipo_id', $dados['usuario_tipo_id'], PDO::PARAM_STR);
+        $stmt->bindValue(':usuario_tipo_nome', $dados['usuario_tipo_nome'], PDO::PARAM_STR);
+        $stmt->bindValue(':usuario_tipo_descricao', $dados['usuario_tipo_descricao'], PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
     public function listarUsuarioTipos() {
         $query = "SELECT * FROM usuario_tipo ORDER BY usuario_tipo_nome ASC";
         $stmt = $this->conn->prepare($query);
