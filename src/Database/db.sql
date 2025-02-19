@@ -32,7 +32,7 @@ CREATE TABLE
     gabinete_endereco varchar(255) NULL,
     gabinete_municipio varchar(255) NULL,
     gabinete_telefone varchar(15) NULL,
-    gabiente_funcionarios int NOT NULL,
+    gabiente_funcionarios int NOT NULL DEFAULT 1,
     gabinete_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     gabinete_atualizado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (gabinete_id),

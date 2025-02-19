@@ -6,7 +6,7 @@
             <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Configurações</a>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" >
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item dropdown-item-custom" href="?secao=tipos-orgaos">Tipos de órgãos</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item dropdown-item-custom" href="?secao=tipos-pessoas">Tipos de pessoas</a>
@@ -33,6 +33,11 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gabinete</a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item dropdown-item-custom" href="?secao=usuarios"><i class="bi bi-people-fill"></i> Usuários</a>
+                        <?php
+                        if ($_SESSION['usuario_tipo'] == 1) {
+                            echo '<div class="dropdown-divider"></div><a class="dropdown-item dropdown-item-custom" href="?secao=clientes"><i class="bi bi-person-gear"></i> Clientes</a>';
+                        }
+                        ?>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
