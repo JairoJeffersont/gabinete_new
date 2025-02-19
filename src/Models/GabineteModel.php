@@ -117,7 +117,7 @@ class GabineteModel {
         $stmt->bindValue(':id', $id, PDO::PARAM_STR);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: null;
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
     public function apagarGabinete($id) {

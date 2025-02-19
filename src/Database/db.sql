@@ -1,4 +1,3 @@
-
 CREATE TABLE
   cliente (
     cliente_id varchar(36) NOT NULL,
@@ -307,4 +306,3 @@ CREATE VIEW view_pessoa AS
   SELECT 
      pessoa.*, usuario.usuario_nome
     FROM pessoa INNER JOIN usuario ON pessoa.pessoa_criada_por = usuario.usuario_id;
-

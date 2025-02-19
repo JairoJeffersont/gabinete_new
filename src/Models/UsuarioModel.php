@@ -110,14 +110,14 @@ class UsuarioModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function buscaUsuario($id) {
-        $query = "SELECT * FROM usuario WHERE usuario_id = :id";
+    public function buscaUsuario($valor, $coluna) {
+        $query = "SELECT * FROM usuario WHERE $coluna = :valor";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmt->bindValue(':valor', $valor, PDO::PARAM_STR);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: null;
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
     public function apagarUsuario($id) {

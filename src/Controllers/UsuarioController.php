@@ -103,7 +103,7 @@ class UsuarioController {
 
     public function atualizarUsuario($dados) {
         try {
-            $buscaUsuario = $this->usuarioModel->buscaUsuario($dados['usuario_id']);
+            $buscaUsuario = $this->usuarioModel->buscaUsuario('usuario_id', $dados['usuario_id']);
             if (!$buscaUsuario) {
                 return ['status' => 'not_found'];
             }
@@ -117,9 +117,9 @@ class UsuarioController {
         }
     }
 
-    public function buscarUsuario($id) {
+    public function buscarUsuario($coluna, $valor) {
         try {
-            $resultado = $this->usuarioModel->buscaUsuario($id);
+            $resultado = $this->usuarioModel->buscaUsuario($valor, $coluna);
             if ($resultado) {
                 return ['status' => 'success', 'dados' => $resultado];
             } else {
@@ -150,9 +150,9 @@ class UsuarioController {
         }
     }
 
-    public function apagarUsuario($id) {
+    public function apagarUsuario($coluna, $id) {
         try {
-            $buscaUsuario = $this->usuarioModel->buscaUsuario($id);
+            $buscaUsuario = $this->usuarioModel->buscaUsuario('usuario_id', $id);
 
             if (!$buscaUsuario) {
                 return ['status' => 'not_found', 'message' => 'Usuário não encontrado'];
