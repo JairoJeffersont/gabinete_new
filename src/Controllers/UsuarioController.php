@@ -141,9 +141,9 @@ class UsuarioController {
         }
     }
 
-    public function listarUsuarios($itens, $pagina, $ordem, $ordenarPor) {
+    public function listarUsuarios($itens, $pagina, $ordem, $ordenarPor, $gabinete) {
         try {
-            $resultado = $this->usuarioModel->listarUsuarios($itens, $pagina, $ordem, $ordenarPor);
+            $resultado = $this->usuarioModel->listarUsuarios($itens, $pagina, $ordem, $ordenarPor, $gabinete);
 
             if ($resultado) {
                 $total = (isset($resultado[0]['total_usuario'])) ? $resultado[0]['total_usuario'] : 0;

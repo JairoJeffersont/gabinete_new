@@ -8,6 +8,7 @@ $rotas = [
     'home' => './src/Views/home/home.php',
     'usuarios' => './src/Views/usuario/usuarios.php',
     'usuario' => './src/Views/usuario/editar-usuario.php',
+    'cadastro' => './src/Views/cliente/cadastro-cliente.php'
 ];
 
 if (array_key_exists($pagina, $rotas)) {

@@ -3,11 +3,11 @@ CREATE TABLE
     cliente_id varchar(36) NOT NULL,
     cliente_nome varchar(100) NOT NULL,
     cliente_email varchar(50) NOT NULL UNIQUE,
-    cliente_telefone varchar(14) NOT NULL,
+    cliente_telefone varchar(20) NOT NULL,
     cliente_ativo tinyint (1) NOT NULL,
     cliente_endereco varchar(255) DEFAULT NULL,
     cliente_cep varchar(8) DEFAULT NULL,
-    cliente_cpf varchar(14) NOT NULL UNIQUE,
+    cliente_cpf varchar(14) DEFAULT NULL UNIQUE,
     cliente_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     cliente_atualizado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (cliente_id)
@@ -32,7 +32,7 @@ CREATE TABLE
     gabinete_endereco varchar(255) NULL,
     gabinete_municipio varchar(255) NULL,
     gabinete_telefone varchar(15) NULL,
-    gabiente_funcionarios int NOT NULL DEFAULT 1,
+    gabinete_funcionarios int NOT NULL DEFAULT 1,
     gabinete_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     gabinete_atualizado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (gabinete_id),
@@ -54,8 +54,8 @@ CREATE TABLE
     usuario_gabinete varchar(36) NOT NULL,
     usuario_nome varchar(255) NOT NULL,
     usuario_email varchar(255) NOT NULL,
-    usuario_aniversario DATE NOT NULL,
-    usuario_telefone varchar(15) NOT NULL,
+    usuario_aniversario DATE DEFAULT NULL,
+    usuario_telefone varchar(20) NOT NULL,
     usuario_senha varchar(255) NOT NULL,
     usuario_tipo varchar(36) NOT NULL,
     usuario_ativo tinyint NOT NULL,
@@ -181,12 +181,13 @@ CREATE TABLE
   
 INSERT INTO tipo_gabinete (tipo_gabinete_id, tipo_gabinete_nome, tipo_gabinete_informacoes)
   VALUES
-    (1, 'Deputado Federal', 'Gabinete destinado a um deputado federal no Congresso Nacional'),
-    (2, 'Deputado Estadual', 'Gabinete destinado a um deputado estadual nas assembleias estaduais'),
-    (3, 'Vereador', 'Gabinete destinado a um vereador nas câmaras municipais'),
-    (4, 'Prefeito', 'Gabinete destinado ao prefeito de um município'),
-    (5, 'Governador', 'Gabinete destinado ao governador de um estado'),
-    (6, 'Senador', 'Gabinete destinado a um senador no Senado Federal');
+    (1, 'Outro', 'Gabinete administrativo'),
+    (2, 'Deputado Federal', 'Gabinete destinado a um deputado federal no Congresso Nacional'),
+    (3, 'Deputado Estadual', 'Gabinete destinado a um deputado estadual nas assembleias estaduais'),
+    (4, 'Vereador', 'Gabinete destinado a um vereador nas câmaras municipais'),
+    (5, 'Prefeito', 'Gabinete destinado ao prefeito de um município'),
+    (6, 'Governador', 'Gabinete destinado ao governador de um estado'),
+    (7, 'Senador', 'Gabinete destinado a um senador no Senado Federal');
 
 INSERT INTO usuario_tipo (usuario_tipo_id, usuario_tipo_nome, usuario_tipo_descricao) 
   VALUES 
