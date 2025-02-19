@@ -30,62 +30,60 @@ $usuarioController = new UsuarioController();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_salvar'])) {
 
+            if ($_POST['senha'] !== $_POST['senha2']) {
+                echo '<div class="alert alert-info px-2 py-1 mb-2 rounded-5 custom-alert" data-timeout="3" role="alert">Senhas não conferem.</div>';
+                exit;
+            }
 
-            if ($_POST['senha'] == $_POST['senha2']) {
-                $dadosCliente = [
-                    'cliente_nome' => $_POST['nome'],
-                    'cliente_email' => $_POST['email'],
-                    'cliente_telefone' => $_POST['telefone'],
-                    'cliente_ativo' => 1,
-                    'cliente_endereco' => '',
-                    'cliente_cep' => '',
-                    'cliente_cpf' => ''
-                ];
+            $dadosCliente = [
+                'cliente_nome' => $_POST['nome'],
+                'cliente_email' => $_POST['email'],
+                'cliente_telefone' => $_POST['telefone'],
+                'cliente_ativo' => 1,
+                'cliente_endereco' => '',
+                'cliente_cep' => '',
+                'cliente_cpf' => $_POST['cpf']
+            ];
 
-                $resultCliente = $clienteController->novoCliente($dadosCliente);
+            $resultCliente = $clienteController->novoCliente($dadosCliente);
+            if ($resultCliente['status'] !== 'success') exit;
 
+            $idCliente = $clienteController->listarClientes(1, 1, 'desc', 'cliente_criado_em')['dados'][0]['cliente_id'];
 
-                if ($resultCliente['status'] == 'success') {
-                    $idCliente = $clienteController->listarClientes(1, 1, 'desc', 'cliente_criado_em')['dados'][0]['cliente_id'];
-                    $dadosGabinete = [
-                        'gabinete_cliente' => $idCliente,
-                        'gabinete_tipo' => $_POST['tipo'],
-                        'gabinete_politico' => $_POST['dep_nome'],
-                        'gabinete_estado' => $_POST['estado'],
-                        'gabinete_endereco' => '',
-                        'gabinete_municipio' => '',
-                        'gabinete_telefone' => $_POST['telefone'],
-                        'gabinete_funcionarios' => $_POST['assinaturas']
-                    ];
+            $dadosGabinete = [
+                'gabinete_cliente' => $idCliente,
+                'gabinete_tipo' => $_POST['tipo'],
+                'gabinete_politico' => $_POST['dep_nome'],
+                'gabinete_estado' => $_POST['estado'],
+                'gabinete_endereco' => '',
+                'gabinete_municipio' => '',
+                'gabinete_telefone' => $_POST['telefone'],
+                'gabinete_funcionarios' => $_POST['assinaturas']
+            ];
 
-                    $resultGabinete = $gabineteController->novoGabinete($dadosGabinete);
+            $resultGabinete = $gabineteController->novoGabinete($dadosGabinete);
+            if ($resultGabinete['status'] !== 'success') exit;
 
-                    if ($resultGabinete['status'] == 'success') {
+            $idGabinete = $gabineteController->listarGabinetes(1, 1, 'desc', 'gabinete_criado_em')['dados'][0]['gabinete_id'];
 
-                        $idGabinete = $gabineteController->listarGabinetes(1, 1, 'desc', 'gabinete_criado_em')['dados'][0]['gabinete_id'];
+            $dadosUsuario = [
+                'usuario_gabinete' => $idGabinete,
+                'usuario_nome' => $_POST['nome'],
+                'usuario_email' => $_POST['email'],
+                'usuario_aniversario' => null,
+                'usuario_telefone' => $_POST['telefone'],
+                'usuario_senha' => $_POST['senha'],
+                'usuario_tipo' => 2,
+                'usuario_ativo' => 1
+            ];
 
-                        $dadosUsuario = [
-                            'usuario_gabinete' => $idGabinete,
-                            'usuario_nome' => $_POST['nome'],
-                            'usuario_email' => $_POST['email'],
-                            'usuario_aniversario' => null,
-                            'usuario_telefone' => $_POST['telefone'],
-                            'usuario_senha' => $_POST['senha'],
-                            'usuario_tipo' => 2,
-                            'usuario_ativo' => 1
-                        ];
+            $resultUsuario = $usuarioController->novoUsuario($dadosUsuario);
 
-                        $resultusuario = $usuarioController->novoUsuario($dadosUsuario);
-
-                        if ($resultusuario['status'] == 'success') {
-                            echo '<div class="alert alert-success px-2 py-1 mb-2  rounded-5 custom-alert" data-timeout="3" role="alert">' . $resultusuario['message'] . '</div>';
-                        }
-                    }
-                }
-            } else {
-                echo '<div class="alert alert-info px-2 py-1 mb-2  rounded-5 custom-alert" data-timeout="3" role="alert">Senha não conferem.</div>';
+            if ($resultUsuario['status'] === 'success') {
+                echo '<div class="alert alert-success px-2 py-1 mb-2 rounded-5 custom-alert" data-timeout="3" role="alert">' . $resultUsuario['message'] . '</div>';
             }
         }
+
 
         ?>
 

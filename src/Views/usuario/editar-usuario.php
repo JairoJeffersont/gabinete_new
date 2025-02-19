@@ -94,7 +94,7 @@ if ($buscaUsuario['status'] != 'success' || empty($idGet)) {
                             <input type="text" class="form-control form-control-sm" name="usuario_telefone" placeholder="Celular (com DDD)" data-mask="(00) 00000-0000" maxlength="15" value="<?php echo $buscaUsuario['dados']['usuario_telefone'] ?>" required>
                         </div>
                         <div class="col-md-2 col-6">
-                            <input type="text" class="form-control form-control-sm" name="usuario_aniversario" data-mask="00/00" placeholder="Aniversário (dd/mm)" value="<?php echo date('d/m', strtotime($buscaUsuario['dados']['usuario_aniversario'])) ?>" required>
+                            <input type="text" class="form-control form-control-sm" name="usuario_aniversario" data-mask="00/00" placeholder="Aniversário (dd/mm)" value="<?php echo !empty($buscaUsuario['dados']['usuario_aniversario']) ? date('d/m', strtotime($buscaUsuario['dados']['usuario_aniversario'])) : '' ?>" required>
                         </div>
                         <div class="col-md-1 col-6">
                             <select class="form-select form-select-sm" name="usuario_ativo" required>

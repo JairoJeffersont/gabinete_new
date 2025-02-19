@@ -10,6 +10,8 @@ $usuarioController = new UsuarioController();
 
 $busca = $usuarioController->listarUsuarios($_SESSION['gabinete_funcionarios'], 1, 'asc', 'usuario_nome', $_SESSION['usuario_gabinete']);
 
+
+
 ?>
 <div class="d-flex" id="wrapper">
     <?php include './src/Views/menus/side_bar.php'; ?>
@@ -151,7 +153,7 @@ $busca = $usuarioController->listarUsuarios($_SESSION['gabinete_funcionarios'], 
                                         echo '<td style="white-space: nowrap;">' . date('d/m/Y', strtotime($usuario['usuario_criado_em'])) . '</td>';
                                         echo '</tr>';
                                     }
-                                } else if ($busca['status'] == 'empty') {
+                                } else if ($busca['status'] == 'not_found') {
                                     echo '<tr><td colspan="6">' . $busca['message'] . '</td></tr>';
                                 } else if ($busca['status'] == 'error') {
                                     echo '<tr><td colspan="6">' . $busca['message'] . ' | Código do erro: ' . $busca['id_erro'] . '</td></tr>';
