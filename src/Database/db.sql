@@ -222,6 +222,9 @@ INSERT INTO orgao_tipo (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, or
     ('12', 'Empresa Pública', 'Empresa controlada pelo governo para serviços públicos', '1', '1'),
     ('13', 'Fundação Pública', 'Entidade criada para fins de interesse público', '1', '1');
 
+INSERT INTO orgao (orgao_id, orgao_nome, orgao_email, orgao_tipo, orgao_gabinete, orgao_estado, orgao_municipio, orgao_criado_por) 
+  VALUES (1, 'ÓRGAO SISTEMA', 'ORGAO@SISTEA.COM', 1, 1 ,'DF', 'BRASILIA', 1);
+
 INSERT INTO pessoa_tipo (pessoa_tipo_id, pessoa_tipo_nome, pessoa_tipo_descricao, pessoa_tipo_criado_por, pessoa_tipo_gabinete) 
   VALUES 
     ('1', 'Sem tipo', 'Sem tipo definido', '1', '1'), 
