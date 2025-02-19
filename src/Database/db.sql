@@ -25,7 +25,7 @@ CREATE TABLE
     cliente_email varchar(50) NOT NULL UNIQUE,
     cliente_telefone varchar(20) NOT NULL,
     cliente_ativo tinyint (1) NOT NULL,
-    cliente_usuarios int NOT NULL DEFAULT 1,
+    cliente_usuarios int NOT NULL DEFAULT 1,  
     cliente_gabinete_nome varchar(36) NOT NULL,
     cliente_gabinete_estado varchar(2) NOT NULL,
     cliente_gabinete_tipo varchar(36) NOT NULL,
