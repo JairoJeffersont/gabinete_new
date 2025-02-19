@@ -99,13 +99,16 @@ $busca = $usuarioController->listarUsuarios($_SESSION['gabinete_funcionarios'], 
                                 <option value="0">Desativado</option>
                             </select>
                         </div>
-                        <div class="col-md-1 col-6">
+                        <div class="col-md-2 col-6">
                             <select class="form-select form-select-sm" name="usuario_tipo" required>
+                                <option selected>Escolha o tipo de usuário</option>
                                 <?php
                                 $buscaTipo = $usuarioController->listarTiposUsuario();
                                 if ($buscaTipo['status'] == 'success') {
                                     foreach ($buscaTipo['dados'] as $tipo) {
-                                        echo '<option value="' . $tipo['usuario_tipo_id'] . '">' . $tipo['usuario_tipo_nome'] . '</option>';
+                                        if ($tipo['usuario_tipo_id'] != 1) {
+                                            echo '<option value="' . $tipo['usuario_tipo_id'] . '">' . $tipo['usuario_tipo_nome'] . '</option>';
+                                        }
                                     }
                                 }
                                 ?>
@@ -143,12 +146,16 @@ $busca = $usuarioController->listarUsuarios($_SESSION['gabinete_funcionarios'], 
 
 
                                 if ($busca['status'] == 'success') {
+                                    $tiposUsuarios = array_column($buscaTipo['dados'], 'usuario_tipo_nome', 'usuario_tipo_id');
+
                                     foreach ($busca['dados'] as $usuario) {
+                                        $nomeTipoUsuario = $tiposUsuarios[$usuario['usuario_tipo']] ?? 'Desconhecido';
+
                                         echo '<tr>';
                                         echo '<td style="white-space: nowrap; justify-content: center; align-items: center;"><a href="?secao=usuario&id=' . $usuario['usuario_id'] . '">' . $usuario['usuario_nome'] . '</a></td>';
                                         echo '<td style="white-space: nowrap;">' . $usuario['usuario_email'] . '</td>';
                                         echo '<td style="white-space: nowrap;">' . $usuario['usuario_telefone'] . '</td>';
-                                        echo '<td style="white-space: nowrap;">' . ($usuario['usuario_tipo'] ? 'Administrador' : 'Assessor') . '</td>';
+                                        echo '<td style="white-space: nowrap;">' . $nomeTipoUsuario . '</td>';
                                         echo '<td style="white-space: nowrap;">' . ($usuario['usuario_ativo'] ? 'Ativo' : 'Desativado') . '</td>';
                                         echo '<td style="white-space: nowrap;">' . date('d/m/Y', strtotime($usuario['usuario_criado_em'])) . '</td>';
                                         echo '</tr>';

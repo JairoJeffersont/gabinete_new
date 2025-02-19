@@ -161,6 +161,11 @@ class UsuarioController {
 
     public function apagarUsuario($id) {
         try {
+
+            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 1) {
+                return ['status' => 'forbidden', 'message' => 'Você não tem autorização para apagar usuários'];
+            }
+
             $buscaUsuario = $this->usuarioModel->buscaUsuario($id, 'usuario_id');
 
             if (!$buscaUsuario) {

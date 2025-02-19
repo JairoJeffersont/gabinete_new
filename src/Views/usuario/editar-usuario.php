@@ -108,10 +108,12 @@ if ($buscaUsuario['status'] != 'success' || empty($idGet)) {
                                 $buscaTipo = $usuarioController->listarTiposUsuario();
                                 if ($buscaTipo['status'] == 'success') {
                                     foreach ($buscaTipo['dados'] as $tipo) {
-                                        if ($buscaUsuario['dados']['usuario_tipo'] == $tipo['usuario_tipo_id']) {
-                                            echo '<option value="' . $tipo['usuario_tipo_id'] . '" selected>' . $tipo['usuario_tipo_nome'] . '</option>';
-                                        } else {
-                                            echo '<option value="' . $tipo['usuario_tipo_id'] . '">' . $tipo['usuario_tipo_nome'] . '</option>';
+                                        if ($tipo['usuario_tipo_id'] != 1) {
+                                            if ($buscaUsuario['dados']['usuario_tipo'] == $tipo['usuario_tipo_id']) {
+                                                echo '<option value="' . $tipo['usuario_tipo_id'] . '" selected>' . $tipo['usuario_tipo_nome'] . '</option>';
+                                            } else {
+                                                echo '<option value="' . $tipo['usuario_tipo_id'] . '">' . $tipo['usuario_tipo_nome'] . '</option>';
+                                            }
                                         }
                                     }
                                 }
