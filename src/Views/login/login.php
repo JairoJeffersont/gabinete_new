@@ -13,8 +13,8 @@ $loginController = new LoginController();
 <div class="d-flex justify-content-center align-items-center vh-100">
     <div class="centralizada text-center">
         <img src="public/img/logo_white.png" alt="" class="img_logo" />
-        <h2 class="login_title mb-2">Gabinete Digital</h2>
-        <p class="text-white">Gestão de gabinete parlamentar</p>
+        <h2 class="login_title mb-2">Conecta Política</h2>
+        <p class="text-white">Gestão de gabinete político</p>
         <?php
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_logar'])) {
@@ -39,6 +39,7 @@ $loginController = new LoginController();
         }
 
         ?>
+
         <form id="form_login" method="post" enctype="application/x-www-form-urlencoded" class="form-group">
             <div class="form-group">
                 <input type="email" class="form-control" name="email" id="email" placeholder="E-mail" required>
@@ -50,6 +51,7 @@ $loginController = new LoginController();
                 <button type="submit" name="btn_logar" class="btn">Entrar</button>
             </div>
         </form>
+
         <p class="mt-3 link"> <a href="?secao=recuperar-senha">Esqueceu a senha?</a> | <a href="?secao=cadastro">Cadastre seu gabinete</a></p>
         <p class="mt-3 copyright"><?php echo date('Y') ?> | JS Digital System</p>
     </div>
