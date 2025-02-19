@@ -27,3 +27,7 @@ a {
 .card_descricao_body {
     font-size: 0.9em;
 }
+
+.dropdown-item-custom{
+    font-size: 0.8em;
+}

@@ -23,18 +23,18 @@ $loginController = new LoginController();
             $senha = htmlspecialchars($_POST['senha'], ENT_QUOTES, 'UTF-8');
 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                return ['status' => 'invalid_email',  'message' => 'Email inválido.'];
-            }
+                echo '<div class="alert alert-info px-2 py-1 mb-2  rounded-5 custom-alert" data-timeout="3" role="alert">Email inválido.</div>';
+            } else {
+                $resultado = $loginController->Logar($email, $senha);
 
-            $resultado = $loginController->Logar($email, $senha);
-
-            if ($resultado['status'] == 'success') {
-                header('Location: ?secao=home');
-                exit;
-            } else if ($resultado['status'] == 'not_found' || $resultado['status'] == 'deactivated') {
-                echo '<div class="alert alert-info px-2 py-1 mb-2  rounded-5 custom-alert" data-timeout="3" role="alert">' . $resultado['message'] . '</div>';
-            } else if ($resultado['status'] == 'wrong_password' || $resultado['status'] == 'error' || $resultado['status'] == 'deactived') {
-                echo '<div class="alert alert-danger px-2 rounded-5 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $resultado['message'] . '</div>';
+                if ($resultado['status'] == 'success') {
+                    header('Location: ?secao=home');
+                    exit;
+                } else if ($resultado['status'] == 'not_found' || $resultado['status'] == 'deactivated') {
+                    echo '<div class="alert alert-info px-2 py-1 mb-2  rounded-5 custom-alert" data-timeout="3" role="alert">' . $resultado['message'] . '</div>';
+                } else if ($resultado['status'] == 'wrong_password' || $resultado['status'] == 'error' || $resultado['status'] == 'deactived') {
+                    echo '<div class="alert alert-danger px-2 rounded-5 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $resultado['message'] . '</div>';
+                }
             }
         }
 
