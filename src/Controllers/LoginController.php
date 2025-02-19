@@ -34,14 +34,20 @@ class LoginController {
             if (password_verify($senha, $buscaUsuario['dados']['usuario_senha'])) {
                 session_start();
 
-                $politco = $this->gabineteController->buscarGabinete($buscaUsuario['dados']['usuario_gabinete']);
+                $buscaPolitco = $this->gabineteController->buscarGabinete($buscaUsuario['dados']['usuario_gabinete']);
+
+                if ($buscaPolitco['status'] = 'success') {
+                    $politco = $buscaPolitco['dados']['gabinete_politico'];
+                } else {
+                    return ['status' => 'error', 'message' => 'Erro interno do servidor.', 'id_erro' => $buscaUsuario['error_id']];
+                }
 
                 $_SESSION = [
                     'usuario_id' => $buscaUsuario['dados']['usuario_id'],
                     'usuario_nome' => $buscaUsuario['dados']['usuario_nome'],
                     'usuario_tipo' => $buscaUsuario['dados']['usuario_tipo'],
                     'usuario_gabinete' => $buscaUsuario['dados']['usuario_gabinete'],
-                    'usuario_politico_gabinete' => $politco['dados']['gabinete_politico']
+                    'usuario_politico_gabinete' => $politco
                 ];
 
                 $this->logger->novoLog('login_log', $buscaUsuario['dados']['usuario_gabinete'] . ' | ' . $buscaUsuario['dados']['usuario_nome']);
