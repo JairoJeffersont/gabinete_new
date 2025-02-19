@@ -1,3 +1,4 @@
+--CRIACAO DE TABELAS--
 CREATE TABLE
   cliente (
     cliente_id varchar(36) NOT NULL,
@@ -178,7 +179,7 @@ CREATE TABLE
     CONSTRAINT fk_pessoa_orgao FOREIGN KEY (pessoa_orgao) REFERENCES orgao (orgao_id)
   )ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;   
   
-
+--INSERCOES PADRAO--
 INSERT INTO tipo_gabinete (tipo_gabinete_id, tipo_gabinete_nome, tipo_gabinete_informacoes)
   VALUES
     (1, 'Deputado Federal', 'Gabinete destinado a um deputado federal no Congresso Nacional'),
@@ -278,6 +279,7 @@ INSERT INTO pessoa_genero (pessoa_genero_id, pessoa_genero_nome, pessoa_genero_c
     ('8', 'Transgênero Feminino', '1', '1'),
     ('9', 'Outro', '1', '1');
 
+--CRIACAO DE VIEWS--
 CREATE VIEW view_orgao_tipo AS
   SELECT 
       orgao_tipo.*, usuario.usuario_nome 
@@ -302,4 +304,9 @@ CREATE VIEW view_pessoa_profissao AS
   SELECT 
      pessoa_profissao.*, usuario.usuario_nome
     FROM pessoa_profissao INNER JOIN usuario ON pessoa_profissao.pessoa_profissao_criado_por = usuario.usuario_id;
+
+CREATE VIEW view_pessoa AS
+  SELECT 
+     pessoa.*, usuario.usuario_nome
+    FROM pessoa INNER JOIN usuario ON pessoa.pessoa_criada_por = usuario.usuario_id;
 
