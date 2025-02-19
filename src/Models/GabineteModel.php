@@ -66,7 +66,7 @@ class GabineteModel {
 
     //MODELO GABINETE
     public function criarGabinete($dados) {
-        $query = 'INSERT INTO gabinete(gabinete_id, gabinete_cliente, gabinete_tipo, gabinete_politico, gabinete_estado, gabinete_endereco, gabinete_municipio, gabinete_telefone) VALUES (UUID(), :gabinete_cliente, :gabinete_tipo, :gabinete_politico, :gabinete_estado, :gabinete_endereco, :gabinete_municipio,  :gabinete_telefone);';
+        $query = 'INSERT INTO gabinete(gabinete_id, gabinete_cliente, gabinete_tipo, gabinete_politico, gabinete_estado, gabinete_endereco, gabinete_municipio, gabinete_telefone, gabiente_funcionarios) VALUES (UUID(), :gabinete_cliente, :gabinete_tipo, :gabinete_politico, :gabinete_estado, :gabinete_endereco, :gabinete_municipio,  :gabinete_telefone, :gabiente_funcionarios);';
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':gabinete_cliente', $dados['gabinete_cliente'], PDO::PARAM_STR);
@@ -76,6 +76,7 @@ class GabineteModel {
         $stmt->bindValue(':gabinete_endereco', $dados['gabinete_endereco'], PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_municipio', $dados['gabinete_municipio'], PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_telefone', $dados['gabinete_telefone'], PDO::PARAM_STR);
+        $stmt->bindValue(':gabiente_funcionarios', $dados['gabiente_funcionarios'], PDO::PARAM_INT);
 
         return $stmt->execute();
     }

@@ -3,8 +3,8 @@
 $pagina = isset($_GET['secao']) ? $_GET['secao'] :  'home';
 
 $rotas = [
-    'clientes' => './src/Views/cliente/clientes.php',
     'login' => './src/Views/login/login.php',
+    'sair' => './src/Views/login/sair.php',
     'home' => './src/Views/home/home.php',
 ];
 
