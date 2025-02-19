@@ -278,4 +278,28 @@ INSERT INTO pessoa_genero (pessoa_genero_id, pessoa_genero_nome, pessoa_genero_c
     ('8', 'Transgênero Feminino', '1', '1'),
     ('9', 'Outro', '1', '1');
 
+CREATE VIEW view_orgao_tipo AS
+  SELECT 
+      orgao_tipo.*, usuario.usuario_nome 
+    FROM orgao_tipo INNER JOIN usuario ON orgao_tipo.orgao_tipo_criado_por = usuario.usuario_id;
+
+CREATE VIEW view_orgao AS
+  SELECT 
+      orgao.*,usuario.usuario_nome
+    FROM orgao INNER JOIN usuario ON orgao.orgao_criado_por = usuario.usuario_id;
+
+CREATE VIEW view_pessoa_tipo AS
+  SELECT 
+      pessoa_tipo.*, usuario.usuario_nome     
+    FROM pessoa_tipo INNER JOIN usuario ON pessoa_tipo.pessoa_tipo_criado_por = usuario.usuario_id;
+
+CREATE VIEW view_pessoa_genero AS
+  SELECT 
+      pessoa_genero.*, usuario.usuario_nome       
+    FROM pessoa_genero INNER JOIN usuario ON pessoa_genero.pessoa_genero_criado_por = usuario.usuario_id;
+
+CREATE VIEW view_pessoa_profissao AS
+  SELECT 
+     pessoa_profissao.*, usuario.usuario_nome
+    FROM pessoa_profissao INNER JOIN usuario ON pessoa_profissao.pessoa_profissao_criado_por = usuario.usuario_id;
 
