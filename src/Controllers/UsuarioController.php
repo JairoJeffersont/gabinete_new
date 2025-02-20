@@ -68,7 +68,6 @@ class UsuarioController {
             return ['status' => 'invalid_email', 'message' => 'Email inválido.'];
         }
 
-
         try {
             $usuario = $this->usuarioModel->buscaUsuario('usuario_id', $dados['usuario_id']);
 
@@ -147,6 +146,21 @@ class UsuarioController {
         try {
             $this->usuarioModel->novoLog($usuario_id);
             return ['status' => 'success', 'message' => 'Log inserido com sucesso'];
+        } catch (PDOException $e) {
+            $erro_id = uniqid();
+            $this->logger->novoLog('usuario_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
+    public function buscaLog($id) {
+        try {
+            $resultado = $this->usuarioModel->buscaLog($id);
+            if ($resultado) {
+                return ['status' => 'success', 'dados' => $resultado];
+            } else {
+                return ['status' => 'not_found', 'message' => 'Logs não encontrados'];
+            }
         } catch (PDOException $e) {
             $erro_id = uniqid();
             $this->logger->novoLog('usuario_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');

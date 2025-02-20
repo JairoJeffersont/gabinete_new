@@ -33,8 +33,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['usuario_nome'] ?></a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item dropdown-item-custom" href="?secao=usuario&id=<?php echo $_SESSION['usuario_id'] ?>"><i class="bi bi-person-fill"></i> Perfil </a>
-                        <div class="dropdown-divider"></div>
+                        
                         <a class="dropdown-item dropdown-item-custom" href="?secao=sobre"><i class="bi bi-info-circle"></i> Sobre</a>
 
                         <div class="dropdown-divider"></div>

@@ -17,6 +17,7 @@ $usuarioGet = $_GET['id'];
 $buscaCliente = $clienteController->buscaCliente($_SESSION['usuario_cliente']);
 $buscaUsuario = $usuarioController->buscaUsuario('usuario_id', $usuarioGet);
 $bucaTipo = $usuarioController->listarUsuariosTipos();
+$buscaLog = $usuarioController->buscaLog($usuarioGet);
 
 if ($buscaUsuario['status'] == 'not_found' || $buscaUsuario['status'] == 'error') {
     header('Location: ?secao=meu-gabinete');
@@ -128,6 +129,37 @@ if ($buscaUsuario['status'] == 'not_found' || $buscaUsuario['status'] == 'error'
                             <button type="submit" class="btn btn-danger btn-sm" name="btn_apagar"><i class="bi bi-trash-fill"></i> Apagar</button>
                         </div>
                     </form>
+                </div>
+            </div>
+            <div class="card mb-2">
+                <div class="card-body card_descricao_body p-2">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Últimos acessos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <?php
+                                if ($buscaLog['status'] == 'success') {
+                                    foreach (array_slice($buscaLog['dados'], 0, 10) as $log) {
+                                        echo '<tr>';
+                                        echo '<td style="white-space: nowrap; justify-content: center; align-items: center;">' . date('d/m/y : H:i', strtotime($log['log_data'])) . '</td>';
+                                        echo '</tr>';
+                                    }
+                                } else if ($buscaLog['status'] == 'not_found') {
+                                    echo '<tr><td colspan="1">' . $buscaLog['message'] . '</td></tr>';
+                                } else if ($buscaLog['status'] == 'error') {
+                                    echo '<tr><td colspan="1">' . $buscaLog['message'] . ' | Código do erro: ' . $buscaLog['error_id'] . '</td></tr>';
+                                }
+                                ?>
+
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>

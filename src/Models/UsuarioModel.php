@@ -84,6 +84,15 @@ class UsuarioModel {
         return $stmt->execute();
     }
 
+    public function buscaLog($id) {
+        $query = "SELECT * FROM usuario_log WHERE log_usuario = :id ORDER BY log_data DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: null;
+    }
+
 
     // USUÁRIO TIPO
     public function criarUsuarioTipo($dados) {
