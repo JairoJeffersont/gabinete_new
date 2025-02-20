@@ -47,7 +47,6 @@ class UsuarioModel {
         return $stmt->execute();
     }
 
-
     public function atualizarUsuario($dados) {
         // Inicializando todos os dados com valores padrão caso não sejam enviados
         $usuario_id = isset($dados['usuario_id']) ? $dados['usuario_id'] : '';
@@ -88,7 +87,6 @@ class UsuarioModel {
         return $stmt->execute();
     }
 
-
     public function listarUsuarios($itens, $pagina, $ordem, $ordenarPor, $gabinete) {
         // Listando usuários com paginação
         $offset = ($pagina - 1) * $itens;
@@ -128,7 +126,6 @@ class UsuarioModel {
 
         return $stmt->execute();
     }
-
 
     public function novoLog($id) {
 
