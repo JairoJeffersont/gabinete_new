@@ -71,6 +71,10 @@ class UsuarioController {
         try {
             $usuario = $this->usuarioModel->buscaUsuario('usuario_id', $dados['usuario_id']);
 
+            if ($usuario['usuario_nome'] == $_SESSION['cliente_nome'] && !$dados['usuario_ativo']) {
+                return ['status' => 'forbidden', 'message' => "Você não pode desativar o gestor do gabinete."];
+            }
+
             if (!$usuario) {
                 return ['status' => 'not_found', 'message' => 'Usuário não encontrado'];
             }
