@@ -13,9 +13,10 @@ CREATE TABLE
   gabinete (
     gabinete_id varchar(36) NOT NULL,
     gabinete_tipo varchar(36) NOT NULL,
-    gabinete_nome varchar(50) NOT NULL,
-    gabinete_endereco varchar(255) NOT NULL,
-    gabinete_municipio varchar(50) NOT NULL,
+    gabinete_nome varchar(50) NOT NULL UNIQUE,
+    gabinete_usuarios varchar(50) NOT NULL,
+    gabinete_endereco varchar(255) DEFAULT NULL,
+    gabinete_municipio varchar(50) DEFAULT NULL,
     gabinete_estado varchar(50) NOT NULL,
     gabinete_email varchar(255) NOT NULL,
     gabinete_telefone varchar(20) NOT NULL,
@@ -42,7 +43,7 @@ CREATE TABLE
     usuario_gabinete varchar(36) NOT NULL,
     usuario_nome varchar(255) NOT NULL,
     usuario_cpf varchar(14) DEFAULT NULL,
-    usuario_email varchar(255) NOT NULL,
+    usuario_email varchar(255) NOT NULL UNIQUE,
     usuario_aniversario DATE DEFAULT NULL,
     usuario_telefone varchar(20) NOT NULL,
     usuario_senha varchar(255) NOT NULL,
@@ -53,7 +54,7 @@ CREATE TABLE
     usuario_atualizado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (usuario_id),
     CONSTRAINT fk_usuario_tipo FOREIGN KEY (usuario_tipo) REFERENCES usuario_tipo (usuario_tipo_id),
-    CONSTRAINT fk_usuario_gabinete FOREIGN KEY (usuario_gabinete) REFERENCES gabinete (gabinete_id) --ON DELETE CASCADE,
+    CONSTRAINT fk_usuario_gabinete FOREIGN KEY (usuario_gabinete) REFERENCES gabinete (gabinete_id),
     CONSTRAINT unico_gestor_por_gabinete UNIQUE (usuario_gabinete, usuario_gestor)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 

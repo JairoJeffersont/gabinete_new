@@ -1,11 +1,11 @@
 <?php
 
-use GabineteMvc\Controllers\ClienteController;
+use GabineteMvc\Controllers\GabineteController;
 use GabineteMvc\Controllers\UsuarioController;
 
 require 'vendor/autoload.php';
 
-$clienteController = new ClienteController();
+$gabineteController = new GabineteController();
 $usuarioController = new UsuarioController();
 
 ?>
@@ -22,33 +22,32 @@ $usuarioController = new UsuarioController();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_salvar'])) {
 
-            if ($_POST['usuario_senha'] == $_POST['usuario_senha']) {
-                $cliente = [
-                    'cliente_nome' => htmlspecialchars($_POST['cliente_nome'], ENT_QUOTES, 'UTF-8'),
-                    'cliente_email' => htmlspecialchars($_POST['cliente_email'], ENT_QUOTES, 'UTF-8'),
-                    'cliente_telefone' => preg_replace('/[^0-9]/', '', $_POST['cliente_telefone']),
-                    'cliente_usuarios' => preg_replace('/[^0-9]/', '', $_POST['cliente_usuarios']),
-                    'cliente_gabinete_tipo' => htmlspecialchars($_POST['cliente_gabinete_tipo'], ENT_QUOTES, 'UTF-8'),
-                    'cliente_gabinete_estado' => htmlspecialchars($_POST['cliente_gabinete_estado'], ENT_QUOTES, 'UTF-8'),
-                    'cliente_gabinete_nome' => htmlspecialchars($_POST['cliente_gabinete_nome'], ENT_QUOTES, 'UTF-8'),
+            if ($_POST['usuario_senha'] == $_POST['usuario_senha2']) {
+                $gabinete = [
+                    'gabinete_nome' => htmlspecialchars($_POST['gabinete_nome'], ENT_QUOTES, 'UTF-8'),
+                    'gabinete_tipo' => htmlspecialchars($_POST['gabinete_tipo'], ENT_QUOTES, 'UTF-8'),
+                    'gabinete_estado' => htmlspecialchars($_POST['gabinete_estado'], ENT_QUOTES, 'UTF-8'),
+                    'gabinete_usuarios' => htmlspecialchars($_POST['gabinete_usuarios'], ENT_QUOTES, 'UTF-8')
                 ];
 
-                $resultCliente = $clienteController->novoCliente($cliente);
+                $resultGabinete = $gabineteController->novoGabinete($gabinete);
 
-                if ($resultCliente['status'] == 'success') {
-                    $idCliente = $clienteController->listarClientes(1, 1, 'desc', 'cliente_criado_em')['dados'][0]['cliente_id'];
-                    $dadosUsuario = [
-                        'usuario_cliente' => $idCliente,
-                        'usuario_nome' => $cliente['cliente_nome'],
-                        'usuario_email' => $cliente['cliente_email'],
-                        'usuario_telefone' => $cliente['cliente_telefone'],
-                        'usuario_senha' => htmlspecialchars($_POST['usuario_senha'], ENT_QUOTES, 'UTF-8'),
+                if ($resultGabinete['status'] == 'success') {
+                    $gabineteId = $gabineteController->listarGabinetes(1, 1, 'desc', 'gabinete_criado_em')['dados'][0]['gabinete_id'];
+                    $usuario = [
                         'usuario_tipo' => 2,
+                        'usuario_gabinete' => $gabineteId,
+                        'usuario_nome' => htmlspecialchars($_POST['usuario_nome'], ENT_QUOTES, 'UTF-8'),
+                        'usuario_senha' => htmlspecialchars($_POST['usuario_senha'], ENT_QUOTES, 'UTF-8'),
+                        'usuario_email' => htmlspecialchars($_POST['usuario_email'], ENT_QUOTES, 'UTF-8'),
+                        'usuario_telefone' => htmlspecialchars($_POST['usuario_telefone'], ENT_QUOTES, 'UTF-8'),
                         'usuario_ativo' => 1,
-                        'usuario_aniversario' => '2000-01-01'
+                        'usuario_aniversario' => '2000-01-01',
+                        'usuario_gestor' => 1,
                     ];
 
-                    $resultUsuario = $usuarioController->novoUsuario($dadosUsuario);
+                    $resultUsuario = $usuarioController->novoUsuario($usuario);
+
                     if ($resultUsuario['status'] == 'success') {
                         echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">' . $resultUsuario['message'] . '</div>';
                     } else if ($resultUsuario['status'] == 'duplicated' || $resultUsuario['status'] == 'bad_request' || $resultUsuario['status'] == 'invalid_email') {
@@ -56,22 +55,24 @@ $usuarioController = new UsuarioController();
                     } else if ($resultUsuario['status'] == 'error') {
                         echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="0" role="alert">' . $resultUsuario['message'] . ' | Código do erro: ' . $result['id_erro'] . '</div>';
                     }
-                } else if ($resultCliente['status'] == 'error' || $resultCliente['status'] == 'duplicated') {
-                    echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="0" role="alert">' . $resultCliente['message'] . '</div>';
+                } else if ($resultGabinete['status'] == 'error' || $resultGabinete['status'] == 'duplicated') {
+                    echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">Cliente já cadastrado</div>';
                 }
-            } else {
-                echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="0" role="alert">Senhas não conferem</div>';
+            }else{
+                echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">Senhas não conferem.</div>';
             }
         }
+
+
 
         ?>
 
         <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
             <div class="col-md-12 col-12">
-                <input type="text" class="form-control form-control-sm" name="cliente_nome" placeholder="Nome" required>
+                <input type="text" class="form-control form-control-sm" name="usuario_nome" placeholder="Nome" required>
             </div>
             <div class="col-md-12 col-12">
-                <input type="email" class="form-control form-control-sm" name="cliente_email" placeholder="Email" required>
+                <input type="email" class="form-control form-control-sm" name="usuario_email" placeholder="Email" required>
             </div>
             <div class="col-md-6 col-6">
                 <input type="password" class="form-control form-control-sm" name="usuario_senha" placeholder="Senha" required>
@@ -80,21 +81,21 @@ $usuarioController = new UsuarioController();
                 <input type="password" class="form-control form-control-sm" name="usuario_senha2" placeholder="Confirma a senha" required>
             </div>
             <div class="col-md-6 col-6">
-                <input type="text" class="form-control form-control-sm" name="cliente_telefone" placeholder="Telefone (com DDD)" data-mask="(00) 00000-0000" maxlength="15" required>
+                <input type="text" class="form-control form-control-sm" name="usuario_telefone" placeholder="Telefone (com DDD)" data-mask="(00) 00000-0000" maxlength="15" required>
             </div>
             <div class="col-md-6 col-6">
-                <input type="text" class="form-control form-control-sm" name="cliente_usuarios" placeholder="Licenças" data-mask="00">
+                <input type="text" class="form-control form-control-sm" name="gabinete_usuarios" placeholder="Licenças" data-mask="00">
             </div>
 
             <div class="col-md-6 col-6">
-                <select class="form-select form-select-sm form_dep" name="cliente_gabinete_tipo" required>
+                <select class="form-select form-select-sm form_dep" name="gabinete_tipo" required>
                     <option selected>Tipo do Gabinete</option>
                     <?php
-                    $buscaTipo = $clienteController->listarTipoGabinete();
+                    $buscaTipo = $gabineteController->listarTipoGabinete();
 
                     if ($buscaTipo['status'] == 'success') {
                         foreach ($buscaTipo['dados'] as $tipo) {
-                            echo '<option value="' . $tipo['tipo_gabinete_id'] . '">' . $tipo['tipo_gabinete_nome'] . '</option>';
+                            echo '<option value="' . $tipo['gabinete_tipo_id'] . '">' . $tipo['gabinete_tipo_nome'] . '</option>';
                         }
                     }
 
@@ -102,7 +103,7 @@ $usuarioController = new UsuarioController();
                 </select>
             </div>
             <div class="col-md-6 col-6">
-                <select class="form-select form-select-sm form_dep" name="cliente_gabinete_estado" required>
+                <select class="form-select form-select-sm form_dep" name="gabinete_estado" required>
                     <option selected>Escolha o estado</option>
                     <option value="AC">Acre</option>
                     <option value="AL">Alagoas</option>
@@ -134,7 +135,7 @@ $usuarioController = new UsuarioController();
                 </select>
             </div>
             <div class="col-md-12 col-12">
-                <input type="text" class="form-control form-control-sm" name="cliente_gabinete_nome" placeholder="Nome da urna" required>
+                <input type="text" class="form-control form-control-sm" name="gabinete_nome" placeholder="Nome do deputado, senador..." required>
             </div>
 
             <div class="d-flex justify-content-between align-items-center">

@@ -19,17 +19,13 @@ class GabineteController {
     // GABINETE CONTROLLER
     public function novoGabinete($dados) {
 
-        $camposObrigatorios = ['gabinete_nome', 'gabinete_email', 'gabinete_telefone', 'gabinete_usuarios', 'gabinete_nome', 'gabinete_estado', 'gabinete_tipo'];
+        $camposObrigatorios = ['gabinete_usuarios', 'gabinete_usuarios', 'gabinete_nome', 'gabinete_estado', 'gabinete_tipo'];
 
         foreach ($camposObrigatorios as $campo) {
             if (!isset($dados[$campo])) {
                 return ['status' => 'bad_request', 'message' => "O campo '$campo' é obrigatório."];
             }
-        }
-
-        if (!filter_var($dados['gabinete_email'], FILTER_VALIDATE_EMAIL)) {
-            return ['status' => 'invalid_email', 'message' => 'Email inválido.'];
-        }
+        }        
 
         try {
             $this->gabineteModel->criarGabinete($dados);
