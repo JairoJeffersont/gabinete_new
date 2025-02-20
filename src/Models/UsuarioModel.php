@@ -47,6 +47,48 @@ class UsuarioModel {
         return $stmt->execute();
     }
 
+
+    public function atualizarUsuario($dados) {
+        // Inicializando todos os dados com valores padrão caso não sejam enviados
+        $usuario_id = isset($dados['usuario_id']) ? $dados['usuario_id'] : '';
+        $usuario_tipo = isset($dados['usuario_tipo']) ? $dados['usuario_tipo'] : '';
+        $usuario_gabinete = isset($dados['usuario_gabinete']) ? $dados['usuario_gabinete'] : '';
+        $usuario_nome = isset($dados['usuario_nome']) ? $dados['usuario_nome'] : '';
+        $usuario_cpf = isset($dados['usuario_cpf']) ? $dados['usuario_cpf'] : '';
+        $usuario_email = isset($dados['usuario_email']) ? $dados['usuario_email'] : '';
+        $usuario_aniversario = isset($dados['usuario_aniversario']) ? $dados['usuario_aniversario'] : '';
+        $usuario_telefone = isset($dados['usuario_telefone']) ? $dados['usuario_telefone'] : '';
+        $usuario_senha = isset($dados['usuario_senha']) ? $dados['usuario_senha'] : '';
+        $usuario_token = isset($dados['usuario_token']) ? $dados['usuario_token'] : '';
+        $usuario_ativo = isset($dados['usuario_ativo']) ? $dados['usuario_ativo'] : 1; // Supondo que o valor padrão seja 1 (ativo)
+        $usuario_gestor = isset($dados['usuario_gestor']) ? $dados['usuario_gestor'] : 0; // Supondo que o valor padrão seja 0 (não gestor)
+
+        // Atualizando informações do usuário
+        $query = 'UPDATE usuario 
+                  SET usuario_tipo = :usuario_tipo, usuario_gabinete = :usuario_gabinete, usuario_nome = :usuario_nome, 
+                      usuario_cpf = :usuario_cpf, usuario_email = :usuario_email, usuario_aniversario = :usuario_aniversario, 
+                      usuario_telefone = :usuario_telefone, usuario_senha = :usuario_senha, usuario_token = :usuario_token, 
+                      usuario_ativo = :usuario_ativo, usuario_gestor = :usuario_gestor 
+                  WHERE usuario_id = :usuario_id';
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':usuario_id', $usuario_id, PDO::PARAM_STR);
+        $stmt->bindValue(':usuario_tipo', $usuario_tipo, PDO::PARAM_STR);
+        $stmt->bindValue(':usuario_gabinete', $usuario_gabinete, PDO::PARAM_STR);
+        $stmt->bindValue(':usuario_nome', $usuario_nome, PDO::PARAM_STR);
+        $stmt->bindValue(':usuario_cpf', $usuario_cpf, PDO::PARAM_STR);
+        $stmt->bindValue(':usuario_email', $usuario_email, PDO::PARAM_STR);
+        $stmt->bindValue(':usuario_aniversario', $usuario_aniversario, PDO::PARAM_STR);
+        $stmt->bindValue(':usuario_telefone', $usuario_telefone, PDO::PARAM_STR);
+        $stmt->bindValue(':usuario_senha', $usuario_senha, PDO::PARAM_STR);
+        $stmt->bindValue(':usuario_token', $usuario_token, PDO::PARAM_STR);
+        $stmt->bindValue(':usuario_ativo', $usuario_ativo, PDO::PARAM_INT);
+        $stmt->bindValue(':usuario_gestor', $usuario_gestor, PDO::PARAM_BOOL);
+
+        return $stmt->execute();
+    }
+
+
     public function listarUsuarios($itens, $pagina, $ordem, $ordenarPor, $gabinete) {
         // Listando usuários com paginação
         $offset = ($pagina - 1) * $itens;
