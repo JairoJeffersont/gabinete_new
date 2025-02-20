@@ -18,9 +18,14 @@ a {
     font-size: 0.850em;
 }
 
-.card_descricao {
+.card_descricao_bg {
     background-image: url('../img/blue-bg.jpeg');
     background-size: cover;
+    font-size: 0.9em;
+}
+
+.card_descricao {
+    
     font-size: 0.9em;
 }
 

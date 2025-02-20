@@ -16,6 +16,10 @@ $buscaCliente = $clienteController->buscaCliente($_SESSION['usuario_cliente']);
 $buscaUsuario = $usuarioController->listarUsuarios($buscaCliente['dados']['cliente_id']);
 $bucaTipo = $usuarioController->listarUsuariosTipos();
 
+if ($buscaCliente['status'] != 'success' || $buscaUsuario['status'] != 'success' || $bucaTipo['status'] != 'success') {
+    header('Location: ?secao=sair');
+}
+
 $totalAssinaturas = $buscaCliente['dados']['cliente_usuarios'];
 $totalUsuarios = count($buscaUsuario['dados']);
 
@@ -33,7 +37,7 @@ $totalUsuarios = count($buscaUsuario['dados']);
             </div>
 
             <div class="card mb-2">
-                <div class="card-header bg-primary text-white px-2 py-1 card_descricao"><i class="bi bi-house-door"></i> Meu gabinete</div>
+                <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-house-door"></i> Meu gabinete</div>
                 <div class="card-body card_descricao_body p-2">
                     <h5 class="card-title mb-2">Gabinete: <?php echo $buscaCliente['dados']['cliente_gabinete_nome'] . '/' . $buscaCliente['dados']['cliente_gabinete_estado'] ?></h5>
                     <p class="card-text mb-2">Gestor: <?php echo $buscaCliente['dados']['cliente_nome'] ?></p>
@@ -41,7 +45,7 @@ $totalUsuarios = count($buscaUsuario['dados']);
                 </div>
             </div>
             <div class="card shadow-sm mb-2">
-                <div class="card-header bg-primary text-white px-2 py-1"><i class="bi bi-people"></i> Usuários</div>
+                <div class="card-header bg-primary text-white px-2 py-1 card_descricao"><i class="bi bi-people"></i> Usuários</div>
 
                 <div class="card-body p-2">
                     <?php
@@ -55,7 +59,7 @@ $totalUsuarios = count($buscaUsuario['dados']);
                         } else if ($_POST['usuario_tipo'] == 0) {
                             echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">Escolha um tipo de usuário.</div>';
                         } else {
-                            
+
                             $usuario_aniversario = htmlspecialchars($_POST['usuario_aniversario'], ENT_QUOTES, 'UTF-8');
 
                             $data = DateTime::createFromFormat('d/m', $usuario_aniversario);
@@ -75,7 +79,7 @@ $totalUsuarios = count($buscaUsuario['dados']);
                             $result = $usuarioController->novoUsuario($usuario);
 
                             if ($result['status'] == 'success') {
-                                $busca = $usuarioController->listarUsuarios($_SESSION['usuario_cliente']);
+                                $buscaUsuario = $usuarioController->listarUsuarios($buscaCliente['dados']['cliente_id']);
                                 echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
                             } else if ($result['status'] == 'duplicated' || $result['status'] == 'bad_request' || $result['status'] == 'invalid_email') {
                                 echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';

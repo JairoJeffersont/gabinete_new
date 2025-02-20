@@ -33,7 +33,7 @@ class UsuarioModel {
     public function atualizarUsuario($dados) {
         $query = 'UPDATE usuario 
                   SET usuario_nome = :usuario_nome, usuario_email = :usuario_email, usuario_aniversario = :usuario_aniversario, 
-                      usuario_telefone = :usuario_telefone, usuario_senha = :usuario_senha, usuario_tipo = :usuario_tipo, usuario_ativo = :usuario_ativo
+                      usuario_telefone = :usuario_telefone, usuario_tipo = :usuario_tipo, usuario_ativo = :usuario_ativo
                   WHERE usuario_id = :usuario_id';
 
         $stmt = $this->conn->prepare($query);
@@ -41,8 +41,7 @@ class UsuarioModel {
         $stmt->bindValue(':usuario_nome', $dados['usuario_nome'], PDO::PARAM_STR);
         $stmt->bindValue(':usuario_email', $dados['usuario_email'], PDO::PARAM_STR);
         $stmt->bindValue(':usuario_aniversario', $dados['usuario_aniversario'], PDO::PARAM_STR);
-        $stmt->bindValue(':usuario_telefone', $dados['usuario_telefone'], PDO::PARAM_STR);
-        $stmt->bindValue(':usuario_senha', password_hash($dados['usuario_senha'], PASSWORD_DEFAULT), PDO::PARAM_STR);
+        $stmt->bindValue(':usuario_telefone', $dados['usuario_telefone'], PDO::PARAM_STR);        
         $stmt->bindValue(':usuario_tipo', $dados['usuario_tipo'], PDO::PARAM_STR);
         $stmt->bindValue(':usuario_ativo', $dados['usuario_ativo'], PDO::PARAM_BOOL);
 

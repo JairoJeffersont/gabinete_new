@@ -18,7 +18,9 @@ class UsuarioController {
     //USUARIO CONTROLLER
     public function novoUsuario($dados) {
 
-        if ($_SESSION['usuario_tipo'] != 2) {
+        $nivel = isset($_SESSION['usuario_tipo']) ? $_SESSION['usuario_tipo'] : 2;
+
+        if ($nivel != 2) {
             return ['status' => 'forbidden', 'message' => "Você não tem autorização para inserir novos usuários."];
         }
 
@@ -49,6 +51,24 @@ class UsuarioController {
     }
 
     public function atualizarUsuario($dados) {
+
+        if ($_SESSION['usuario_tipo'] != 2) {
+            return ['status' => 'forbidden', 'message' => "Você não tem autorização para atualizar um usuário."];
+        }
+
+        $camposObrigatorios = ['usuario_nome', 'usuario_email', 'usuario_aniversario', 'usuario_telefone', 'usuario_tipo', 'usuario_ativo'];
+
+        foreach ($camposObrigatorios as $campo) {
+            if (!isset($dados[$campo])) {
+                return ['status' => 'bad_request', 'message' => "O campo '$campo' é obrigatório."];
+            }
+        }
+
+        if (!filter_var($dados['usuario_email'], FILTER_VALIDATE_EMAIL)) {
+            return ['status' => 'invalid_email', 'message' => 'Email inválido.'];
+        }
+
+
         try {
             $usuario = $this->usuarioModel->buscaUsuario('usuario_id', $dados['usuario_id']);
 
@@ -96,8 +116,18 @@ class UsuarioController {
     }
 
     public function apagarUsuario($usuario_id) {
+
+        if ($_SESSION['usuario_tipo'] != 2) {
+            return ['status' => 'forbidden', 'message' => "Você não tem autorização para apagar um usuário."];
+        }
+
         try {
+
             $usuario = $this->usuarioModel->buscaUsuario('usuario_id', $usuario_id);
+
+            if ($usuario['usuario_nome'] == $_SESSION['cliente_nome']) {
+                return ['status' => 'forbidden', 'message' => "Você não pode apagar o gestor do gabinete."];
+            }
 
             if (!$usuario) {
                 return ['status' => 'not_found', 'message' => 'Usuário não encontrado'];
