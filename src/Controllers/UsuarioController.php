@@ -17,6 +17,11 @@ class UsuarioController {
 
     //USUARIO CONTROLLER
     public function novoUsuario($dados) {
+
+        if ($_SESSION['usuario_tipo'] != 2) {
+            return ['status' => 'forbidden', 'message' => "Você não tem autorização para inserir novos usuários."];
+        }
+
         $camposObrigatorios = ['usuario_cliente', 'usuario_nome', 'usuario_email', 'usuario_aniversario', 'usuario_telefone', 'usuario_senha', 'usuario_tipo', 'usuario_ativo'];
 
         foreach ($camposObrigatorios as $campo) {

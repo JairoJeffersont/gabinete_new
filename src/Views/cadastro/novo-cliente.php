@@ -142,26 +142,8 @@ $usuarioController = new UsuarioController();
                 <a type="button" href="?secao=login" class="btn btn-secondary">Voltar</a>
             </div>
         </form>
-        <p class="mt-3 copyright">2024 | JS Digital System</p>
+        <p class="mt-3 copyright">
+            &copy; <?php echo date('Y'); ?> | Just Solutions. Todos os direitos reservados.
+        </p>
     </div>
 </div>
-<div class="modal fade" id="aguardeModal" tabindex="-1" aria-labelledby="aguardeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body text-center">
-                <h5 class="mb-3">Aguarde...</h5>
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Carregando...</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(document).ready(function() {
-        $('#form_novo').submit(function(event) {
-            $('#aguardeModal').modal('show');
-        });
-    });
-</script>

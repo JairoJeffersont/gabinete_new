@@ -13,7 +13,6 @@
                         <a class="dropdown-item dropdown-item-custom" href="?secao=profissoes">Profissões</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item dropdown-item-custom" href="?secao=tipos-documentos">Tipos de documentos</a>
-
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item dropdown-item-custom" href="?secao=status-postagens">Status das postagens</a>
                         <a class="dropdown-item dropdown-item-custom" href="?secao=tipos-clipping">Tipos de clipping</a>
@@ -24,25 +23,12 @@
                         <a class="dropdown-item dropdown-item-custom" href="?secao=tipos-agendas">Tipos de agenda</a>
                         <a class="dropdown-item dropdown-item-custom" href="?secao=situacoes-agendas">Situações da agenda</a>
                         <div class="dropdown-divider"></div>
-
                         <a class="dropdown-item dropdown-item-custom" href="?secao=temas-proposicoes">Temas de proposições</a>
                         <a class="dropdown-item dropdown-item-custom" href="?secao=proposicoes_tramitacoes">Tramitações de proposições</a>
-
-
-
-
                     </div>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gabinete</a>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item dropdown-item-custom" href="?secao=usuarios"><i class="bi bi-people-fill"></i> Usuários</a>
-
-                        <div class="dropdown-divider"></div><a class="dropdown-item dropdown-item-custom" href="?secao=clientes"><i class="bi bi-person-fill-gear"></i> Clientes</a>
-
-                    </div>
-
-
+                <li class="nav-item">
+                    <a class="nav-link" href="?secao=meu-gabinete">Meu gabinete</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['usuario_nome'] ?></a>

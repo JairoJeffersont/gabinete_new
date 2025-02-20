@@ -50,9 +50,9 @@ class UsuarioModel {
     }
 
     public function listarUsuarios($usuario_gabinete) {
-        $query = "SELECT * FROM view_usuario WHERE usuario_gabinete = :gabinete ORDER BY usuario_criado_em DESC";
+        $query = "SELECT * FROM view_usuario WHERE usuario_cliente = :cliente ORDER BY usuario_criado_em DESC";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(':usuario_gabinete', $usuario_gabinete, PDO::PARAM_STR);
+        $stmt->bindValue(':cliente', $usuario_gabinete, PDO::PARAM_STR);
 
         $stmt->execute();
 

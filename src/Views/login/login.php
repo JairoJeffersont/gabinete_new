@@ -52,6 +52,9 @@ $loginController = new LoginController();
             </div>
         </form>
         <p class="mt-3 link"> <a href="?secao=recuperar-senha">Esqueceu a senha?</a> | <a href="?secao=cadastro">Cadastre seu gabinete</a></p>
-        <p class="mt-3 copyright"><?php echo date('Y') ?> | JS Digital System</p>
+        <p class="mt-3 copyright">
+            &copy; <?php echo date('Y'); ?> | Just Solutions. Todos os direitos reservados.
+        </p>
+
     </div>
 </div>

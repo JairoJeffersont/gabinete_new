@@ -53,14 +53,16 @@ class LoginController {
             'usuario_id' => $buscaUsuario['dados']['usuario_id'],
             'usuario_nome' => $buscaUsuario['dados']['usuario_nome'],
             'usuario_cliente' => $buscaUsuario['dados']['usuario_cliente'],
+            'usuario_tipo' => $buscaUsuario['dados']['usuario_tipo'],
             'usuario_tipo_nome' => $buscaUsuario['dados']['usuario_tipo_nome'],
             'cliente_nome' => $buscaUsuario['dados']['cliente_nome'],
-            'cliente_gabinete_estado' => $buscaUsuario['dados']['cliente_gabinete_estado']
+            'cliente_gabinete_estado' => $buscaUsuario['dados']['cliente_gabinete_estado'],
+            'cliente_gabinete_nome ' => $buscaUsuario['dados']['cliente_gabinete_nome ']
         ];
 
         $this->usuarioController->novoLog($_SESSION['usuario_id']);
 
-        $this->logger->novoLog('login.log', $_SESSION['usuario_id'].' | '.$_SESSION['usuario_nome'].' | '.$_SESSION['cliente_nome']);
+        $this->logger->novoLog('login.log', $_SESSION['usuario_id'].' | '.$_SESSION['usuario_nome'].' | '.$_SESSION['cliente_gabinete_nome']);
 
         return ['status' => 'success', 'message' => 'Login feito com sucesso.'];
     }
