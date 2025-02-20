@@ -57,7 +57,7 @@ class LoginController {
             'usuario_tipo_nome' => $buscaUsuario['dados']['usuario_tipo_nome'],
             'cliente_nome' => $buscaUsuario['dados']['cliente_nome'],
             'cliente_gabinete_estado' => $buscaUsuario['dados']['cliente_gabinete_estado'],
-            'cliente_gabinete_nome ' => $buscaUsuario['dados']['cliente_gabinete_nome ']
+            'cliente_gabinete_nome' => $buscaUsuario['dados']['cliente_gabinete_nome']
         ];
 
         $this->usuarioController->novoLog($_SESSION['usuario_id']);
