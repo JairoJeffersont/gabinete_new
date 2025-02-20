@@ -2,11 +2,12 @@
 
 namespace GabineteMvc\Controllers;
 
-use GabineteMvc\Middleware\Logger;
 use GabineteMvc\Models\UsuarioModel;
+use GabineteMvc\Middleware\Logger;
 use PDOException;
 
 class UsuarioController {
+
     private $usuarioModel;
     private $logger;
 
@@ -15,16 +16,9 @@ class UsuarioController {
         $this->logger = new Logger();
     }
 
-    //USUARIO CONTROLLER
+    // USUÁRIO CONTROLLER
     public function novoUsuario($dados) {
-
-        $nivel = isset($_SESSION['usuario_tipo']) ? $_SESSION['usuario_tipo'] : 2;
-
-        if ($nivel != 2) {
-            return ['status' => 'forbidden', 'message' => "Você não tem autorização para inserir novos usuários."];
-        }
-
-        $camposObrigatorios = ['usuario_cliente', 'usuario_nome', 'usuario_email', 'usuario_aniversario', 'usuario_telefone', 'usuario_senha', 'usuario_tipo', 'usuario_ativo'];
+        $camposObrigatorios = ['usuario_nome', 'usuario_email', 'usuario_telefone', 'usuario_senha', 'usuario_tipo', 'usuario_gabinete'];
 
         foreach ($camposObrigatorios as $campo) {
             if (!isset($dados[$campo])) {
@@ -35,6 +29,9 @@ class UsuarioController {
         if (!filter_var($dados['usuario_email'], FILTER_VALIDATE_EMAIL)) {
             return ['status' => 'invalid_email', 'message' => 'Email inválido.'];
         }
+
+        // Criptografar a senha
+        $dados['usuario_senha'] = password_hash($dados['usuario_senha'], PASSWORD_BCRYPT);
 
         try {
             $this->usuarioModel->criarUsuario($dados);
@@ -51,37 +48,27 @@ class UsuarioController {
     }
 
     public function atualizarUsuario($dados) {
-
-        //if ($_SESSION['usuario_tipo'] != 2) {
-        //    return ['status' => 'forbidden', 'message' => "Você não tem autorização para atualizar um usuário."];
-        // }
-
-        if ($dados['usuario_id'] != $_SESSION['usuario_id'] && $_SESSION['usuario_tipo'] != 2) {
-            return ['status' => 'forbidden', 'message' => "Você não tem autorização para atualizar esse usuário."];
-        }
-
-        $camposObrigatorios = ['usuario_nome', 'usuario_email', 'usuario_aniversario', 'usuario_telefone', 'usuario_tipo', 'usuario_ativo'];
-
-        foreach ($camposObrigatorios as $campo) {
-            if (!isset($dados[$campo])) {
-                return ['status' => 'bad_request', 'message' => "O campo '$campo' é obrigatório."];
-            }
-        }
-
-        if (!filter_var($dados['usuario_email'], FILTER_VALIDATE_EMAIL)) {
-            return ['status' => 'invalid_email', 'message' => 'Email inválido.'];
-        }
-
         try {
-            $usuario = $this->usuarioModel->buscaUsuario('usuario_id', $dados['usuario_id']);
+            $buscaUsuario = $this->usuarioModel->buscaUsuario('usuario_id', $dados['usuario_id']);
 
-            if ($usuario['usuario_id'] == $_SESSION['usuario_id'] && !$dados['usuario_ativo']) {
-                return ['status' => 'forbidden', 'message' => "Você não pode desativar esse usuário."];
-            }
-
-            if (!$usuario) {
+            if (!$buscaUsuario) {
                 return ['status' => 'not_found', 'message' => 'Usuário não encontrado'];
             }
+
+            $camposObrigatorios = ['usuario_nome', 'usuario_email', 'usuario_telefone', 'usuario_senha', 'usuario_tipo', 'usuario_gabinete'];
+
+            foreach ($camposObrigatorios as $campo) {
+                if (!isset($dados[$campo])) {
+                    return ['status' => 'bad_request', 'message' => "O campo '$campo' é obrigatório."];
+                }
+            }
+
+            if (!filter_var($dados['usuario_email'], FILTER_VALIDATE_EMAIL)) {
+                return ['status' => 'invalid_email', 'message' => 'Email inválido.'];
+            }
+
+            // Criptografar a senha
+            $dados['usuario_senha'] = password_hash($dados['usuario_senha'], PASSWORD_BCRYPT);
 
             $this->usuarioModel->atualizarUsuario($dados);
             return ['status' => 'success', 'message' => 'Usuário atualizado com sucesso'];
@@ -92,9 +79,9 @@ class UsuarioController {
         }
     }
 
-    public function buscaUsuario($coluna, $id) {
+    public function buscaUsuario($id) {
         try {
-            $resultado = $this->usuarioModel->buscaUsuario($coluna, $id);
+            $resultado = $this->usuarioModel->buscaUsuario('usuario_id', $id);
             if ($resultado) {
                 return ['status' => 'success', 'dados' => $resultado];
             } else {
@@ -107,11 +94,14 @@ class UsuarioController {
         }
     }
 
-    public function listarUsuarios($usuario_gabinete) {
+    public function listarUsuarios($itens, $pagina, $ordem, $ordenarPor, $gabinete) {
         try {
-            $resultado = $this->usuarioModel->listarUsuarios($usuario_gabinete);
+            $resultado = $this->usuarioModel->listarUsuarios($itens, $pagina, $ordem, $ordenarPor, $gabinete);
+
             if ($resultado) {
-                return ['status' => 'success', 'dados' => $resultado];
+                $total = (isset($resultado[0]['total_usuario'])) ? $resultado[0]['total_usuario'] : 0;
+                $totalPaginas = ceil($total / $itens);
+                return ['status' => 'success', 'total_paginas' => $totalPaginas, 'dados' => $resultado];
             } else {
                 return ['status' => 'not_found', 'message' => 'Nenhum usuário encontrado'];
             }
@@ -122,64 +112,29 @@ class UsuarioController {
         }
     }
 
-    public function apagarUsuario($usuario_id) {
-
-        if ($_SESSION['usuario_tipo'] != 2) {
-            return ['status' => 'forbidden', 'message' => "Você não tem autorização para apagar esse usuário."];
-        }
-
+    public function apagarUsuario($usuarioId) {
         try {
+            $buscaUsuario = $this->usuarioModel->buscaUsuario('usuario_id', $usuarioId);
 
-            $usuario = $this->usuarioModel->buscaUsuario('usuario_id', $usuario_id);
-
-            if ($usuario['usuario_id'] == $_SESSION['usuario_id']) {
-                return ['status' => 'forbidden', 'message' => "Você não pode apagar o gestor do gabinete."];
-            }
-
-            if (!$usuario) {
+            if (!$buscaUsuario) {
                 return ['status' => 'not_found', 'message' => 'Usuário não encontrado'];
             }
 
-            $this->usuarioModel->apagarUsuario($usuario_id);
+            $this->usuarioModel->apagarUsuario($usuarioId);
             return ['status' => 'success', 'message' => 'Usuário apagado com sucesso'];
         } catch (PDOException $e) {
-            $erro_id = uniqid();
-            $this->logger->novoLog('usuario_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
-            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
-        }
-    }
-
-
-    public function novoLog($usuario_id) {
-        try {
-            $this->usuarioModel->novoLog($usuario_id);
-            return ['status' => 'success', 'message' => 'Log inserido com sucesso'];
-        } catch (PDOException $e) {
-            $erro_id = uniqid();
-            $this->logger->novoLog('usuario_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
-            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
-        }
-    }
-
-    public function buscaLog($id) {
-        try {
-            $resultado = $this->usuarioModel->buscaLog($id);
-            if ($resultado) {
-                return ['status' => 'success', 'dados' => $resultado];
-            } else {
-                return ['status' => 'not_found', 'message' => 'Logs não encontrados'];
+            if (strpos($e->getMessage(), 'FOREIGN KEY') !== false) {
+                return ['status' => 'forbidden', 'message' => 'Não é possível apagar o usuário. Existem registros dependentes.'];
             }
-        } catch (PDOException $e) {
             $erro_id = uniqid();
-            $this->logger->novoLog('usuario_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            $this->logger->novoLog('usuario_log', $e->getMessage() . ' | ' . $erro_id);
             return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
         }
     }
 
-
-    //TIPO USUARIO CONTROLLER
-    public function novoUsuarioTipo($dados) {
-        $camposObrigatorios = ['usuario_tipo_id', 'usuario_tipo_nome', 'usuario_tipo_descricao'];
+    // TIPO USUÁRIO CONTROLLER
+    public function novoTipoUsuario($dados) {
+        $camposObrigatorios = ['usuario_tipo_nome', 'usuario_tipo_descricao'];
 
         foreach ($camposObrigatorios as $campo) {
             if (!isset($dados[$campo])) {
@@ -188,54 +143,48 @@ class UsuarioController {
         }
 
         try {
-            $this->usuarioModel->criarUsuarioTipo($dados);
+            $this->usuarioModel->criarTipoUsuario($dados);
             return ['status' => 'success', 'message' => 'Tipo de usuário inserido com sucesso'];
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
                 return ['status' => 'duplicated', 'message' => 'O tipo de usuário já está cadastrado'];
             } else {
                 $erro_id = uniqid();
-                $this->logger->novoLog('usuario_tipo_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+                $this->logger->novoLog('usuario_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
                 return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
             }
         }
     }
 
-    public function atualizarUsuarioTipo($dados) {
+    public function atualizarTipoUsuario($dados) {
         try {
-            $usuarioTipo = $this->usuarioModel->buscaUsuarioTipo($dados['usuario_tipo_id']);
 
-            if (!$usuarioTipo) {
+            $buscaTipo = $this->usuarioModel->buscaTipoUsuario($dados['usuario_tipo_id']);
+
+            if (!$buscaTipo) {
                 return ['status' => 'not_found', 'message' => 'Tipo de usuário não encontrado'];
             }
 
-            $this->usuarioModel->atualizarUsuarioTipo($dados);
+            $camposObrigatorios = ['usuario_tipo_nome', 'usuario_tipo_descricao'];
+
+            foreach ($camposObrigatorios as $campo) {
+                if (!isset($dados[$campo])) {
+                    return ['status' => 'bad_request', 'message' => "O campo '$campo' é obrigatório."];
+                }
+            }
+
+            $this->usuarioModel->atualizarTipoUsuario($dados);
             return ['status' => 'success', 'message' => 'Tipo de usuário atualizado com sucesso'];
         } catch (PDOException $e) {
             $erro_id = uniqid();
-            $this->logger->novoLog('usuario_tipo_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            $this->logger->novoLog('usuario_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
             return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
         }
     }
 
-    public function buscaUsuarioTipo($id) {
+    public function listarTipoUsuario() {
         try {
-            $resultado = $this->usuarioModel->buscaUsuarioTipo($id);
-            if ($resultado) {
-                return ['status' => 'success', 'dados' => $resultado];
-            } else {
-                return ['status' => 'not_found', 'message' => 'Tipo de usuário não encontrado'];
-            }
-        } catch (PDOException $e) {
-            $erro_id = uniqid();
-            $this->logger->novoLog('usuario_tipo_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
-            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
-        }
-    }
-
-    public function listarUsuariosTipos() {
-        try {
-            $resultado = $this->usuarioModel->listarUsuarioTipos();
+            $resultado = $this->usuarioModel->listarTiposUsuario();
             if ($resultado) {
                 return ['status' => 'success', 'dados' => $resultado];
             } else {
@@ -243,24 +192,42 @@ class UsuarioController {
             }
         } catch (PDOException $e) {
             $erro_id = uniqid();
-            $this->logger->novoLog('usuario_tipo_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            $this->logger->novoLog('usuario_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
             return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
         }
     }
 
-    public function apagarUsuarioTipo($usuario_tipo_id) {
+    public function buscaTipoUsuario($id) {
         try {
-            $usuarioTipo = $this->usuarioModel->buscaUsuarioTipo($usuario_tipo_id);
+            $resultado = $this->usuarioModel->buscaTipoUsuario($id);
+            if ($resultado) {
+                return ['status' => 'success', 'dados' => $resultado];
+            } else {
+                return ['status' => 'not_found', 'message' => 'Tipo de usuário não encontrado'];
+            }
+        } catch (PDOException $e) {
+            $erro_id = uniqid();
+            $this->logger->novoLog('usuario_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
 
-            if (!$usuarioTipo) {
+    public function apagarTipoUsuario($tipoId) {
+        try {
+            $buscaTipo = $this->usuarioModel->buscaTipoUsuario($tipoId);
+
+            if (!$buscaTipo) {
                 return ['status' => 'not_found', 'message' => 'Tipo de usuário não encontrado'];
             }
 
-            $this->usuarioModel->apagarUsuarioTipo($usuario_tipo_id);
+            $this->usuarioModel->apagarTipoUsuario($tipoId);
             return ['status' => 'success', 'message' => 'Tipo de usuário apagado com sucesso'];
         } catch (PDOException $e) {
+            if (strpos($e->getMessage(), 'FOREIGN KEY') !== false) {
+                return ['status' => 'forbidden', 'message' => 'Não é possível apagar o tipo de usuário. Existem registros dependentes.'];
+            }
             $erro_id = uniqid();
-            $this->logger->novoLog('usuario_tipo_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            $this->logger->novoLog('usuario_log', $e->getMessage() . ' | ' . $erro_id);
             return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
         }
     }

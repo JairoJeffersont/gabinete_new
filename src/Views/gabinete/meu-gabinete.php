@@ -170,11 +170,9 @@ $totalUsuarios = count($buscaUsuario['dados']);
                                     echo '<tr><td colspan="6">' . $buscaUsuario['message'] . ' | Código do erro: ' . $buscaUsuario['error_id'] . '</td></tr>';
                                 }
                                 ?>
-
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
         </div>

@@ -3,23 +3,23 @@
 namespace GabineteMvc\Controllers;
 
 use GabineteMvc\Middleware\Logger;
-use GabineteMvc\Models\ClienteModel;
+use GabineteMvc\Models\GabineteModel;
 use PDOException;
 
-class ClienteController {
+class GabineteController {
 
-    private $clienteModel;
+    private $gabineteModel;
     private $logger;
 
     public function __construct() {
-        $this->clienteModel = new ClienteModel();
+        $this->gabineteModel = new GabineteModel();
         $this->logger = new Logger();
     }
 
-    //CLIENTE CONTROLLER
-    public function novoCliente($dados) {
+    // GABINETE CONTROLLER
+    public function novoGabinete($dados) {
 
-        $camposObrigatorios = ['cliente_nome', 'cliente_email', 'cliente_telefone', 'cliente_usuarios', 'cliente_gabinete_nome', 'cliente_gabinete_estado', 'cliente_gabinete_tipo'];
+        $camposObrigatorios = ['gabinete_nome', 'gabinete_email', 'gabinete_telefone', 'gabinete_usuarios', 'gabinete_nome', 'gabinete_estado', 'gabinete_tipo'];
 
         foreach ($camposObrigatorios as $campo) {
             if (!isset($dados[$campo])) {
@@ -27,35 +27,34 @@ class ClienteController {
             }
         }
 
-        if (!filter_var($dados['cliente_email'], FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($dados['gabinete_email'], FILTER_VALIDATE_EMAIL)) {
             return ['status' => 'invalid_email', 'message' => 'Email inválido.'];
         }
 
         try {
-            $dados['cliente_ativo'] = 1;
-            $this->clienteModel->criarCliente($dados);
-            return ['status' => 'success', 'message' => 'Cliente inserido com sucesso'];
+            $this->gabineteModel->criarGabinete($dados);
+            return ['status' => 'success', 'message' => 'Gabinete inserido com sucesso'];
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-                return ['status' => 'duplicated', 'message' => 'O cliente já esta cadastrado'];
+                return ['status' => 'duplicated', 'message' => 'O gabinete já está cadastrado'];
             } else {
                 $erro_id = uniqid();
-                $this->logger->novoLog('cliente_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+                $this->logger->novoLog('gabinete_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
                 return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
             }
         }
     }
 
-    public function atualizarCliente($dados) {
+    public function atualizarGabinete($dados) {
         try {
 
-            $buscaCliente = $this->clienteModel->buscaCliente('cliente_id', $dados['cliente_id']);
+            $buscaGabinete = $this->gabineteModel->buscaGabinete('gabinete_id', $dados['gabinete_id']);
 
-            if (!$buscaCliente) {
-                return ['status' => 'not_found', 'message' => 'Cliente não encontrado'];
+            if (!$buscaGabinete) {
+                return ['status' => 'not_found', 'message' => 'Gabinete não encontrado'];
             }
 
-            $camposObrigatorios = ['cliente_id', 'cliente_nome', 'cliente_email', 'cliente_telefone', 'cliente_ativo', 'cliente_usuarios', 'cliente_gabinete_nome', 'cliente_gabinete_estado', 'cliente_gabinete_tipo'];
+            $camposObrigatorios = ['gabinete_nome', 'gabinete_email', 'gabinete_telefone', 'gabinete_usuarios', 'gabinete_estado', 'gabinete_tipo'];
 
             foreach ($camposObrigatorios as $campo) {
                 if (!isset($dados[$campo])) {
@@ -63,26 +62,26 @@ class ClienteController {
                 }
             }
 
-            if (!filter_var($dados['cliente_email'], FILTER_VALIDATE_EMAIL)) {
+            if (!filter_var($dados['gabinete_email'], FILTER_VALIDATE_EMAIL)) {
                 return ['status' => 'invalid_email', 'message' => 'Email inválido.'];
             }
 
-            $this->clienteModel->atualizarCliente($dados);
-            return ['status' => 'success', 'message' => 'Cliente atualizado com sucesso'];
+            $this->gabineteModel->atualizarGabinete($dados);
+            return ['status' => 'success', 'message' => 'Gabinete atualizado com sucesso'];
         } catch (PDOException $e) {
             $erro_id = uniqid();
-            $this->logger->novoLog('cliente_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            $this->logger->novoLog('gabinete_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
             return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
         }
     }
 
-    public function buscaCliente($id) {
+    public function buscaGabinete($id) {
         try {
-            $resultado = $this->clienteModel->buscaCliente('cliente_id', $id);
+            $resultado = $this->gabineteModel->buscaGabinete('gabinete_id', $id);
             if ($resultado) {
                 return ['status' => 'success', 'dados' => $resultado];
             } else {
-                return ['status' => 'not_found', 'message' => 'Cliente não encontrado'];
+                return ['status' => 'not_found', 'message' => 'Gabinete não encontrado'];
             }
         } catch (PDOException $e) {
             $erro_id = uniqid();
@@ -91,48 +90,48 @@ class ClienteController {
         }
     }
 
-    public function listarClientes($itens, $pagina, $ordem, $ordenarPor) {
+    public function listarGabinetes($itens, $pagina, $ordem, $ordenarPor) {
         try {
-            $resultado = $this->clienteModel->listarCliente($itens, $pagina, $ordem, $ordenarPor);
+            $resultado = $this->gabineteModel->listarGabinete($itens, $pagina, $ordem, $ordenarPor);
 
             if ($resultado) {
-                $total = (isset($resultado[0]['total_cliente'])) ? $resultado[0]['total_cliente'] : 0;
+                $total = (isset($resultado[0]['total_gabinete'])) ? $resultado[0]['total_gabinete'] : 0;
                 $totalPaginas = ceil($total / $itens);
                 return ['status' => 'success', 'total_paginas' => $totalPaginas, 'dados' => $resultado];
             } else {
-                return ['status' => 'not_found', 'message' => 'Nenhum cliente encontrado'];
+                return ['status' => 'not_found', 'message' => 'Nenhum gabinete encontrado'];
             }
         } catch (PDOException $e) {
             $erro_id = uniqid();
-            $this->logger->novoLog('cliente_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            $this->logger->novoLog('gabinete_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
             return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
         }
     }
 
-    public function apagarCliente($clienteId) {
+    public function apagarGabinete($gabineteId) {
         try {
-            $buscaCliente = $this->clienteModel->buscaCliente('cliente_id', $clienteId);
+            $buscaGabinete = $this->gabineteModel->buscaGabinete('gabinete_id', $gabineteId);
 
-            if (!$buscaCliente) {
-                return ['status' => 'not_found', 'message' => 'Cliente não encontrado'];
+            if (!$buscaGabinete) {
+                return ['status' => 'not_found', 'message' => 'Gabinete não encontrado'];
             }
 
-            $this->clienteModel->apagarCliente($clienteId);
-            return ['status' => 'success', 'message' => 'Cliente apagado com sucesso'];
+            $this->gabineteModel->apagarGabinete($gabineteId);
+            return ['status' => 'success', 'message' => 'Gabinete apagado com sucesso'];
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), 'FOREIGN KEY') !== false) {
-                return ['status' => 'forbidden', 'message' => 'Não é possível apagar o cliente. Existem registros dependentes.'];
+                return ['status' => 'forbidden', 'message' => 'Não é possível apagar o gabinete. Existem registros dependentes.'];
             }
             $erro_id = uniqid();
-            $this->logger->novoLog('cliente_log', $e->getMessage() . ' | ' . $erro_id);
+            $this->logger->novoLog('gabinete_log', $e->getMessage() . ' | ' . $erro_id);
             return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
         }
     }
 
-    //TIPO GABINETE CONTROLLER
+    // TIPO GABINETE CONTROLLER
     public function novoTipoGabinete($dados) {
 
-        $camposObrigatorios = ['tipo_gabinete_nome', 'tipo_gabinete_informacoes'];
+        $camposObrigatorios = ['gabinete_tipo_nome', 'gabinete_tipo_informacoes'];
 
         foreach ($camposObrigatorios as $campo) {
             if (!isset($dados[$campo])) {
@@ -141,14 +140,14 @@ class ClienteController {
         }
 
         try {
-            $this->clienteModel->criarTipoGabinete($dados);
+            $this->gabineteModel->criarTipoGabinete($dados);
             return ['status' => 'success', 'message' => 'Tipo de gabinete inserido com sucesso'];
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-                return ['status' => 'duplicated', 'message' => 'O tipo de gabinete já esta cadastrado'];
+                return ['status' => 'duplicated', 'message' => 'O tipo de gabinete já está cadastrado'];
             } else {
                 $erro_id = uniqid();
-                $this->logger->novoLog('cliente_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+                $this->logger->novoLog('gabinete_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
                 return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
             }
         }
@@ -157,13 +156,13 @@ class ClienteController {
     public function atualizarTipoGabinete($dados) {
         try {
 
-            $buscaTipo = $this->clienteModel->buscaTipoGabinete($dados['tipo_gabinete_id']);
+            $buscaTipo = $this->gabineteModel->buscaTipoGabinete($dados['gabinete_tipo_id']);
 
             if (!$buscaTipo) {
-                return ['status' => 'not_found', 'message' => 'Tipo de gabiente não encontrado'];
+                return ['status' => 'not_found', 'message' => 'Tipo de gabinete não encontrado'];
             }
 
-            $camposObrigatorios = ['tipo_gabinete_nome', 'tipo_gabinete_informacoes'];
+            $camposObrigatorios = ['gabinete_tipo_nome', 'gabinete_tipo_informacoes'];
 
             foreach ($camposObrigatorios as $campo) {
                 if (!isset($dados[$campo])) {
@@ -171,41 +170,37 @@ class ClienteController {
                 }
             }
 
-            if (!filter_var($dados['cliente_email'], FILTER_VALIDATE_EMAIL)) {
-                return ['status' => 'invalid_email', 'message' => 'Email inválido.'];
-            }
-
-            $this->clienteModel->atualizarCliente($dados);
+            $this->gabineteModel->atualizarTipoGabinete($dados);
             return ['status' => 'success', 'message' => 'Tipo de gabinete atualizado com sucesso'];
         } catch (PDOException $e) {
             $erro_id = uniqid();
-            $this->logger->novoLog('cliente_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            $this->logger->novoLog('gabinete_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
             return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
         }
     }
 
     public function listarTipoGabinete() {
         try {
-            $resultado = $this->clienteModel->listarTipoGabinete();
+            $resultado = $this->gabineteModel->listarTipoGabinete();
             if ($resultado) {
                 return ['status' => 'success', 'dados' => $resultado];
             } else {
-                return ['status' => 'not_found', 'message' => 'Nenhum tipo encontrado encontrado'];
+                return ['status' => 'not_found', 'message' => 'Nenhum tipo de gabinete encontrado'];
             }
         } catch (PDOException $e) {
             $erro_id = uniqid();
-            $this->logger->novoLog('cliente_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            $this->logger->novoLog('gabinete_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
             return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
         }
     }
 
     public function buscaTipoGabinete($id) {
         try {
-            $resultado = $this->clienteModel->buscaTipoGabinete($id);
+            $resultado = $this->gabineteModel->buscaTipoGabinete($id);
             if ($resultado) {
                 return ['status' => 'success', 'dados' => $resultado];
             } else {
-                return ['status' => 'not_found', 'message' => 'Tipo gabinete não encontrado'];
+                return ['status' => 'not_found', 'message' => 'Tipo de gabinete não encontrado'];
             }
         } catch (PDOException $e) {
             $erro_id = uniqid();
@@ -216,20 +211,20 @@ class ClienteController {
 
     public function apagarTipoGabinete($tipoId) {
         try {
-            $buscaTipo = $this->clienteModel->buscaTipoGabinete($tipoId);
+            $buscaTipo = $this->gabineteModel->buscaTipoGabinete($tipoId);
 
             if (!$buscaTipo) {
-                return ['status' => 'not_found', 'message' => 'Tipo gabinete não encontrado'];
+                return ['status' => 'not_found', 'message' => 'Tipo de gabinete não encontrado'];
             }
 
-            $this->clienteModel->apagarTipoGabinete($tipoId);
-            return ['status' => 'success', 'message' => 'Tipo gabinete apagado com sucesso'];
+            $this->gabineteModel->apagarTipoGabinete($tipoId);
+            return ['status' => 'success', 'message' => 'Tipo de gabinete apagado com sucesso'];
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), 'FOREIGN KEY') !== false) {
-                return ['status' => 'forbidden', 'message' => 'Não é possível apagar o tipo. Existem registros dependentes.'];
+                return ['status' => 'forbidden', 'message' => 'Não é possível apagar o tipo de gabinete. Existem registros dependentes.'];
             }
             $erro_id = uniqid();
-            $this->logger->novoLog('cliente_log', $e->getMessage() . ' | ' . $erro_id);
+            $this->logger->novoLog('gabinete_log', $e->getMessage() . ' | ' . $erro_id);
             return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
         }
     }
