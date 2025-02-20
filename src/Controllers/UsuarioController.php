@@ -45,7 +45,7 @@ class UsuarioController {
 
     public function atualizarUsuario($dados) {
         try {
-            $usuario = $this->usuarioModel->buscaUsuario($dados['usuario_id']);
+            $usuario = $this->usuarioModel->buscaUsuario('usuario_id', $dados['usuario_id']);
 
             if (!$usuario) {
                 return ['status' => 'not_found', 'message' => 'Usuário não encontrado'];
@@ -60,9 +60,9 @@ class UsuarioController {
         }
     }
 
-    public function buscaUsuario($id) {
+    public function buscaUsuario($coluna, $id) {
         try {
-            $resultado = $this->usuarioModel->buscaUsuario($id);
+            $resultado = $this->usuarioModel->buscaUsuario($coluna, $id);
             if ($resultado) {
                 return ['status' => 'success', 'dados' => $resultado];
             } else {
@@ -92,7 +92,7 @@ class UsuarioController {
 
     public function apagarUsuario($usuario_id) {
         try {
-            $usuario = $this->usuarioModel->buscaUsuario($usuario_id);
+            $usuario = $this->usuarioModel->buscaUsuario('usuario_id', $usuario_id);
 
             if (!$usuario) {
                 return ['status' => 'not_found', 'message' => 'Usuário não encontrado'];
@@ -100,6 +100,18 @@ class UsuarioController {
 
             $this->usuarioModel->apagarUsuario($usuario_id);
             return ['status' => 'success', 'message' => 'Usuário apagado com sucesso'];
+        } catch (PDOException $e) {
+            $erro_id = uniqid();
+            $this->logger->novoLog('usuario_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
+
+    public function novoLog($usuario_id) {
+        try {
+            $this->usuarioModel->novoLog($usuario_id);
+            return ['status' => 'success', 'message' => 'Log inserido com sucesso'];
         } catch (PDOException $e) {
             $erro_id = uniqid();
             $this->logger->novoLog('usuario_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');

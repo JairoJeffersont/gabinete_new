@@ -50,6 +50,15 @@ CREATE TABLE
     CONSTRAINT fk_usuario_tipo FOREIGN KEY (usuario_tipo) REFERENCES usuario_tipo (usuario_tipo_id)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
+CREATE TABLE 
+  usuario_log (
+    log_id INT AUTO_INCREMENT,
+    log_usuario VARCHAR(36),
+    log_data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (log_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
 INSERT INTO tipo_gabinete (tipo_gabinete_id, tipo_gabinete_nome, tipo_gabinete_informacoes)
   VALUES
     (1, 'Outro', 'Gabinete administrativo'),
@@ -76,5 +85,5 @@ INSERT INTO usuario (usuario_id, usuario_cliente, usuario_nome, usuario_email, u
   VALUES (1, 1, 'USUÁRIO SISTEMA', 'USUARIO@SISTEMA.COM', '2000-01-01', '55555555', '123456789', 1, 1);
 
 CREATE VIEW view_cliente AS SELECT cliente.*, tipo_gabinete.tipo_gabinete_nome FROM cliente INNER JOIN tipo_gabinete ON cliente.cliente_gabinete_tipo = tipo_gabinete.tipo_gabinete_id;
-CREATE VIEW view_usuario AS SELECT usuario.*, cliente.cliente_nome, usuario_tipo.usuario_tipo_nome FROM usuario INNER JOIN cliente ON usuario.usuario_cliente = cliente.cliente_id INNER JOIN usuario_tipo ON usuario.usuario_tipo = usuario_tipo.usuario_tipo_id;   
+CREATE VIEW view_usuario AS SELECT usuario.*, cliente.cliente_nome, cliente.cliente_gabinete_estado, cliente.cliente_gabinete_estado, usuario_tipo.usuario_tipo_nome FROM usuario INNER JOIN cliente ON usuario.usuario_cliente = cliente.cliente_id INNER JOIN usuario_tipo ON usuario.usuario_tipo = usuario_tipo.usuario_tipo_id;   
 

@@ -50,7 +50,7 @@ class UsuarioModel {
     }
 
     public function listarUsuarios($usuario_gabinete) {
-        $query = "SELECT * FROM usuario WHERE usuario_gabinete = :gabinete ORDER BY usuario_criado_em DESC";
+        $query = "SELECT * FROM view_usuario WHERE usuario_gabinete = :gabinete ORDER BY usuario_criado_em DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':usuario_gabinete', $usuario_gabinete, PDO::PARAM_STR);
 
@@ -59,10 +59,10 @@ class UsuarioModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function buscaUsuario($id) {
-        $query = "SELECT * FROM usuario WHERE usuario_id = :id";
+    public function buscaUsuario($coluna, $valor) {
+        $query = "SELECT * FROM view_usuario WHERE $coluna = :valor";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmt->bindValue(':valor', $valor, PDO::PARAM_STR);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
@@ -74,6 +74,17 @@ class UsuarioModel {
         $stmt->bindValue(':usuario_id', $usuario_id, PDO::PARAM_STR);
         return $stmt->execute();
     }
+
+
+    public function novoLog($usuario_id) {
+        $query = 'INSERT INTO usuario_log (log_usuario) VALUES (:usuario_id)';
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':usuario_id', $usuario_id, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
 
     // USUÁRIO TIPO
     public function criarUsuarioTipo($dados) {
