@@ -17,6 +17,7 @@ class GabineteModel {
         // Inicializando todos os dados com valores padrão caso não sejam enviados
         $gabinete_tipo = isset($dados['gabinete_tipo']) ? $dados['gabinete_tipo'] : '';
         $gabinete_nome = isset($dados['gabinete_nome']) ? $dados['gabinete_nome'] : '';
+        $gabinete_nome_sistema = isset($dados['gabinete_nome_sistema']) ? $dados['gabinete_nome_sistema'] : '';
         $gabinete_endereco = isset($dados['gabinete_endereco']) ? $dados['gabinete_endereco'] : '';
         $gabinete_municipio = isset($dados['gabinete_municipio']) ? $dados['gabinete_municipio'] : '';
         $gabinete_estado = isset($dados['gabinete_estado']) ? $dados['gabinete_estado'] : '';
@@ -25,12 +26,13 @@ class GabineteModel {
         $gabinete_usuarios = isset($dados['gabinete_usuarios']) ? $dados['gabinete_usuarios'] : '';
 
         // Inserindo um novo gabinete
-        $query = 'INSERT INTO gabinete(gabinete_id, gabinete_tipo, gabinete_nome, gabinete_endereco, gabinete_municipio, gabinete_estado, gabinete_email, gabinete_telefone, gabinete_usuarios) 
-                  VALUES (UUID(), :gabinete_tipo, :gabinete_nome, :gabinete_endereco, :gabinete_municipio, :gabinete_estado, :gabinete_email, :gabinete_telefone, :gabinete_usuarios);';
+        $query = 'INSERT INTO gabinete(gabinete_id, gabinete_tipo, gabinete_nome, gabinete_nome_sistema,  gabinete_endereco, gabinete_municipio, gabinete_estado, gabinete_email, gabinete_telefone, gabinete_usuarios) 
+                  VALUES (UUID(), :gabinete_tipo, :gabinete_nome, :gabinete_nome_sistema, :gabinete_endereco, :gabinete_municipio, :gabinete_estado, :gabinete_email, :gabinete_telefone, :gabinete_usuarios);';
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':gabinete_tipo', $gabinete_tipo, PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_nome', $gabinete_nome, PDO::PARAM_STR);
+        $stmt->bindValue(':gabinete_nome_sistema', $gabinete_nome_sistema, PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_endereco', $gabinete_endereco, PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_municipio', $gabinete_municipio, PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_estado', $gabinete_estado, PDO::PARAM_STR);

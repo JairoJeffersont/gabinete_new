@@ -19,7 +19,7 @@ class GabineteController {
     // GABINETE CONTROLLER
     public function novoGabinete($dados) {
 
-        $camposObrigatorios = ['gabinete_usuarios', 'gabinete_usuarios', 'gabinete_nome', 'gabinete_estado', 'gabinete_tipo'];
+        $camposObrigatorios = ['gabinete_usuarios', 'gabinete_usuarios', 'gabinete_nome', 'gabinete_nome_sistema', 'gabinete_estado', 'gabinete_tipo'];
 
         foreach ($camposObrigatorios as $campo) {
             if (!isset($dados[$campo])) {

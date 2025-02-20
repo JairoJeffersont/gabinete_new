@@ -20,11 +20,25 @@ $usuarioController = new UsuarioController();
 
         <?php
 
+
+        function sanitizarNomeSistema($nome) {
+            $nome = mb_strtolower($nome, 'UTF-8');
+            $nome = preg_replace(
+                array("/(á|à|ã|â|ä)/", "/(é|è|ê|ë)/", "/(í|ì|î|ï)/", "/(ó|ò|õ|ô|ö)/", "/(ú|ù|û|ü)/", "/(ñ)/", "/(ç)/"),
+                array("a", "e", "i", "o", "u", "n", "c"),
+                $nome
+            );
+            $nome = str_replace(' ', '-', $nome);
+            $nome = preg_replace('/[^\w-]/', '', $nome);
+
+            return $nome;
+        }
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_salvar'])) {
 
             if ($_POST['usuario_senha'] == $_POST['usuario_senha2']) {
                 $gabinete = [
                     'gabinete_nome' => htmlspecialchars($_POST['gabinete_nome'], ENT_QUOTES, 'UTF-8'),
+                    'gabinete_nome_sistema' => sanitizarNomeSistema(htmlspecialchars($_POST['gabinete_nome'], ENT_QUOTES, 'UTF-8')),
                     'gabinete_tipo' => htmlspecialchars($_POST['gabinete_tipo'], ENT_QUOTES, 'UTF-8'),
                     'gabinete_estado' => htmlspecialchars($_POST['gabinete_estado'], ENT_QUOTES, 'UTF-8'),
                     'gabinete_usuarios' => htmlspecialchars($_POST['gabinete_usuarios'], ENT_QUOTES, 'UTF-8')
@@ -56,9 +70,9 @@ $usuarioController = new UsuarioController();
                         echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="0" role="alert">' . $resultUsuario['message'] . ' | Código do erro: ' . $result['id_erro'] . '</div>';
                     }
                 } else if ($resultGabinete['status'] == 'error' || $resultGabinete['status'] == 'duplicated') {
-                    echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">'.$resultGabinete['message'].'</div>';
+                    echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">' . $resultGabinete['message'] . '</div>';
                 }
-            }else{
+            } else {
                 echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">Senhas não conferem.</div>';
             }
         }

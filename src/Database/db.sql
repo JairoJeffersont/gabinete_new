@@ -13,7 +13,8 @@ CREATE TABLE
   gabinete (
     gabinete_id varchar(36) NOT NULL,
     gabinete_tipo varchar(36) NOT NULL,
-    gabinete_nome varchar(50) NOT NULL UNIQUE,
+    gabinete_nome varchar(50) NOT NULL,
+    gabinete_nome_sistema varchar(50) NOT NULL UNIQUE,
     gabinete_usuarios varchar(50) NOT NULL,
     gabinete_endereco varchar(255) DEFAULT NULL,
     gabinete_municipio varchar(50) DEFAULT NULL,
@@ -73,7 +74,9 @@ INSERT INTO gabinete_tipo (gabinete_tipo_id, gabinete_tipo_nome, gabinete_tipo_i
     (4, 'Vereador', 'Gabinete destinado a um vereador nas câmaras municipais'),
     (5, 'Prefeito', 'Gabinete destinado ao prefeito de um município'),
     (6, 'Governador', 'Gabinete destinado ao governador de um estado'),
-    (7, 'Senador', 'Gabinete destinado a um senador no Senado Federal');  
+    (7, 'Senador', 'Gabinete destinado a um senador no Senado Federal'), 
+    (8, 'Secretaria de municipio', 'Secretaria de um munícipio'),
+    (9, 'Secretaria de estado', 'Secretaria de um estado');  
 
 INSERT INTO usuario_tipo (usuario_tipo_id, usuario_tipo_nome, usuario_tipo_descricao) 
   VALUES 
