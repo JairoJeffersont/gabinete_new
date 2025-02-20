@@ -24,12 +24,13 @@ $buscaGabinete = $gabineteController->buscaGabinete($buscaUsuario['dados']['usua
         <?php include './src/Views/menus/top_menu.php'; ?>
         <div class="container-fluid p-2">
             <?php
-
             if (empty($buscaGabinete['dados']['gabinete_endereco']) || empty($buscaGabinete['dados']['gabinete_municipio']) || empty($buscaGabinete['dados']['gabinete_email']) || empty($buscaGabinete['dados']['gabinete_telefone'])) {
                 include 'config-inicial.php';
+            }else{
+                include 'dashboard.php';
             }
-
             ?>
+           
         </div>
     </div>
 </div>
