@@ -15,7 +15,7 @@ CREATE TABLE
     cliente_telefone varchar(20) NOT NULL,
     cliente_ativo tinyint (1) NOT NULL,
     cliente_usuarios int NOT NULL DEFAULT 1,  
-    cliente_gabinete_nome varchar(36) NOT NULL,
+    cliente_gabinete_nome varchar(36) NOT NULL UNIQUE,
     cliente_gabinete_estado varchar(2) NOT NULL,
     cliente_gabinete_tipo varchar(36) NOT NULL,
     cliente_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -85,5 +85,5 @@ INSERT INTO usuario (usuario_id, usuario_cliente, usuario_nome, usuario_email, u
   VALUES (1, 1, 'USUÁRIO SISTEMA', 'USUARIO@SISTEMA.COM', '2000-01-01', '55555555', '123456789', 1, 1);
 
 CREATE VIEW view_cliente AS SELECT cliente.*, tipo_gabinete.tipo_gabinete_nome FROM cliente INNER JOIN tipo_gabinete ON cliente.cliente_gabinete_tipo = tipo_gabinete.tipo_gabinete_id;
-CREATE VIEW view_usuario AS SELECT usuario.*, cliente.cliente_nome, cliente.cliente_gabinete_estado, cliente.cliente_gabinete_estado, usuario_tipo.usuario_tipo_nome FROM usuario INNER JOIN cliente ON usuario.usuario_cliente = cliente.cliente_id INNER JOIN usuario_tipo ON usuario.usuario_tipo = usuario_tipo.usuario_tipo_id;   
+CREATE VIEW view_usuario AS SELECT usuario.*, cliente.cliente_nome, cliente.cliente_gabinete_estado, usuario_tipo.usuario_tipo_nome FROM usuario INNER JOIN cliente ON usuario.usuario_cliente = cliente.cliente_id INNER JOIN usuario_tipo ON usuario.usuario_tipo = usuario_tipo.usuario_tipo_id;   
 

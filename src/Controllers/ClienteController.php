@@ -19,7 +19,7 @@ class ClienteController {
     //CLIENTE CONTROLLER
     public function novoCliente($dados) {
 
-        $camposObrigatorios = ['cliente_id', 'cliente_nome', 'cliente_email', 'cliente_telefone', 'cliente_ativo', 'cliente_usuarios', 'cliente_gabinete_nome', 'cliente_gabinete_estado', 'cliente_gabinete_tipo'];
+        $camposObrigatorios = ['cliente_nome', 'cliente_email', 'cliente_telefone', 'cliente_usuarios', 'cliente_gabinete_nome', 'cliente_gabinete_estado', 'cliente_gabinete_tipo'];
 
         foreach ($camposObrigatorios as $campo) {
             if (!isset($dados[$campo])) {
@@ -32,6 +32,7 @@ class ClienteController {
         }
 
         try {
+            $dados['cliente_ativo'] = 1;
             $this->clienteModel->criarCliente($dados);
             return ['status' => 'success', 'message' => 'Cliente inserido com sucesso'];
         } catch (PDOException $e) {
