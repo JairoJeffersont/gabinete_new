@@ -39,8 +39,7 @@ $totalUsuarios = count($buscaUsuario['dados']);
             <div class="card mb-2">
                 <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-house-door"></i> Meu gabinete</div>
                 <div class="card-body card_descricao_body p-2">
-                    <h5 class="card-title mb-2">Gabinete: <?php echo $buscaCliente['dados']['cliente_gabinete_nome'] . '/' . $buscaCliente['dados']['cliente_gabinete_estado'] ?></h5>
-                    <p class="card-text mb-2">Gestor: <?php echo $buscaCliente['dados']['cliente_nome'] ?></p>
+                    <h5 class="card-title mb-2">Gabinete: <?php echo $buscaCliente['dados']['cliente_gabinete_nome'] . '/' . $buscaCliente['dados']['cliente_gabinete_estado'] ?></h5>                    
                     <p class="card-text mb-0">Licenças: <?php echo $buscaCliente['dados']['cliente_usuarios'] ?><?php echo $_SESSION['usuario_tipo'] == 2 ? '<a href="#"> | faça upgrade do plano</a>' : '' ?></p>
                 </div>
             </div>
@@ -155,7 +154,7 @@ $totalUsuarios = count($buscaUsuario['dados']);
 
                                 <?php
                                 if ($buscaUsuario['status'] == 'success') {
-                                    foreach ($buscaUsuario['dados'] as $usuario) {
+                                    foreach ($buscaUsuario['dados'] as $usuario) {                                        
                                         echo '<tr>';
                                         echo '<td style="white-space: nowrap; justify-content: center; align-items: center;"><a href="?secao=usuario&id=' . $usuario['usuario_id'] . '">' . $usuario['usuario_nome'] . '</a></td>';
                                         echo '<td style="white-space: nowrap;">' . $usuario['usuario_email'] . '</td>';

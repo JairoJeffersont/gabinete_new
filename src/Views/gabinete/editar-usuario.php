@@ -30,7 +30,6 @@ if ($buscaUsuario['status'] == 'not_found' || $buscaUsuario['status'] == 'error'
     <div id="page-content-wrapper">
         <?php include './src/Views/menus/top_menu.php'; ?>
         <div class="container-fluid p-2">
-
             <div class="card mb-2 ">
                 <div class="card-body p-1">
                     <a class="btn btn-primary btn-sm custom-nav barra_navegacao" href="?secao=home" role="button"><i class="bi bi-house-door-fill"></i> Início</a>

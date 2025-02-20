@@ -52,8 +52,12 @@ class UsuarioController {
 
     public function atualizarUsuario($dados) {
 
-        if ($_SESSION['usuario_tipo'] != 2) {
-            return ['status' => 'forbidden', 'message' => "Você não tem autorização para atualizar um usuário."];
+        //if ($_SESSION['usuario_tipo'] != 2) {
+        //    return ['status' => 'forbidden', 'message' => "Você não tem autorização para atualizar um usuário."];
+        // }
+
+        if ($dados['usuario_id'] != $_SESSION['usuario_id'] && $_SESSION['usuario_tipo'] != 2) {
+            return ['status' => 'forbidden', 'message' => "Você não tem autorização para atualizar esse usuário."];
         }
 
         $camposObrigatorios = ['usuario_nome', 'usuario_email', 'usuario_aniversario', 'usuario_telefone', 'usuario_tipo', 'usuario_ativo'];
@@ -71,8 +75,8 @@ class UsuarioController {
         try {
             $usuario = $this->usuarioModel->buscaUsuario('usuario_id', $dados['usuario_id']);
 
-            if ($usuario['usuario_nome'] == $_SESSION['cliente_nome'] && !$dados['usuario_ativo']) {
-                return ['status' => 'forbidden', 'message' => "Você não pode desativar o gestor do gabinete."];
+            if ($usuario['usuario_id'] == $_SESSION['usuario_id'] && !$dados['usuario_ativo']) {
+                return ['status' => 'forbidden', 'message' => "Você não pode desativar esse usuário."];
             }
 
             if (!$usuario) {
@@ -121,14 +125,14 @@ class UsuarioController {
     public function apagarUsuario($usuario_id) {
 
         if ($_SESSION['usuario_tipo'] != 2) {
-            return ['status' => 'forbidden', 'message' => "Você não tem autorização para apagar um usuário."];
+            return ['status' => 'forbidden', 'message' => "Você não tem autorização para apagar esse usuário."];
         }
 
         try {
 
             $usuario = $this->usuarioModel->buscaUsuario('usuario_id', $usuario_id);
 
-            if ($usuario['usuario_nome'] == $_SESSION['cliente_nome']) {
+            if ($usuario['usuario_id'] == $_SESSION['usuario_id']) {
                 return ['status' => 'forbidden', 'message' => "Você não pode apagar o gestor do gabinete."];
             }
 
