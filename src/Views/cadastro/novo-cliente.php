@@ -56,7 +56,7 @@ $usuarioController = new UsuarioController();
                         echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="0" role="alert">' . $resultUsuario['message'] . ' | Código do erro: ' . $result['id_erro'] . '</div>';
                     }
                 } else if ($resultGabinete['status'] == 'error' || $resultGabinete['status'] == 'duplicated') {
-                    echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">Cliente já cadastrado</div>';
+                    echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">'.$resultGabinete['message'].'</div>';
                 }
             }else{
                 echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">Senhas não conferem.</div>';

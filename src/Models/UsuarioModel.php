@@ -24,8 +24,8 @@ class UsuarioModel {
         $usuario_telefone = isset($dados['usuario_telefone']) ? $dados['usuario_telefone'] : '';
         $usuario_senha = isset($dados['usuario_senha']) ? $dados['usuario_senha'] : '';
         $usuario_token = isset($dados['usuario_token']) ? $dados['usuario_token'] : '';
-        $usuario_ativo = isset($dados['usuario_ativo']) ? $dados['usuario_ativo'] : 1; // Supondo que o valor padrão seja 1 (ativo)
-        $usuario_gestor = isset($dados['usuario_gestor']) ? $dados['usuario_gestor'] : 0; // Supondo que o valor padrão seja 0 (não gestor)
+        $usuario_ativo = isset($dados['usuario_ativo']) ? $dados['usuario_ativo'] : 0; 
+        $usuario_gestor = isset($dados['usuario_gestor']) ? $dados['usuario_gestor'] : 0; 
 
         // Inserindo um novo usuário
         $query = 'INSERT INTO usuario(usuario_id, usuario_tipo, usuario_gabinete, usuario_nome, usuario_cpf, usuario_email, usuario_aniversario, usuario_telefone, usuario_senha, usuario_token, usuario_ativo, usuario_gestor) 
@@ -128,6 +128,31 @@ class UsuarioModel {
 
         return $stmt->execute();
     }
+
+
+    public function novoLog($id) {
+
+        // Inserindo um novo usuário
+        $query = 'INSERT INTO usuario_log(usuario_id) VALUES (:usuario_id);';
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':usuario_id', $id, PDO::PARAM_STR);
+
+
+        return $stmt->execute();
+    }
+
+    public function buscaLog($id) {
+
+        // buscando logs de acesso
+        $query = "SELECT * FROM usuario_log WHERE usuario_id = :id ORDER BY log_data DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: null;
+    }
+
 
     // TIPOS DE USUÁRIO
     public function criarTipoUsuario($dados) {

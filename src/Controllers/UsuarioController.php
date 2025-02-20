@@ -79,9 +79,9 @@ class UsuarioController {
         }
     }
 
-    public function buscaUsuario($id) {
+    public function buscaUsuario($coluna, $valor) {
         try {
-            $resultado = $this->usuarioModel->buscaUsuario('usuario_id', $id);
+            $resultado = $this->usuarioModel->buscaUsuario($coluna, $valor);
             if ($resultado) {
                 return ['status' => 'success', 'dados' => $resultado];
             } else {
@@ -128,6 +128,33 @@ class UsuarioController {
             }
             $erro_id = uniqid();
             $this->logger->novoLog('usuario_log', $e->getMessage() . ' | ' . $erro_id);
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
+
+    public function novoLog($usuario_id) {
+        try {
+            $this->usuarioModel->novoLog($usuario_id);
+            return ['status' => 'success', 'message' => 'Log inserido com sucesso'];
+        } catch (PDOException $e) {
+            $erro_id = uniqid();
+            $this->logger->novoLog('usuario_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
+    public function buscaLog($id) {
+        try {
+            $resultado = $this->usuarioModel->buscaLog($id);
+            if ($resultado) {
+                return ['status' => 'success', 'dados' => $resultado];
+            } else {
+                return ['status' => 'not_found', 'message' => 'Logs não encontrados'];
+            }
+        } catch (PDOException $e) {
+            $erro_id = uniqid();
+            $this->logger->novoLog('usuario_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
             return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
         }
     }

@@ -58,6 +58,13 @@ CREATE TABLE
     CONSTRAINT unico_gestor_por_gabinete UNIQUE (usuario_gabinete, usuario_gestor)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
+
+CREATE TABLE 
+  usuario_log (    
+    usuario_id VARCHAR(36),
+    log_data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 INSERT INTO gabinete_tipo (gabinete_tipo_id, gabinete_tipo_nome, gabinete_tipo_informacoes)
   VALUES
     (1, 'Outro', 'Gabinete administrativo'),
