@@ -55,8 +55,7 @@ if ($buscaUsuario['status'] != 'success' || $buscaGabinete['status'] != 'success
                         'usuario_nome' => htmlspecialchars($_POST['usuario_nome'], ENT_QUOTES, 'UTF-8'),
                         'usuario_email' => htmlspecialchars($_POST['usuario_email'], ENT_QUOTES, 'UTF-8'),
                         'usuario_telefone' => htmlspecialchars($_POST['usuario_telefone'], ENT_QUOTES, 'UTF-8'),
-                        'usuario_aniversario' => $util->formatarAniversario(htmlspecialchars($_POST['usuario_aniversario'], ENT_QUOTES, 'UTF-8')),// Data formatada
-                        
+                        'usuario_aniversario' => $util->formatarAniversario(htmlspecialchars($_POST['usuario_aniversario'], ENT_QUOTES, 'UTF-8')),
                     ];
 
                     $result = $usuarioController->atualizarUsuario($usuario);
