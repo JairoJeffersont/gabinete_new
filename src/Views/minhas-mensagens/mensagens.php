@@ -13,7 +13,6 @@ $usuarioController = new UsuarioController();
 
 $buscaMensagens = $mensagemController->buscaMensagem('mensagem_destinatario', $_SESSION['usuario_id']);
 
-
 ?>
 
 <div class="d-flex" id="wrapper">
@@ -55,8 +54,6 @@ $buscaMensagens = $mensagemController->buscaMensagem('mensagem_destinatario', $_
                     }
 
                     ?>
-
-
                     <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
                         <div class="col-md-12 col-12">
                             <input type="text" class="form-control form-control-sm" name="mensagem_titulo" placeholder="Assunto" required>
@@ -76,12 +73,11 @@ $buscaMensagens = $mensagemController->buscaMensagem('mensagem_destinatario', $_
                                 ?>
                             </select>
                         </div>
-                        <div class="col-md-12 col-12">
-                            <textarea class="form-control form-control-sm" name="mensagem_texto" rows="10" placeholder="Texto da mensagem"></textarea>
-                        </div>
-
                         <div class="col-md-3 col-12">
                             <button type="submit" class="btn btn-success btn-sm" name="btn_enviar"><i class="bi bi-forward-fill"></i> Enviar</button>
+                        </div>
+                        <div class="col-md-12 col-12">
+                            <textarea class="form-control form-control-sm" name="mensagem_texto" rows="10" placeholder="Texto da mensagem"></textarea>
                         </div>
                     </form>
                 </div>
