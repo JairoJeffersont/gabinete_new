@@ -204,6 +204,7 @@ if ($buscaUsuario['status'] != 'success' || $buscaGabinete['status'] != 'success
                         <th scope="col">Aniversário</th>
                         <th scope="col">Telefone</th>
                         <th scope="col">Nível</th>
+                        <th scope="col">Gestor</th>
                         <th scope="col">Ativo</th>
                         <th scope="col">Criado</th>
                     </tr>
@@ -237,6 +238,7 @@ if ($buscaUsuario['status'] != 'success' || $buscaGabinete['status'] != 'success
                             echo '<td style="white-space: nowrap;">' . (isset($usuario['usuario_aniversario']) && !empty($usuario['usuario_aniversario']) ? date('d/m', strtotime($usuario['usuario_aniversario'])) : '') . '</td>';
                             echo '<td style="white-space: nowrap;">' . $usuario['usuario_telefone'] . '</td>';
                             echo '<td style="white-space: nowrap;">' . $tipoUsuarioNome . '</td>';
+                            echo '<td style="white-space: nowrap;">' . ($usuario['usuario_gestor'] == 1 ? 'Sim' : 'Não') . '</td>';
                             echo '<td style="white-space: nowrap;">' . ($usuario['usuario_ativo'] ? 'Ativo' : 'Desativado') . '</td>';
                             echo '<td style="white-space: nowrap;">' . date('d/m/Y', strtotime($usuario['usuario_criado_em'])) . '</td>';
                             echo '</tr>';
