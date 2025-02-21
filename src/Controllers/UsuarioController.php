@@ -18,6 +18,7 @@ class UsuarioController {
 
     // USUÁRIO CONTROLLER
     public function novoUsuario($dados) {
+
         $camposObrigatorios = ['usuario_nome', 'usuario_email', 'usuario_telefone', 'usuario_senha', 'usuario_tipo', 'usuario_gabinete'];
 
         foreach ($camposObrigatorios as $campo) {
@@ -30,7 +31,6 @@ class UsuarioController {
             return ['status' => 'invalid_email', 'message' => 'Email inválido.'];
         }
 
-        // Criptografar a senha
         $dados['usuario_senha'] = password_hash($dados['usuario_senha'], PASSWORD_BCRYPT);
 
         try {
@@ -55,7 +55,7 @@ class UsuarioController {
                 return ['status' => 'not_found', 'message' => 'Usuário não encontrado'];
             }
 
-            $camposObrigatorios = ['usuario_nome', 'usuario_email', 'usuario_telefone', 'usuario_senha', 'usuario_tipo', 'usuario_gabinete'];
+            $camposObrigatorios = ['usuario_nome', 'usuario_email', 'usuario_telefone', 'usuario_gabinete'];
 
             foreach ($camposObrigatorios as $campo) {
                 if (!isset($dados[$campo])) {
@@ -67,8 +67,7 @@ class UsuarioController {
                 return ['status' => 'invalid_email', 'message' => 'Email inválido.'];
             }
 
-            // Criptografar a senha
-            $dados['usuario_senha'] = password_hash($dados['usuario_senha'], PASSWORD_BCRYPT);
+            
 
             $this->usuarioModel->atualizarUsuario($dados);
             return ['status' => 'success', 'message' => 'Usuário atualizado com sucesso'];

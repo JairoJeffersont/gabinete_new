@@ -7,7 +7,7 @@
 
 
         if ($buscaUsuario['dados']['usuario_aniversario'] == '2000-01-01' || empty($buscaUsuario['dados']['usuario_aniversario'])) {
-            echo '<hr><p class="card-text mb-0 mt-2"><i class="bi bi-info-circle"></i> Você precisa informar a data do seu aniversário. <a href="?secao=usuario&id=' . $buscaUsuario['dados']['usuario_id'] . '">Clique aqui.</a></p>';
+            echo '<hr><p class="card-text mb-0 mt-2"><i class="bi bi-info-circle"></i> Você precisa informar a data do seu aniversário. <a href="?secao=meu-gabinete">Clique aqui.</a></p>';
         } else {
             $aniversario = $buscaUsuario['dados']['usuario_aniversario'];
             $dataAtual = new DateTime();
