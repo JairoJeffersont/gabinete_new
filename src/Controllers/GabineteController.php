@@ -18,7 +18,6 @@ class GabineteController {
 
     // GABINETE CONTROLLER
     public function novoGabinete($dados) {
-
         try {
             $this->gabineteModel->criarGabinete($dados);
             return ['status' => 'success', 'message' => 'Gabinete inserido com sucesso'];
@@ -35,7 +34,6 @@ class GabineteController {
 
     public function atualizarGabinete($dados) {
         try {
-
             $buscaGabinete = $this->gabineteModel->buscaGabinete('gabinete_id', $dados['gabinete_id']);
 
             if (!$buscaGabinete) {
@@ -51,9 +49,9 @@ class GabineteController {
         }
     }
 
-    public function buscaGabinete($id) {
+    public function buscaGabinete($coluna, $valor) {
         try {
-            $resultado = $this->gabineteModel->buscaGabinete('gabinete_id', $id);
+            $resultado = $this->gabineteModel->buscaGabinete($coluna, $valor);
             if ($resultado) {
                 return ['status' => 'success', 'dados' => $resultado];
             } else {

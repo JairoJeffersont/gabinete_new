@@ -14,19 +14,18 @@ class UsuarioModel {
 
     // USUÁRIOS
     public function criarUsuario($dados) {
-        $query = 'INSERT INTO usuario(usuario_id, usuario_tipo, usuario_gabinete, usuario_nome, usuario_cpf, usuario_email, usuario_aniversario, usuario_telefone, usuario_senha, usuario_token, usuario_ativo, usuario_gestor) 
-                  VALUES (UUID(), :usuario_tipo, :usuario_gabinete, :usuario_nome, :usuario_cpf, :usuario_email, :usuario_aniversario, :usuario_telefone, :usuario_senha, :usuario_token, :usuario_ativo, :usuario_gestor);';
+        $query = 'INSERT INTO usuario(usuario_id, usuario_tipo, usuario_gabinete, usuario_nome,  usuario_email, usuario_aniversario, usuario_telefone, usuario_senha, usuario_token, usuario_ativo, usuario_gestor) 
+                  VALUES (UUID(), :usuario_tipo, :usuario_gabinete, :usuario_nome, :usuario_email, :usuario_aniversario, :usuario_telefone, :usuario_senha, :usuario_token, :usuario_ativo, :usuario_gestor);';
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':usuario_tipo', $dados['usuario_tipo'], PDO::PARAM_STR);
         $stmt->bindValue(':usuario_gabinete', $dados['usuario_gabinete'], PDO::PARAM_STR);
         $stmt->bindValue(':usuario_nome', $dados['usuario_nome'], PDO::PARAM_STR);
-        $stmt->bindValue(':usuario_cpf', $dados['usuario_cpf'], PDO::PARAM_STR);
         $stmt->bindValue(':usuario_email', $dados['usuario_email'], PDO::PARAM_STR);
-        $stmt->bindValue(':usuario_aniversario', $dados['usuario_aniversario'], PDO::PARAM_STR);
+        $stmt->bindValue(':usuario_aniversario', $dados['usuario_aniversario'] ?? null, PDO::PARAM_STR);
         $stmt->bindValue(':usuario_telefone', $dados['usuario_telefone'], PDO::PARAM_STR);
         $stmt->bindValue(':usuario_senha', $dados['usuario_senha'], PDO::PARAM_STR);
-        $stmt->bindValue(':usuario_token', $dados['usuario_token'], PDO::PARAM_STR);
+        $stmt->bindValue(':usuario_token', $dados['usuario_token'] ?? '', PDO::PARAM_STR);
         $stmt->bindValue(':usuario_ativo', $dados['usuario_ativo'] ?? 0, PDO::PARAM_INT);
         $stmt->bindValue(':usuario_gestor', $dados['usuario_gestor'] ?? 0, PDO::PARAM_BOOL);
 

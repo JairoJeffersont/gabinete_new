@@ -25,9 +25,9 @@ class GabineteModel {
         $stmt->bindValue(':gabinete_endereco', $dados['gabinete_endereco'] ?? '', PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_municipio', $dados['gabinete_municipio'] ?? '', PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_estado', $dados['gabinete_estado'], PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_email', $dados['gabinete_email'], PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_telefone', $dados['gabinete_telefone'], PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_usuarios', $dados['gabinete_usuarios'], PDO::PARAM_STR);
+        $stmt->bindValue(':gabinete_email', $dados['gabinete_email'] ?? '', PDO::PARAM_STR);
+        $stmt->bindValue(':gabinete_telefone', $dados['gabinete_telefone'] ?? '', PDO::PARAM_STR);
+        $stmt->bindValue(':gabinete_usuarios', $dados['gabinete_usuarios'] ?? 1, PDO::PARAM_STR);
 
         return $stmt->execute();
     }
