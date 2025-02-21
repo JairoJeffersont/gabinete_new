@@ -113,11 +113,10 @@ if ($buscaUsuario['status'] != 'success') {
                             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
                         }
                     }
-
                     ?>
 
                     <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
-                        <div class="col-md-2 col-12">
+                        <div class="col-md-1 col-12">
                             <select class="form-select form-select-sm" name="usuario_tipo" required>
                                 <?php
                                 foreach ($usuarioController->listarTipoUsuario()['dados'] as $tipo) {
@@ -134,18 +133,50 @@ if ($buscaUsuario['status'] != 'success') {
                         </div>
                         <div class="col-md-3 col-12">
                             <button type="submit" class="btn btn-primary btn-sm" name="btn_atualizar_usuario"><i class="bi bi-floppy-fill"></i> Atualizar</button>
-                            <!--<button type="submit" class="btn btn-danger btn-sm" name="btn_apagar_usuario"><i class="bi bi-trash-fill"></i> Apagar</button>-->
-
                             <?php
-
                             if ($buscaUsuario['dados']['usuario_ativo']) {
                                 echo '<button type="submit" class="btn btn-secondary btn-sm" name="btn_desativar_usuario"><i class="bi bi-floppy-fill"></i> Desativar</button>';
                             } else {
                                 echo '<button type="submit" class="btn btn-success btn-sm" name="btn_ativar_usuario"><i class="bi bi-floppy-fill"></i> Ativar</button>';
                             }
-
                             ?>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
+            <div class="card mb-2">
+                <div class="card-body card_descricao_body p-2">
+                    <?php
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_atualizar_gestor'])) {
+
+                        $dados = [
+                            'usuario_id' => $buscaUsuario['dados']['usuario_id'],
+                            'usuario_gestor' => $_POST['usuario_gestor']
+                        ];
+
+                        $result = $usuarioController->atualizarUsuario($dados);
+                        if ($result['status'] == 'success') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">Novo gestor adicionado com sucesso. Aguarde...</div>';
+                            echo '<script>
+                        setTimeout(function() {
+                            window.location.href = "?secao=usuario&id=' . $buscaUsuario['dados']['usuario_id'] . '";
+                        }, 1000);
+                    </script>';
+                        } elseif ($result['status'] == 'error') {
+                            echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
+                        }
+                    }
+                    ?>
+                    <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
+                        <div class="col-md-1 col-12">
+                            <select class="form-select form-select-sm" name="usuario_gestor" required>
+                                <option value="1" <?php echo ($buscaUsuario['dados']['usuario_gestor'] == 1) ? 'selected' : ''; ?>>Gestor</option>
+                                <option value="0" <?php echo ($buscaUsuario['dados']['usuario_gestor'] == 0) ? 'selected' : ''; ?>>Usuário</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <button type="submit" class="btn btn-success btn-sm" name="btn_atualizar_gestor"><i class="bi bi-floppy-fill"></i> Atualizar</button>
                         </div>
                     </form>
                 </div>
@@ -167,7 +198,6 @@ if ($buscaUsuario['status'] != 'success') {
                                 $buscaLogs = $usuarioController->buscaLog($usuarioGet);
                                 if ($buscaLogs['status'] == 'success') {
                                     foreach (array_slice($buscaLogs['dados'], 0, 5) as $log) {
-
                                         echo '<tr>';
                                         echo '<td style="white-space: nowrap;">' . date('d/m/Y H:i', strtotime($log['log_data'])) . '</td>';
                                         echo '</tr>';
