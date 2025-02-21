@@ -22,13 +22,9 @@ class MensagemController {
             $this->mensagemModel->criarMensagem($dados);
             return ['status' => 'success', 'message' => 'Mensagem inserida com sucesso'];
         } catch (PDOException $e) {
-            if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-                return ['status' => 'duplicated', 'message' => 'A mensagem já existe'];
-            } else {
-                $erro_id = uniqid();
+            $erro_id = uniqid();
                 $this->logger->novoLog('mensagem_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
                 return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
-            }
         }
     }
 

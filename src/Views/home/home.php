@@ -1,6 +1,7 @@
 <?php
 
 use GabineteMvc\Controllers\GabineteController;
+use GabineteMvc\Controllers\MensagemController;
 use GabineteMvc\Controllers\UsuarioController;
 use GabineteMvc\Middleware\Utils;
 
@@ -11,9 +12,11 @@ require_once './vendor/autoload.php';
 
 $usuarioController = new UsuarioController();
 $gabineteController = new GabineteController();
+$mensagemController = new MensagemController();
 
 $buscaUsuario = $usuarioController->buscaUsuario('usuario_id', $_SESSION['usuario_id']);
 $buscaGabinete = $gabineteController->buscaGabinete('gabinete_id', $buscaUsuario['dados']['usuario_gabinete']);
+$buscaMensagens = $mensagemController->buscaMensagem('mensagem_destinatario', $_SESSION['usuario_id']);
 $utils = new Utils();
 
 ?>
@@ -40,7 +43,14 @@ $utils = new Utils();
                     }
                     ?>
                     <hr>
-                    <p class="card-text mb-0 mt-1"><i class="bi bi-envelope"></i> Você não tem novas mensages.</p>
+
+                    <?php 
+                        if($buscaMensagens['status'] == 'success'){
+                            echo '<p class="card-text mb-0 mt-1"><i class="bi bi-envelope"></i> <a href="?secao=minhas-mensagens"><b>Você tem '.count($buscaMensagens['dados']).' novas mensagens</b></a></p>';
+                        }else if($buscaMensagens['status'] == 'not_found'){
+                            echo '<p class="card-text mb-0 mt-1"><i class="bi bi-envelope"></i> Você não tem novas mensagens.</p>';
+                        }
+                    ?>
                 </div>
             </div>
         </div>
