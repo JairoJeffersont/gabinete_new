@@ -83,7 +83,7 @@ $usuarioController = new UsuarioController();
 
         <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
             <div class="col-md-12 col-12">
-                <input type="text" class="form-control form-control-sm" name="usuario_nome" placeholder="Nome" required>
+                <input type="text" class="form-control form-control-sm" name="usuario_nome" placeholder="Nome do resposável pelo sistema" required>
             </div>
             <div class="col-md-12 col-12">
                 <input type="email" class="form-control form-control-sm" name="usuario_email" placeholder="Email" required>

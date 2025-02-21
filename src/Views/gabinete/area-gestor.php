@@ -11,12 +11,17 @@
     </div>
 </div>
 
-<!--<div class="card mb-2">
+<div class="card mb-2">
     <div class="card-body card_descricao_body p-2">
         <p class="card-text mb-2">Para cadastrar novos usuários no sistema, envie o endereço abaixo e solicite que criem uma conta.</p>
-        <p class="card-text">Link para o cadastro de novos usuários: <b><?php echo $config['app']['base_url'] ?>?secao=novo-usuario&token=<?php echo $buscaGabinete['dados']['gabinete_id'] ?></b></p>
+        <p class="card-text">Link para o cadastro de novos usuários:
+            <span id="link-cadastro" style="display: none;"><?php echo $config['app']['base_url'] ?>?secao=novo-usuario&token=<?php echo $buscaGabinete['dados']['gabinete_id'] ?></span>
+            <a href="javascript:void(0);" onclick="copyToClipboard()"><b>Copiar</b></a>
+        </p>
     </div>
-</div>-->
+</div>
+
+
 
 <div class="card mb-2">
     <div class="card-body p-2">
@@ -69,6 +74,65 @@
     </div>
 </div>
 
+<div class="card mb-2">
+    <div class="card-body p-2">
+        <?php
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_atualizar_usuario'])) {
+
+            $usuario_aniversario = htmlspecialchars($_POST['usuario_aniversario'], ENT_QUOTES, 'UTF-8');
+
+            $data = DateTime::createFromFormat('d/m', $usuario_aniversario);
+            $usuario_aniversario_formatado = $data ? $data->format('2000-m-d') : null;
+
+            $usuario = [
+                'usuario_id' => $buscaUsuario['dados']['usuario_id'],
+                'usuario_gabinete' => $buscaGabinete['dados']['gabinete_id'],
+                'usuario_nome' => htmlspecialchars($_POST['usuario_nome'], ENT_QUOTES, 'UTF-8'),
+                'usuario_email' => htmlspecialchars($_POST['usuario_email'], ENT_QUOTES, 'UTF-8'),
+                'usuario_telefone' => htmlspecialchars($_POST['usuario_telefone'], ENT_QUOTES, 'UTF-8'),
+                'usuario_aniversario' => $usuario_aniversario_formatado, // Data formatada
+                'usuario_ativo' => $buscaUsuario['dados']['usuario_ativo'],
+                'usuario_tipo' => $buscaUsuario['dados']['usuario_tipo'],
+                'usuario_gestor' => $buscaUsuario['dados']['usuario_gestor']
+            ];
+
+            $result = $usuarioController->atualizarUsuario($usuario);
+
+            if ($result['status'] == 'success') {
+                echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
+                $buscaUsuario = $usuarioController->buscaUsuario('usuario_id', $_SESSION['usuario_id']);
+            } else if ($result['status'] == 'duplicated' || $result['status'] == 'bad_request' || $result['status'] == 'invalid_email') {
+                echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
+            } else if ($result['status'] == 'forbidden') {
+                echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . '</div>';
+            } else if ($result['status'] == 'error') {
+                echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . ' ' . (isset($result['error_id']) ? ' | Código do erro: ' . $result['error_id'] : '') . '</div>';
+            }
+        }
+
+        ?>
+        <p class="card-text mb-2">Meus dados:</p>
+        <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
+            <div class="col-md-3 col-12">
+                <input type="text" class="form-control form-control-sm" name="usuario_nome" placeholder="Nome" value="<?php echo $buscaUsuario['dados']['usuario_nome'] ?>" required>
+            </div>
+            <div class="col-md-2 col-12">
+                <input type="email" class="form-control form-control-sm" name="usuario_email" placeholder="Email" value="<?php echo $buscaUsuario['dados']['usuario_email'] ?>" required>
+            </div>
+            <div class="col-md-2 col-6">
+                <input type="text" class="form-control form-control-sm" name="usuario_telefone" placeholder="Celular (com DDD)" data-mask="(00) 00000-0000" value="<?php echo $buscaUsuario['dados']['usuario_telefone'] ?>" maxlength="15" required>
+            </div>
+            <div class="col-md-2 col-6">
+                <input type="text" class="form-control form-control-sm" name="usuario_aniversario" data-mask="00/00" placeholder="Aniversário (dd/mm)" value="<?php echo $buscaUsuario['dados']['usuario_aniversario'] != '2000-01-01' ?  date('d/m', strtotime($buscaUsuario['dados']['usuario_aniversario'])) : '' ?>" required>
+            </div>
+            <div class="col-md-3 col-12">
+                <button type="submit" class="btn btn-primary btn-sm" name="btn_atualizar_usuario"><i class="bi bi-floppy-fill"></i> Atualizar</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
 
 <div class="card mb-2">
     <div class="card-body p-2">
@@ -115,3 +179,20 @@
     </div>
 </div>
 
+<script>
+    function copyToClipboard() {
+        // Pega o link do elemento com o id 'link-cadastro'
+        var link = document.getElementById('link-cadastro').innerText;
+
+        // Cria um elemento de input para copiar o texto para a área de transferência
+        var tempInput = document.createElement('input');
+        tempInput.value = link;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+
+        // Opcional: pode adicionar um feedback visual aqui, como um alert ou tooltip
+        alert('Link copiado para a área de transferência!');
+    }
+</script>
