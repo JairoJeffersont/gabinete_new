@@ -8,6 +8,9 @@ $usuarioController = new UsuarioController();
 $gabineteController = new GabineteController();
 $util = new Utils();
 
+$configPath = dirname(__DIR__, 3) . '/src/Configs/config.php';
+$config = require $configPath;
+
 $buscaUsuario = $usuarioController->buscaUsuario('usuario_id', $_SESSION['usuario_id']);
 $buscaGabinete = $gabineteController->buscaGabinete('gabinete_id', $_SESSION['usuario_gabinete']);
 $buscaTipoGabinete = $gabineteController->buscaTipoGabinete($buscaGabinete['dados']['gabinete_tipo']);
@@ -18,15 +21,12 @@ if ($buscaUsuario['status'] != 'success' || $buscaGabinete['status'] != 'success
 
 ?>
 
-
 <div class="card mb-2">
     <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-person-gear"></i> Área do gestor</div>
     <div class="card-body card_descricao_body p-2">
         <p class="card-text">Esta área é destinada à gestão do gabinete, incluindo o gerenciamento de usuários, níveis de acesso e dados do gabinete.</p>
     </div>
 </div>
-
-
 
 <div class="row">
     <div class="col-12">
@@ -57,7 +57,6 @@ if ($buscaUsuario['status'] != 'success' || $buscaGabinete['status'] != 'success
                 'gabinete_telefone' => htmlspecialchars($_POST['gabinete_telefone'], ENT_QUOTES, 'UTF-8')
             ];
 
-
             $result = $gabineteController->atualizarGabinete($dados);
 
             if ($result['status'] == 'success') {
@@ -75,8 +74,6 @@ if ($buscaUsuario['status'] != 'success' || $buscaGabinete['status'] != 'success
             }
         }
         ?>
-
-
 
         <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
             <div class="col-md-4 col-12">
@@ -183,6 +180,70 @@ if ($buscaUsuario['status'] != 'success' || $buscaGabinete['status'] != 'success
     </div>
 </div>
 
+<div class="card mb-2">
+    <div class="card-body card_descricao_body p-2">
+        <p class="card-text mb-2">Para cadastrar novos usuários no sistema, envie o endereço abaixo e solicite que criem uma conta.</p>
+        <p class="card-text">Link para o cadastro de novos usuários:
+            <span id="link-cadastro" style="display: none;"><?php echo $config['app']['base_url'] ?>?secao=novo-usuario&token=<?php echo $buscaGabinete['dados']['gabinete_id'] ?></span>
+            <a href="javascript:void(0);" onclick="copyToClipboard()"><b>Copiar</b></a>
+        </p>
+    </div>
+</div>
+
+
+<div class="card mb-2">
+    <div class="card-body p-2">
+        <p class="card-text mb-2">Usuários do gabinete:</a></p>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered table-striped mb-0 custom-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Aniversário</th>
+                        <th scope="col">Telefone</th>
+                        <th scope="col">Nível</th>
+                        <th scope="col">Ativo</th>
+                        <th scope="col">Criado</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <?php
+                    $buscaUsuarios = $usuarioController->listarUsuarios(1000, 1, 'asc', 'usuario_nome', $buscaGabinete['dados']['gabinete_id']);
+
+                    if ($buscaUsuarios['status'] == 'success') {
+
+                        foreach ($buscaUsuarios['dados'] as $usuario) {
+                            foreach ($usuarioController->listarTipoUsuario()['dados'] as $tipoUsuario) {
+                                if ($tipoUsuario['usuario_tipo_id'] == $usuario['usuario_tipo']) {
+                                    $tipoUsuarioNome = $tipoUsuario['usuario_tipo_nome'];
+                                    break;
+                                }
+                            }
+                            echo '<tr>';
+                            echo '<td style="white-space: nowrap; justify-content: center; align-items: center;"><a href="?secao=usuario&id=' . $usuario['usuario_id'] . '">' . $usuario['usuario_nome'] . '</a></td>';
+                            echo '<td style="white-space: nowrap;">' . $usuario['usuario_email'] . '</td>';
+                            echo '<td style="white-space: nowrap;">' . (isset($usuario['usuario_aniversario']) && !empty($usuario['usuario_aniversario']) ? date('d/m', strtotime($usuario['usuario_aniversario'])) : '') . '</td>';
+                            echo '<td style="white-space: nowrap;">' . $usuario['usuario_telefone'] . '</td>';
+                            echo '<td style="white-space: nowrap;">' . $tipoUsuarioNome . '</td>';
+                            echo '<td style="white-space: nowrap;">' . ($usuario['usuario_ativo'] ? 'Ativo' : 'Desativado') . '</td>';
+                            echo '<td style="white-space: nowrap;">' . date('d/m/Y', strtotime($usuario['usuario_criado_em'])) . '</td>';
+                            echo '</tr>';
+                        }
+                    } else if ($buscaUsuarios['status'] == 'not_found') {
+                        echo '<tr><td colspan="6">' . $buscaUsuarios['message'] . '</td></tr>';
+                    } else if ($buscaUsuarios['status'] == 'error') {
+                        echo '<tr><td colspan="6">' . $buscaUsuarios['message'] . ' | Código do erro: ' . $buscaUsuarios['error_id'] . '</td></tr>';
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 
 <script>
     $(document).ready(function() {
@@ -234,4 +295,7 @@ if ($buscaUsuario['status'] != 'success' || $buscaGabinete['status'] != 'success
             $('#municipio').empty().append('<option value="" selected>Município</option>');
         }
     });
+
+
+   
 </script>
