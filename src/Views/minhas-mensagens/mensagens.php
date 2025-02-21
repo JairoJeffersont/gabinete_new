@@ -32,8 +32,7 @@ $buscaMensagens = $mensagemController->buscaMensagem('mensagem_destinatario', $_
                 </div>
             </div>
             <div class="card mb-2">
-                <div class="card-body card_descricao_body p-2">
-
+                <div class="card-body p-2">
                     <?php
                     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_enviar'])) {
                         $dados = [
