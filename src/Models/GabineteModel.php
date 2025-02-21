@@ -15,8 +15,8 @@ class GabineteModel {
     // GABINETE
     public function criarGabinete($dados) {
         // Inserindo um novo gabinete
-        $query = 'INSERT INTO gabinete(gabinete_id, gabinete_tipo, gabinete_nome, gabinete_nome_sistema,  gabinete_endereco, gabinete_municipio, gabinete_estado, gabinete_email, gabinete_telefone, gabinete_usuarios) 
-              VALUES (UUID(), :gabinete_tipo, :gabinete_nome, :gabinete_nome_sistema, :gabinete_endereco, :gabinete_municipio, :gabinete_estado, :gabinete_email, :gabinete_telefone, :gabinete_usuarios);';
+        $query = 'INSERT INTO gabinete(gabinete_id, gabinete_tipo, gabinete_nome, gabinete_nome_sistema,  gabinete_endereco, gabinete_municipio, gabinete_estado, gabinete_estado_autoridade, gabinete_email, gabinete_telefone, gabinete_usuarios) 
+              VALUES (UUID(), :gabinete_tipo, :gabinete_nome, :gabinete_nome_sistema, :gabinete_endereco, :gabinete_municipio, :gabinete_estado, :gabinete_estado_autoridade, :gabinete_email, :gabinete_telefone, :gabinete_usuarios);';
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':gabinete_tipo', $dados['gabinete_tipo'], PDO::PARAM_STR);
@@ -24,7 +24,8 @@ class GabineteModel {
         $stmt->bindValue(':gabinete_nome_sistema', $dados['gabinete_nome_sistema'], PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_endereco', $dados['gabinete_endereco'] ?? '', PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_municipio', $dados['gabinete_municipio'] ?? '', PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_estado', $dados['gabinete_estado'], PDO::PARAM_STR);
+        $stmt->bindValue(':gabinete_estado', $dados['gabinete_estado'] ?? '', PDO::PARAM_STR);
+        $stmt->bindValue(':gabinete_estado_autoridade', $dados['gabinete_estado_autoridade'], PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_email', $dados['gabinete_email'] ?? '', PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_telefone', $dados['gabinete_telefone'] ?? '', PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_usuarios', $dados['gabinete_usuarios'] ?? 1, PDO::PARAM_STR);

@@ -8,7 +8,7 @@ $rotas = [
     'sair' => './src/Views/login/sair.php',
     'fatal-error' => './src/Views/erros/fatal_error.php',
     'home' => './src/Views/home/home.php',
-    'meu-gabinete' => './src/Views/gabinete/meu-gabinete.php',
+    'meu-gabinete' => './src/Views/meu-gabinete/meu-gabinete.php',
     'usuario' => './src/Views/gabinete/editar-usuario.php'
 
 ];

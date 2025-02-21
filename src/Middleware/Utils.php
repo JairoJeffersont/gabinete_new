@@ -2,6 +2,7 @@
 
 namespace GabineteMvc\Middleware;
 
+use DateTime;
 
 class Utils {
 
@@ -16,5 +17,34 @@ class Utils {
         $string = preg_replace('/[^\w-]/', '', $string);
 
         return $string;
+    }
+
+    function calculaAniversario($aniversario) {
+        $dataAtual = new DateTime();
+        $anoAtual = $dataAtual->format('Y');
+
+        $dataAniversario = DateTime::createFromFormat('Y-m-d', $aniversario);
+        $mesDiaAniversario = $dataAniversario->format('m-d');
+
+        $dataAniversario = DateTime::createFromFormat('Y-m-d', $anoAtual . '-' . $mesDiaAniversario);
+
+        if ($dataAniversario < $dataAtual) {
+            $dataAniversario->modify('+1 year');
+        }
+
+        $diferencaDias = $dataAtual->diff($dataAniversario)->days;
+
+        if ($mesDiaAniversario === $dataAtual->format('m-d')) {
+            return '🎉 Parabéns! Hoje é o seu aniversário! 🎂';
+        } elseif ($diferencaDias <= 90) {
+            return '<i class="bi bi-cake"></i> Seu aniversário está chegando! Faltam ' . $diferencaDias . ' dias';
+        }
+        return '';
+    }
+
+    function formatarAniversario($aniversario) {
+
+        $data = DateTime::createFromFormat('d/m', $aniversario);
+        return $usuario_aniversario_formatado = $data ? $data->format('2000-m-d') : null;
     }
 }

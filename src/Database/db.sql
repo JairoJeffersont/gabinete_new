@@ -19,6 +19,7 @@ CREATE TABLE
     gabinete_endereco varchar(255) DEFAULT NULL,
     gabinete_municipio varchar(50) DEFAULT NULL,
     gabinete_estado varchar(50) NOT NULL,
+    gabinete_estado_autoridade varchar(50) NOT NULL,
     gabinete_email varchar(255) NOT NULL,
     gabinete_telefone varchar(20) NOT NULL,
     gabinete_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -54,7 +55,7 @@ CREATE TABLE
     usuario_atualizado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (usuario_id),
     CONSTRAINT fk_usuario_tipo FOREIGN KEY (usuario_tipo) REFERENCES usuario_tipo (usuario_tipo_id),
-    CONSTRAINT fk_usuario_gabinete FOREIGN KEY (usuario_gabinete) REFERENCES gabinete (gabinete_id) ON CASCADE DELETE
+    CONSTRAINT fk_usuario_gabinete FOREIGN KEY (usuario_gabinete) REFERENCES gabinete (gabinete_id)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 

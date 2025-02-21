@@ -28,7 +28,7 @@ $utils = new Utils();
                     'gabinete_nome' => htmlspecialchars($_POST['gabinete_nome'], ENT_QUOTES, 'UTF-8'),
                     'gabinete_nome_sistema' => $utils->sanitizarString(htmlspecialchars($_POST['gabinete_nome'], ENT_QUOTES, 'UTF-8')),
                     'gabinete_tipo' => htmlspecialchars($_POST['gabinete_tipo'], ENT_QUOTES, 'UTF-8'),
-                    'gabinete_estado' => htmlspecialchars($_POST['gabinete_estado'], ENT_QUOTES, 'UTF-8')
+                    'gabinete_estado_autoridade' => htmlspecialchars($_POST['gabinete_estado'], ENT_QUOTES, 'UTF-8')
                 ];
 
                 $resultGabinete = $gabineteController->novoGabinete($gabinete);

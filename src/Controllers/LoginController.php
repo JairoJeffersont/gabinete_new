@@ -57,6 +57,7 @@ class LoginController {
             'usuario_id' => $buscaUsuario['dados']['usuario_id'],
             'usuario_nome' => $buscaUsuario['dados']['usuario_nome'],
             'usuario_gabinete' => $buscaUsuario['dados']['usuario_gabinete'],
+            'usuario_gestor' => $buscaUsuario['dados']['usuario_gestor'],
             'usuario_tipo' => $buscaUsuario['dados']['usuario_tipo']
         ];
 
