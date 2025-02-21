@@ -19,18 +19,6 @@ class UsuarioController {
     // USUÁRIO CONTROLLER
     public function novoUsuario($dados) {
 
-        $camposObrigatorios = ['usuario_nome', 'usuario_email', 'usuario_telefone', 'usuario_senha', 'usuario_tipo', 'usuario_gabinete'];
-
-        foreach ($camposObrigatorios as $campo) {
-            if (!isset($dados[$campo])) {
-                return ['status' => 'bad_request', 'message' => "O campo '$campo' é obrigatório."];
-            }
-        }
-
-        if (!filter_var($dados['usuario_email'], FILTER_VALIDATE_EMAIL)) {
-            return ['status' => 'invalid_email', 'message' => 'Email inválido.'];
-        }
-
         $dados['usuario_senha'] = password_hash($dados['usuario_senha'], PASSWORD_BCRYPT);
 
         try {
@@ -54,20 +42,6 @@ class UsuarioController {
             if (!$buscaUsuario) {
                 return ['status' => 'not_found', 'message' => 'Usuário não encontrado'];
             }
-
-            $camposObrigatorios = ['usuario_nome', 'usuario_email', 'usuario_telefone', 'usuario_gabinete'];
-
-            foreach ($camposObrigatorios as $campo) {
-                if (!isset($dados[$campo])) {
-                    return ['status' => 'bad_request', 'message' => "O campo '$campo' é obrigatório."];
-                }
-            }
-
-            if (!filter_var($dados['usuario_email'], FILTER_VALIDATE_EMAIL)) {
-                return ['status' => 'invalid_email', 'message' => 'Email inválido.'];
-            }
-
-            
 
             $this->usuarioModel->atualizarUsuario($dados);
             return ['status' => 'success', 'message' => 'Usuário atualizado com sucesso'];
@@ -160,14 +134,7 @@ class UsuarioController {
 
     // TIPO USUÁRIO CONTROLLER
     public function novoTipoUsuario($dados) {
-        $camposObrigatorios = ['usuario_tipo_nome', 'usuario_tipo_descricao'];
-
-        foreach ($camposObrigatorios as $campo) {
-            if (!isset($dados[$campo])) {
-                return ['status' => 'bad_request', 'message' => "O campo '$campo' é obrigatório."];
-            }
-        }
-
+        
         try {
             $this->usuarioModel->criarTipoUsuario($dados);
             return ['status' => 'success', 'message' => 'Tipo de usuário inserido com sucesso'];
@@ -189,14 +156,6 @@ class UsuarioController {
 
             if (!$buscaTipo) {
                 return ['status' => 'not_found', 'message' => 'Tipo de usuário não encontrado'];
-            }
-
-            $camposObrigatorios = ['usuario_tipo_nome', 'usuario_tipo_descricao'];
-
-            foreach ($camposObrigatorios as $campo) {
-                if (!isset($dados[$campo])) {
-                    return ['status' => 'bad_request', 'message' => "O campo '$campo' é obrigatório."];
-                }
             }
 
             $this->usuarioModel->atualizarTipoUsuario($dados);

@@ -19,14 +19,6 @@ class GabineteController {
     // GABINETE CONTROLLER
     public function novoGabinete($dados) {
 
-        $camposObrigatorios = ['gabinete_usuarios', 'gabinete_usuarios', 'gabinete_nome', 'gabinete_nome_sistema', 'gabinete_estado', 'gabinete_tipo'];
-
-        foreach ($camposObrigatorios as $campo) {
-            if (!isset($dados[$campo])) {
-                return ['status' => 'bad_request', 'message' => "O campo '$campo' é obrigatório."];
-            }
-        }        
-
         try {
             $this->gabineteModel->criarGabinete($dados);
             return ['status' => 'success', 'message' => 'Gabinete inserido com sucesso'];
@@ -48,18 +40,6 @@ class GabineteController {
 
             if (!$buscaGabinete) {
                 return ['status' => 'not_found', 'message' => 'Gabinete não encontrado'];
-            }
-
-            $camposObrigatorios = ['gabinete_nome', 'gabinete_email', 'gabinete_telefone', 'gabinete_usuarios', 'gabinete_estado', 'gabinete_tipo'];
-
-            foreach ($camposObrigatorios as $campo) {
-                if (!isset($dados[$campo])) {
-                    return ['status' => 'bad_request', 'message' => "O campo '$campo' é obrigatório."];
-                }
-            }
-
-            if (!filter_var($dados['gabinete_email'], FILTER_VALIDATE_EMAIL)) {
-                return ['status' => 'invalid_email', 'message' => 'Email inválido.'];
             }
 
             $this->gabineteModel->atualizarGabinete($dados);
@@ -127,14 +107,6 @@ class GabineteController {
     // TIPO GABINETE CONTROLLER
     public function novoTipoGabinete($dados) {
 
-        $camposObrigatorios = ['gabinete_tipo_nome', 'gabinete_tipo_informacoes'];
-
-        foreach ($camposObrigatorios as $campo) {
-            if (!isset($dados[$campo])) {
-                return ['status' => 'bad_request', 'message' => "O campo '$campo' é obrigatório."];
-            }
-        }
-
         try {
             $this->gabineteModel->criarTipoGabinete($dados);
             return ['status' => 'success', 'message' => 'Tipo de gabinete inserido com sucesso'];
@@ -156,14 +128,6 @@ class GabineteController {
 
             if (!$buscaTipo) {
                 return ['status' => 'not_found', 'message' => 'Tipo de gabinete não encontrado'];
-            }
-
-            $camposObrigatorios = ['gabinete_tipo_nome', 'gabinete_tipo_informacoes'];
-
-            foreach ($camposObrigatorios as $campo) {
-                if (!isset($dados[$campo])) {
-                    return ['status' => 'bad_request', 'message' => "O campo '$campo' é obrigatório."];
-                }
             }
 
             $this->gabineteModel->atualizarTipoGabinete($dados);

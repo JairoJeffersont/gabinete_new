@@ -14,71 +14,45 @@ class GabineteModel {
 
     // GABINETE
     public function criarGabinete($dados) {
-        // Inicializando todos os dados com valores padrão caso não sejam enviados
-        $gabinete_tipo = isset($dados['gabinete_tipo']) ? $dados['gabinete_tipo'] : '';
-        $gabinete_nome = isset($dados['gabinete_nome']) ? $dados['gabinete_nome'] : '';
-        $gabinete_nome_sistema = isset($dados['gabinete_nome_sistema']) ? $dados['gabinete_nome_sistema'] : '';
-        $gabinete_endereco = isset($dados['gabinete_endereco']) ? $dados['gabinete_endereco'] : '';
-        $gabinete_municipio = isset($dados['gabinete_municipio']) ? $dados['gabinete_municipio'] : '';
-        $gabinete_estado = isset($dados['gabinete_estado']) ? $dados['gabinete_estado'] : '';
-        $gabinete_email = isset($dados['gabinete_email']) ? $dados['gabinete_email'] : '';
-        $gabinete_telefone = isset($dados['gabinete_telefone']) ? $dados['gabinete_telefone'] : '';
-        $gabinete_usuarios = isset($dados['gabinete_usuarios']) ? $dados['gabinete_usuarios'] : '';
-
         // Inserindo um novo gabinete
         $query = 'INSERT INTO gabinete(gabinete_id, gabinete_tipo, gabinete_nome, gabinete_nome_sistema,  gabinete_endereco, gabinete_municipio, gabinete_estado, gabinete_email, gabinete_telefone, gabinete_usuarios) 
-                  VALUES (UUID(), :gabinete_tipo, :gabinete_nome, :gabinete_nome_sistema, :gabinete_endereco, :gabinete_municipio, :gabinete_estado, :gabinete_email, :gabinete_telefone, :gabinete_usuarios);';
+              VALUES (UUID(), :gabinete_tipo, :gabinete_nome, :gabinete_nome_sistema, :gabinete_endereco, :gabinete_municipio, :gabinete_estado, :gabinete_email, :gabinete_telefone, :gabinete_usuarios);';
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(':gabinete_tipo', $gabinete_tipo, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_nome', $gabinete_nome, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_nome_sistema', $gabinete_nome_sistema, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_endereco', $gabinete_endereco, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_municipio', $gabinete_municipio, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_estado', $gabinete_estado, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_email', $gabinete_email, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_telefone', $gabinete_telefone, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_usuarios', $gabinete_usuarios, PDO::PARAM_STR);
+        $stmt->bindValue(':gabinete_tipo', $dados['gabinete_tipo'], PDO::PARAM_STR);
+        $stmt->bindValue(':gabinete_nome', $dados['gabinete_nome'], PDO::PARAM_STR);
+        $stmt->bindValue(':gabinete_nome_sistema', $dados['gabinete_nome_sistema'], PDO::PARAM_STR);
+        $stmt->bindValue(':gabinete_endereco', $dados['gabinete_endereco'] ?? '', PDO::PARAM_STR);
+        $stmt->bindValue(':gabinete_municipio', $dados['gabinete_municipio'] ?? '', PDO::PARAM_STR);
+        $stmt->bindValue(':gabinete_estado', $dados['gabinete_estado'], PDO::PARAM_STR);
+        $stmt->bindValue(':gabinete_email', $dados['gabinete_email'], PDO::PARAM_STR);
+        $stmt->bindValue(':gabinete_telefone', $dados['gabinete_telefone'], PDO::PARAM_STR);
+        $stmt->bindValue(':gabinete_usuarios', $dados['gabinete_usuarios'], PDO::PARAM_STR);
 
         return $stmt->execute();
     }
-
-
 
     public function atualizarGabinete($dados) {
-        // Inicializando todos os dados com valores padrão caso não sejam enviados
-        $gabinete_id = isset($dados['gabinete_id']) ? $dados['gabinete_id'] : '';
-        $gabinete_tipo = isset($dados['gabinete_tipo']) ? $dados['gabinete_tipo'] : '';
-        $gabinete_nome = isset($dados['gabinete_nome']) ? $dados['gabinete_nome'] : '';
-        $gabinete_nome_sistema = isset($dados['gabinete_nome_sistema']) ? $dados['gabinete_nome_sistema'] : '';
-        $gabinete_endereco = isset($dados['gabinete_endereco']) ? $dados['gabinete_endereco'] : '';
-        $gabinete_municipio = isset($dados['gabinete_municipio']) ? $dados['gabinete_municipio'] : '';
-        $gabinete_estado = isset($dados['gabinete_estado']) ? $dados['gabinete_estado'] : '';
-        $gabinete_email = isset($dados['gabinete_email']) ? $dados['gabinete_email'] : '';
-        $gabinete_telefone = isset($dados['gabinete_telefone']) ? $dados['gabinete_telefone'] : '';
-        $gabinete_usuarios = isset($dados['gabinete_usuarios']) ? $dados['gabinete_usuarios'] : '';
+        $query = 'UPDATE gabinete SET ';
 
-        // Atualizando as informações do gabinete
-        $query = 'UPDATE gabinete 
-                  SET gabinete_tipo = :gabinete_tipo, gabinete_nome = :gabinete_nome, gabinete_nome_sistema = :gabinete_nome_sistema, gabinete_endereco = :gabinete_endereco, 
-                      gabinete_municipio = :gabinete_municipio, gabinete_estado = :gabinete_estado, gabinete_email = :gabinete_email, 
-                      gabinete_telefone = :gabinete_telefone, gabinete_usuarios = :gabinete_usuarios 
-                  WHERE gabinete_id = :gabinete_id';
+        $campos = [];
 
+        foreach ($dados as $campo => $valor) {
+            if ($campo !== 'gabinete_id') {
+                $campos[] = "$campo = :$campo";
+            }
+        }
+
+        $query .= implode(', ', $campos);
+        $query .= ' WHERE gabinete_id = :gabinete_id';
         $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(':gabinete_id', $gabinete_id, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_tipo', $gabinete_tipo, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_nome', $gabinete_nome, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_nome_sistema', $gabinete_nome_sistema, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_endereco', $gabinete_endereco, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_municipio', $gabinete_municipio, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_estado', $gabinete_estado, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_email', $gabinete_email, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_telefone', $gabinete_telefone, PDO::PARAM_STR);
-        $stmt->bindValue(':gabinete_usuarios', $gabinete_usuarios, PDO::PARAM_STR);
-
+        foreach ($dados as $campo => $valor) {
+            $stmt->bindValue(":$campo", $valor, PDO::PARAM_STR);
+        }
         return $stmt->execute();
     }
+
+
 
 
     public function listarGabinete($itens, $pagina, $ordem, $ordenarPor) {

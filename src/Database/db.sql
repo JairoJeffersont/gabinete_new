@@ -43,7 +43,6 @@ CREATE TABLE
     usuario_tipo varchar(36) NOT NULL,
     usuario_gabinete varchar(36) NOT NULL,
     usuario_nome varchar(255) NOT NULL,
-    usuario_cpf varchar(14) DEFAULT NULL,
     usuario_email varchar(255) NOT NULL UNIQUE,
     usuario_aniversario DATE DEFAULT NULL,
     usuario_telefone varchar(20) NOT NULL,
