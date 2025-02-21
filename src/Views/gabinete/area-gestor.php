@@ -113,7 +113,7 @@
                 </select>
             </div>
 
-            <div class="col-md-2 col-12">
+            <div class="col-md-2 col-6">
                 <input type="text" class="form-control form-control-sm" name="gabinete_municipio" value="<?php echo $buscaGabinete['dados']['gabinete_municipio'] ?>" placeholder="Município" required>
             </div>
             <div class="col-md-2 col-12">
