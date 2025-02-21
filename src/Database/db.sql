@@ -65,6 +65,21 @@ CREATE TABLE
     log_data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE 
+  mensagem (
+    mensagem_id varchar(36) NOT NULL,
+    mensagem_titulo varchar(255) NOT NULL, 
+    mensagem_texto text NOT NULL,
+    mensagem_status tinyint NOT NULL,
+    mensagem_remetente varchar(36),
+    mensagem_destinatario varchar(36),
+    mensagem_enviada_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(mensagem_id)
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE VIEW view_mensagem AS SELECT mensagem.*, usuario.usuario_nome FROM mensagem INNER JOIN usuario ON mensagem.mensagem_remetente = usuario.usuario_id;
+
 INSERT INTO gabinete_tipo (gabinete_tipo_id, gabinete_tipo_nome, gabinete_tipo_informacoes)
   VALUES
     (1, 'Outro', 'Gabinete administrativo'),

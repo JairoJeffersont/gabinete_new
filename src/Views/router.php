@@ -9,7 +9,8 @@ $rotas = [
     'fatal-error' => './src/Views/erros/fatal_error.php',
     'home' => './src/Views/home/home.php',
     'meu-gabinete' => './src/Views/meu-gabinete/meu-gabinete.php',
-    'usuario' => './src/Views/meu-gabinete/editar-usuario.php'
+    'usuario' => './src/Views/meu-gabinete/editar-usuario.php',
+    'minhas-mensagens' => './src/Views/minhas-mensagens/mensagens.php'
 
 ];
 
