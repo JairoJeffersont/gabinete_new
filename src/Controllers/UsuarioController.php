@@ -93,6 +93,12 @@ class UsuarioController {
                 return ['status' => 'not_found', 'message' => 'Usuário não encontrado'];
             }
 
+            if ($buscaUsuario['usuario_gestor']) {
+                return ['status' => 'forbidden', 'message' => 'Não é possível apagar um gestor.'];
+            }
+
+            
+
             $this->usuarioModel->apagarUsuario($usuarioId);
             return ['status' => 'success', 'message' => 'Usuário apagado com sucesso'];
         } catch (PDOException $e) {
@@ -134,7 +140,7 @@ class UsuarioController {
 
     // TIPO USUÁRIO CONTROLLER
     public function novoTipoUsuario($dados) {
-        
+
         try {
             $this->usuarioModel->criarTipoUsuario($dados);
             return ['status' => 'success', 'message' => 'Tipo de usuário inserido com sucesso'];

@@ -216,14 +216,23 @@ if ($buscaUsuario['status'] != 'success' || $buscaGabinete['status'] != 'success
                     if ($buscaUsuarios['status'] == 'success') {
 
                         foreach ($buscaUsuarios['dados'] as $usuario) {
+                            
                             foreach ($usuarioController->listarTipoUsuario()['dados'] as $tipoUsuario) {
                                 if ($tipoUsuario['usuario_tipo_id'] == $usuario['usuario_tipo']) {
                                     $tipoUsuarioNome = $tipoUsuario['usuario_tipo_nome'];
                                     break;
                                 }
                             }
+
+
+                            if($usuario['usuario_id'] == $_SESSION['usuario_id']){
+                                $link = '<td style="white-space: nowrap; justify-content: center; align-items: center;">' . $usuario['usuario_nome'] . '</td>';
+                            }else{
+                                $link = '<td style="white-space: nowrap; justify-content: center; align-items: center;"><a href="?secao=usuario&id=' . $usuario['usuario_id'] . '">' . $usuario['usuario_nome'] . '</a></td>';
+                            }
+
                             echo '<tr>';
-                            echo '<td style="white-space: nowrap; justify-content: center; align-items: center;"><a href="?secao=usuario&id=' . $usuario['usuario_id'] . '">' . $usuario['usuario_nome'] . '</a></td>';
+                            echo $link;
                             echo '<td style="white-space: nowrap;">' . $usuario['usuario_email'] . '</td>';
                             echo '<td style="white-space: nowrap;">' . (isset($usuario['usuario_aniversario']) && !empty($usuario['usuario_aniversario']) ? date('d/m', strtotime($usuario['usuario_aniversario'])) : '') . '</td>';
                             echo '<td style="white-space: nowrap;">' . $usuario['usuario_telefone'] . '</td>';

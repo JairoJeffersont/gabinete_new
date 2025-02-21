@@ -109,7 +109,7 @@ if ($buscaUsuario['status'] != 'success') {
                                                 window.location.href = "?secao=meu-gabinete";
                                             }, 1000);
                                         </script>';
-                        } elseif ($result['status'] == 'error') {
+                        } elseif ($result['status'] == 'error' || $result['status'] == 'forbidden') {
                             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
                         }
                     }
@@ -140,6 +140,7 @@ if ($buscaUsuario['status'] != 'success') {
                                 echo '<button type="submit" class="btn btn-success btn-sm" name="btn_ativar_usuario"><i class="bi bi-floppy-fill"></i> Ativar</button>';
                             }
                             ?>
+                            <button type="submit" class="btn btn-danger btn-sm" name="btn_apagar_usuario"><i class="bi bi-trash-fill"></i> Apagar</button>
                         </div>
                     </form>
                 </div>
@@ -156,6 +157,7 @@ if ($buscaUsuario['status'] != 'success') {
                         ];
 
                         $result = $usuarioController->atualizarUsuario($dados);
+
                         if ($result['status'] == 'success') {
                             echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">Novo gestor adicionado com sucesso. Aguarde...</div>';
                             echo '<script>
