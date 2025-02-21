@@ -50,6 +50,7 @@ class GabineteModel {
         $gabinete_id = isset($dados['gabinete_id']) ? $dados['gabinete_id'] : '';
         $gabinete_tipo = isset($dados['gabinete_tipo']) ? $dados['gabinete_tipo'] : '';
         $gabinete_nome = isset($dados['gabinete_nome']) ? $dados['gabinete_nome'] : '';
+        $gabinete_nome_sistema = isset($dados['gabinete_nome_sistema']) ? $dados['gabinete_nome_sistema'] : '';
         $gabinete_endereco = isset($dados['gabinete_endereco']) ? $dados['gabinete_endereco'] : '';
         $gabinete_municipio = isset($dados['gabinete_municipio']) ? $dados['gabinete_municipio'] : '';
         $gabinete_estado = isset($dados['gabinete_estado']) ? $dados['gabinete_estado'] : '';
@@ -59,7 +60,7 @@ class GabineteModel {
 
         // Atualizando as informações do gabinete
         $query = 'UPDATE gabinete 
-                  SET gabinete_tipo = :gabinete_tipo, gabinete_nome = :gabinete_nome, gabinete_endereco = :gabinete_endereco, 
+                  SET gabinete_tipo = :gabinete_tipo, gabinete_nome = :gabinete_nome, gabinete_nome_sistema = :gabinete_nome_sistema, gabinete_endereco = :gabinete_endereco, 
                       gabinete_municipio = :gabinete_municipio, gabinete_estado = :gabinete_estado, gabinete_email = :gabinete_email, 
                       gabinete_telefone = :gabinete_telefone, gabinete_usuarios = :gabinete_usuarios 
                   WHERE gabinete_id = :gabinete_id';
@@ -68,6 +69,7 @@ class GabineteModel {
         $stmt->bindValue(':gabinete_id', $gabinete_id, PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_tipo', $gabinete_tipo, PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_nome', $gabinete_nome, PDO::PARAM_STR);
+        $stmt->bindValue(':gabinete_nome_sistema', $gabinete_nome_sistema, PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_endereco', $gabinete_endereco, PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_municipio', $gabinete_municipio, PDO::PARAM_STR);
         $stmt->bindValue(':gabinete_estado', $gabinete_estado, PDO::PARAM_STR);

@@ -33,6 +33,7 @@ $usuarioController = new UsuarioController();
 
             return $nome;
         }
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_salvar'])) {
 
             if ($_POST['usuario_senha'] == $_POST['usuario_senha2']) {

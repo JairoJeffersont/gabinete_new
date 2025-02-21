@@ -29,12 +29,28 @@
         <?php
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_atualizar'])) {
 
+            function sanitizarNomeSistema($nome) {
+                $nome = mb_strtolower($nome, 'UTF-8');
+                $nome = preg_replace(
+                    array("/(á|à|ã|â|ä)/", "/(é|è|ê|ë)/", "/(í|ì|î|ï)/", "/(ó|ò|õ|ô|ö)/", "/(ú|ù|û|ü)/", "/(ñ)/", "/(ç)/"),
+                    array("a", "e", "i", "o", "u", "n", "c"),
+                    $nome
+                );
+                $nome = str_replace(' ', '-', $nome);
+                $nome = preg_replace('/[^\w-]/', '', $nome);
+
+                return $nome;
+            }
+
+
+
             $dados = [
                 'gabinete_id' => $buscaGabinete['dados']['gabinete_id'],
                 'gabinete_tipo' => $buscaGabinete['dados']['gabinete_tipo'],
-                'gabinete_nome' => $buscaGabinete['dados']['gabinete_nome'],
+                'gabinete_nome' => htmlspecialchars($_POST['gabinete_nome'], ENT_QUOTES, 'UTF-8'),
+                'gabinete_nome_sistema' => sanitizarNomeSistema(htmlspecialchars($_POST['gabinete_nome'], ENT_QUOTES, 'UTF-8')),
                 'gabinete_usuarios' => $buscaGabinete['dados']['gabinete_usuarios'],
-                'gabinete_estado' => $buscaGabinete['dados']['gabinete_estado'],
+                'gabinete_estado' => htmlspecialchars($_POST['gabinete_estado'], ENT_QUOTES, 'UTF-8'),
                 'gabinete_endereco' => htmlspecialchars($_POST['gabinete_endereco'], ENT_QUOTES, 'UTF-8'),
                 'gabinete_municipio' => htmlspecialchars($_POST['gabinete_municipio'], ENT_QUOTES, 'UTF-8'),
                 'gabinete_email' => htmlspecialchars($_POST['gabinete_email'], ENT_QUOTES, 'UTF-8'),
@@ -56,11 +72,47 @@
 
         <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
             <div class="col-md-2 col-12">
+                <input type="text" class="form-control form-control-sm" name="gabinete_nome" value="<?php echo $buscaGabinete['dados']['gabinete_nome'] ?>" placeholder="E-mail" required>
+            </div>
+            <div class="col-md-2 col-12">
                 <input type="text" class="form-control form-control-sm" name="gabinete_email" value="<?php echo $buscaGabinete['dados']['gabinete_email'] ?>" placeholder="E-mail" required>
             </div>
             <div class="col-md-2 col-12">
                 <input type="text" class="form-control form-control-sm" name="gabinete_telefone" value="<?php echo $buscaGabinete['dados']['gabinete_telefone'] ?>" placeholder="Telefone" required>
             </div>
+            <div class="col-md-1 col-6">
+                <select class="form-select form-select-sm form_dep" name="gabinete_estado" required>
+                    <option selected>Escolha o estado</option>
+                    <option value="AC" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'AC') ? 'selected' : ''; ?>>Acre</option>
+                    <option value="AL" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'AL') ? 'selected' : ''; ?>>Alagoas</option>
+                    <option value="AM" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'AM') ? 'selected' : ''; ?>>Amazonas</option>
+                    <option value="AP" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'AP') ? 'selected' : ''; ?>>Amapá</option>
+                    <option value="BA" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'BA') ? 'selected' : ''; ?>>Bahia</option>
+                    <option value="CE" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'CE') ? 'selected' : ''; ?>>Ceará</option>
+                    <option value="DF" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'DF') ? 'selected' : ''; ?>>Distrito Federal</option>
+                    <option value="ES" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'ES') ? 'selected' : ''; ?>>Espírito Santo</option>
+                    <option value="GO" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'GO') ? 'selected' : ''; ?>>Goiás</option>
+                    <option value="MA" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'MA') ? 'selected' : ''; ?>>Maranhão</option>
+                    <option value="MT" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'MT') ? 'selected' : ''; ?>>Mato Grosso</option>
+                    <option value="MS" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'MS') ? 'selected' : ''; ?>>Mato Grosso do Sul</option>
+                    <option value="MG" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'MG') ? 'selected' : ''; ?>>Minas Gerais</option>
+                    <option value="PA" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'PA') ? 'selected' : ''; ?>>Pará</option>
+                    <option value="PB" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'PB') ? 'selected' : ''; ?>>Paraíba</option>
+                    <option value="PE" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'PE') ? 'selected' : ''; ?>>Pernambuco</option>
+                    <option value="PI" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'PI') ? 'selected' : ''; ?>>Piauí</option>
+                    <option value="PR" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'PR') ? 'selected' : ''; ?>>Paraná</option>
+                    <option value="RJ" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'RJ') ? 'selected' : ''; ?>>Rio de Janeiro</option>
+                    <option value="RN" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'RN') ? 'selected' : ''; ?>>Rio Grande do Norte</option>
+                    <option value="RO" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'RO') ? 'selected' : ''; ?>>Rondônia</option>
+                    <option value="RR" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'RR') ? 'selected' : ''; ?>>Roraima</option>
+                    <option value="RS" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'RS') ? 'selected' : ''; ?>>Rio Grande do Sul</option>
+                    <option value="SC" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'SC') ? 'selected' : ''; ?>>Santa Catarina</option>
+                    <option value="SE" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'SE') ? 'selected' : ''; ?>>Sergipe</option>
+                    <option value="SP" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'SP') ? 'selected' : ''; ?>>São Paulo</option>
+                    <option value="TO" <?php echo ($buscaGabinete['dados']['gabinete_estado'] == 'TO') ? 'selected' : ''; ?>>Tocantins</option>
+                </select>
+            </div>
+
             <div class="col-md-2 col-12">
                 <input type="text" class="form-control form-control-sm" name="gabinete_municipio" value="<?php echo $buscaGabinete['dados']['gabinete_municipio'] ?>" placeholder="Município" required>
             </div>
@@ -129,7 +181,6 @@
                 <button type="submit" class="btn btn-primary btn-sm" name="btn_atualizar_usuario"><i class="bi bi-floppy-fill"></i> Atualizar</button>
             </div>
         </form>
-
     </div>
 </div>
 
