@@ -5,6 +5,16 @@ $('.custom-alert').each(function () {
     }
 });
 
+$('#file-button').on('click', function () {
+    $('#file-input').click();
+});
+
+$('#file-input').on('change', function () {
+    var fileName = $(this).val().split('\\').pop();
+    $('#file-button').html(fileName ? '<i class="bi bi-check-circle"></i> Ok!' : 'Nada foi enviado');
+});
+
+
 
 function copyToClipboard() {
     // Pega o link do elemento com o id 'link-cadastro'

@@ -9,10 +9,6 @@ $orgaoController = new OrgaoController();
 
 $busca = $orgaoController->listarOrgaosTipos($_SESSION['usuario_gabinete']);
 
-if ($busca['status'] == 'not_found') {
-    $orgaoController->inserirTipos($_SESSION['usuario_id'], $_SESSION['usuario_gabinete']);
-}
-
 ?>
 
 <div class="d-flex" id="wrapper">

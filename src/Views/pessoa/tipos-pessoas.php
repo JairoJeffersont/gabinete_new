@@ -10,9 +10,6 @@ $pessoaController = new PessoaController();
 
 $busca = $pessoaController->listarTiposPessoa($_SESSION['usuario_gabinete']);
 
-if ($busca['status'] == 'not_found') {
-    $pessoaController->inserirTiposPessoas($_SESSION['usuario_id'], $_SESSION['usuario_gabinete']);
-}
 
 ?>
 

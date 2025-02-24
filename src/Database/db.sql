@@ -175,7 +175,7 @@ CREATE TABLE pessoas_profissoes (
 CREATE TABLE pessoas (
     pessoa_id varchar(36) NOT NULL,
     pessoa_nome varchar(255) NOT NULL,
-    pessoa_aniversario varchar(255) NOT NULL,
+    pessoa_aniversario DATE DEFAULT NULL,
     pessoa_email varchar(255) NOT NULL UNIQUE,
     pessoa_telefone varchar(255) DEFAULT NULL,
     pessoa_endereco text DEFAULT NULL,

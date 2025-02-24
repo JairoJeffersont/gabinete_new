@@ -9,9 +9,6 @@ $pessoaController = new PessoaController();
 
 $busca = $pessoaController->listarProfissoesPessoa($_SESSION['usuario_gabinete']);
 
-if ($busca['status'] == 'not_found') {
-    $pessoaController->inserirTiposProfissoes($_SESSION['usuario_id'], $_SESSION['usuario_gabinete']);
-}
 
 ?>
 

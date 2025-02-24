@@ -67,7 +67,7 @@ class OrgaoController {
     }
 
     // LISTAR ÓRGÃOS
-    public function listarOrgaos($itens, $pagina, $ordem, $ordenarPor, $termo = null, $estado = null, $gabinete = null) {
+    public function listarOrgaos($itens, $pagina, $ordem, $ordenarPor, $termo, $estado, $gabinete) {
         try {
             $resultado = $this->orgaoModel->listar($itens, $pagina, $ordem, $ordenarPor, $termo, $estado, $gabinete);
 
@@ -193,44 +193,5 @@ class OrgaoController {
         }
     }
 
-    public function inserirTipos($usuario, $gabinete) {
-        $orgaosTipos = [
-            ['orgao_tipo_nome' => 'Tipo não informado', 'orgao_tipo_descricao' => 'Sem tipo definido'],
-            ['orgao_tipo_nome' => 'Ministério', 'orgao_tipo_descricao' => 'Órgão responsável por uma área específica do governo federal'],
-            ['orgao_tipo_nome' => 'Autarquia Federal', 'orgao_tipo_descricao' => 'Órgão com autonomia administrativa e financeira'],
-            ['orgao_tipo_nome' => 'Empresa Pública Federal', 'orgao_tipo_descricao' => 'Órgão que realiza atividades econômicas como públicos, correios, eletrobras..'],
-            ['orgao_tipo_nome' => 'Universidade Federal', 'orgao_tipo_descricao' => 'Instituição de ensino superior federal'],
-            ['orgao_tipo_nome' => 'Polícia Federal', 'orgao_tipo_descricao' => 'Órgão responsável pela segurança e investigação em âmbito federal'],
-            ['orgao_tipo_nome' => 'Governo Estadual', 'orgao_tipo_descricao' => 'Órgão executivo estadual responsável pela administração de um estado'],
-            ['orgao_tipo_nome' => 'Assembleia Legislativa Estadual', 'orgao_tipo_descricao' => 'Órgão legislativo estadual responsável pela criação de leis estaduais'],
-            ['orgao_tipo_nome' => 'Prefeitura', 'orgao_tipo_descricao' => 'Órgão executivo municipal responsável pela administração local'],
-            ['orgao_tipo_nome' => 'Câmara Municipal', 'orgao_tipo_descricao' => 'Órgão legislativo municipal responsável pela criação de leis municipais'],
-            ['orgao_tipo_nome' => 'Entidade Civil', 'orgao_tipo_descricao' => 'Organização sem fins lucrativos que atua em prol de causas sociais'],
-            ['orgao_tipo_nome' => 'Escola estadual', 'orgao_tipo_descricao' => 'Escolas estaduais'],
-            ['orgao_tipo_nome' => 'Escola municipal', 'orgao_tipo_descricao' => 'Escolas municipais'],
-            ['orgao_tipo_nome' => 'Escola Federal', 'orgao_tipo_descricao' => 'Escolas federais'],
-            ['orgao_tipo_nome' => 'Partido Político', 'orgao_tipo_descricao' => 'Partido Político'],
-            ['orgao_tipo_nome' => 'Câmara Federal', 'orgao_tipo_descricao' => 'Câmara Federal'],
-            ['orgao_tipo_nome' => 'Senado Federal', 'orgao_tipo_descricao' => 'Senado Federal'],
-            ['orgao_tipo_nome' => 'Presidência da República', 'orgao_tipo_descricao' => 'Presidência da República'],
-            ['orgao_tipo_nome' => 'Veículo de comunicação', 'orgao_tipo_descricao' => 'Jornais, revistas, sites de notícias, emissoras de rádio e TV'],
-        ];
-
-        try {
-            foreach ($orgaosTipos as $tipo) {
-                $tipo['orgao_tipo_criado_por'] = $usuario;
-                $tipo['orgao_tipo_gabinete'] = $gabinete;
-                $this->orgaoModel->criarOrgaoTipo($tipo);
-            }
-            return ['status' => 'success', 'message' => 'Tipos padrões de órgãos inseridos com sucesso'];
-        } catch (PDOException $e) {
-            if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-                return ['status' => 'duplicated', 'message' => 'Alguns tipos de órgãos já estão cadastrados'];
-            } else {
-                $erro_id = uniqid();
-                $this->logger->novoLog('orgao_tipo_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
-                return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
-            }
-        }
-    }
+  
 }
