@@ -11,7 +11,9 @@ require_once './vendor/autoload.php';
 $mensagemController = new MensagemController();
 $usuarioController = new UsuarioController();
 
-$buscaMensagens = $mensagemController->buscaMensagem('mensagem_destinatario', $_SESSION['usuario_id']);
+$arquivada = isset($_GET['arquivada']) ? $_GET['arquivada'] : 0;
+
+$buscaMensagens = $mensagemController->listarMensagens(1000, 1, 'asc', 'mensagem_enviada_em', $_SESSION['usuario_id'], $arquivada);
 
 ?>
 
@@ -48,7 +50,7 @@ $buscaMensagens = $mensagemController->buscaMensagem('mensagem_destinatario', $_
                         if ($result['status'] == 'success') {
                             echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" role="alert" data-timeout="3">' . $result['message'] . '</div>';
                         } else if ($result['status'] == 'error') {
-                            echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] .'</div>';
+                            echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . '</div>';
                         }
                     }
 
@@ -83,6 +85,18 @@ $buscaMensagens = $mensagemController->buscaMensagem('mensagem_destinatario', $_
             </div>
             <div class="card mb-2">
                 <div class="card-body p-2">
+                    <form class="row g-2 form_custom mb-2" id="form_novo" method="GET" enctype="multipart/form-data">
+                        <input type="hidden" name="secao" value="minhas-mensagens" />
+                        <div class="col-md-1 col-12">
+                            <select class="form-select form-select-sm" name="arquivada" required>
+                                <option value="0" <?php echo $arquivada == 0 ? 'selected' : ''; ?>>Caixa de entrada</option>
+                                <option value="1" <?php echo $arquivada == 1 ? 'selected' : ''; ?>>Lixeira</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <button type="submit" class="btn btn-success btn-sm">OK</button>
+                        </div>
+                    </form>
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered table-striped mb-0 custom-table">
                             <thead>
@@ -102,8 +116,8 @@ $buscaMensagens = $mensagemController->buscaMensagem('mensagem_destinatario', $_
                                         echo '<td>' . date('d/m H:i', strtotime($mensagem['mensagem_enviada_em'])) . '</td>';
                                         echo '</tr>';
                                     }
-                                }else if($buscaMensagens['status'] == 'not_found' || $buscaMensagens['status'] == 'error'){
-                                    echo '<tr><td colspan="3">'.$buscaMensagens['message'].'</td></>';
+                                } else if ($buscaMensagens['status'] == 'not_found' || $buscaMensagens['status'] == 'error') {
+                                    echo '<tr><td colspan="3">' . $buscaMensagens['message'] . '</td></>';
                                 }
                                 ?>
                             </tbody>

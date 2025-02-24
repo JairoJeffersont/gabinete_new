@@ -73,6 +73,7 @@ CREATE TABLE
     mensagem_status tinyint NOT NULL,
     mensagem_remetente varchar(36),
     mensagem_destinatario varchar(36),
+    mensagem_arquivada tinyint DEFAULT 0,
     mensagem_enviada_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(mensagem_id)
   )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

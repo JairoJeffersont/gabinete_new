@@ -10,7 +10,8 @@ $rotas = [
     'home' => './src/Views/home/home.php',
     'meu-gabinete' => './src/Views/meu-gabinete/meu-gabinete.php',
     'usuario' => './src/Views/meu-gabinete/editar-usuario.php',
-    'minhas-mensagens' => './src/Views/minhas-mensagens/mensagens.php'
+    'minhas-mensagens' => './src/Views/minhas-mensagens/mensagens.php',
+    'mensagem' => './src/Views/minhas-mensagens/mensagem.php'
 
 ];
 

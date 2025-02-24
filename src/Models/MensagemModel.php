@@ -29,19 +29,20 @@ class MensagemModel {
     }
 
     // LISTAR MENSAGENS
-    public function listarMensagem($itens, $pagina, $ordem, $ordenarPor, $usuario) {
+    public function listarMensagem($itens, $pagina, $ordem, $ordenarPor, $usuario, $arquivada) {
         // Listando mensagens com paginação
         $offset = ($pagina - 1) * $itens;
 
         $query = "SELECT view_mensagem.*, 
-                         (SELECT COUNT(mensagem_id) FROM mensagem WHERE mensagem_destinatario = :mensagem_destinatario) as total_mensagem 
-                  FROM view_mensagem 
+                         (SELECT COUNT(mensagem_id) FROM mensagem WHERE mensagem_destinatario = :mensagem_destinatario AND mensagem_arquivada = :arquivada) as total_mensagem 
+                  FROM view_mensagem WHERE mensagem_destinatario = :mensagem_destinatario AND mensagem_arquivada = :arquivada
                   ORDER BY $ordenarPor $ordem 
                   LIMIT :itens OFFSET :offset";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':itens', $itens, PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->bindValue(':arquivada', $arquivada, PDO::PARAM_BOOL);
         $stmt->bindValue(':mensagem_destinatario', $usuario, PDO::PARAM_STR);
         $stmt->execute();
 
@@ -51,19 +52,29 @@ class MensagemModel {
     // BUSCAR MENSAGEM POR COLUNA
     public function buscaMensagem($coluna, $valor) {
         // Buscando mensagem por coluna e valor
-        $query = "SELECT * FROM view_mensagem WHERE $coluna = :valor";
+        $query = "SELECT * FROM view_mensagem WHERE $coluna = :valor ORDER BY mensagem_enviada_em DESC";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':valor', $valor, PDO::PARAM_STR);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: null;
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
     // APAGAR MENSAGEM
     public function apagarMensagem($mensagem_id) {
         // Apagando mensagem
-        $query = 'DELETE FROM mensagem WHERE mensagem_id = :mensagem_id';
+        $query = 'UPDATE mensagem SET mensagem_arquivada = 1 WHERE mensagem_id = :mensagem_id';
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':mensagem_id', $mensagem_id, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    public function marcarLida($mensagem_id) {
+        // Apagando mensagem
+        $query = 'UPDATE mensagem SET mensagem_status = 1 WHERE mensagem_id = :mensagem_id';
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':mensagem_id', $mensagem_id, PDO::PARAM_STR);

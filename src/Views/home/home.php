@@ -16,7 +16,7 @@ $mensagemController = new MensagemController();
 
 $buscaUsuario = $usuarioController->buscaUsuario('usuario_id', $_SESSION['usuario_id']);
 $buscaGabinete = $gabineteController->buscaGabinete('gabinete_id', $buscaUsuario['dados']['usuario_gabinete']);
-$buscaMensagens = $mensagemController->buscaMensagem('mensagem_destinatario', $_SESSION['usuario_id']);
+$buscaMensagens = $mensagemController->listarMensagens(1000, 1, 'asc', 'mensagem_enviada_em', $_SESSION['usuario_id'], 0);
 $utils = new Utils();
 
 ?>
@@ -44,12 +44,21 @@ $utils = new Utils();
                     ?>
                     <hr>
 
-                    <?php 
-                        if($buscaMensagens['status'] == 'success'){
-                            echo '<p class="card-text mb-0 mt-1"><i class="bi bi-envelope"></i> <a href="?secao=minhas-mensagens"><b>Você tem '.count($buscaMensagens['dados']).' novas mensagens</b></a></p>';
-                        }else if($buscaMensagens['status'] == 'not_found'){
+                    <?php
+                    if ($buscaMensagens['status'] == 'success') {
+                        $mensagensNaoLidas = count(array_filter($buscaMensagens['dados'], function ($mensagem) {
+                            return isset($mensagem['mensagem_status']) && $mensagem['mensagem_status'] === 0;
+                        }));
+
+                        if ($mensagensNaoLidas > 0) {
+                            echo '<p class="card-text mb-0 mt-1"><i class="bi bi-envelope"></i> <a href="?secao=minhas-mensagens"><b>Você tem ' . $mensagensNaoLidas . ' novas mensagens</b></a></p>';
+                        } else {
                             echo '<p class="card-text mb-0 mt-1"><i class="bi bi-envelope"></i> Você não tem novas mensagens.</p>';
                         }
+                    } else if ($buscaMensagens['status'] == 'not_found') {
+                        echo '<p class="card-text mb-0 mt-1"><i class="bi bi-envelope"></i> Você não tem novas mensagens.</p>';
+                    }
+
                     ?>
                 </div>
             </div>

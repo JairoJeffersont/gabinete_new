@@ -20,7 +20,7 @@ class MensagemController {
     public function novaMensagem($dados) {
         try {
             $this->mensagemModel->criarMensagem($dados);
-            return ['status' => 'success', 'message' => 'Mensagem inserida com sucesso'];
+            return ['status' => 'success', 'message' => 'Mensagem enviada com sucesso'];
         } catch (PDOException $e) {
             $erro_id = uniqid();
                 $this->logger->novoLog('mensagem_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
@@ -45,9 +45,9 @@ class MensagemController {
     }
 
     // LISTAR MENSAGENS
-    public function listarMensagens($itens, $pagina, $ordem, $ordenarPor, $usuario) {
+    public function listarMensagens($itens, $pagina, $ordem, $ordenarPor, $usuario, $arquivada) {
         try {
-            $resultado = $this->mensagemModel->listarMensagem($itens, $pagina, $ordem, $ordenarPor, $usuario);
+            $resultado = $this->mensagemModel->listarMensagem($itens, $pagina, $ordem, $ordenarPor, $usuario, $arquivada);
 
             if ($resultado) {
                 $total = (isset($resultado[0]['total_mensagem'])) ? $resultado[0]['total_mensagem'] : 0;
@@ -73,6 +73,26 @@ class MensagemController {
             }
 
             $this->mensagemModel->apagarMensagem($mensagemId);
+            return ['status' => 'success', 'message' => 'Mensagem apagada com sucesso'];
+        } catch (PDOException $e) {
+            if (strpos($e->getMessage(), 'FOREIGN KEY') !== false) {
+                return ['status' => 'forbidden', 'message' => 'Não é possível apagar a mensagem. Existem registros dependentes.'];
+            }
+            $erro_id = uniqid();
+            $this->logger->novoLog('mensagem_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
+    public function marcarLida($mensagemId) {
+        try {
+            $buscaMensagem = $this->mensagemModel->marcarLida('mensagem_id', $mensagemId);
+
+            if (!$buscaMensagem) {
+                return ['status' => 'not_found', 'message' => 'Mensagem lida'];
+            }
+
+            $this->mensagemModel->marcarLida($mensagemId);
             return ['status' => 'success', 'message' => 'Mensagem apagada com sucesso'];
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), 'FOREIGN KEY') !== false) {
