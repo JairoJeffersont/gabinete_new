@@ -37,20 +37,24 @@ $buscaMensagens = $mensagemController->listarMensagens(1000, 1, 'asc', 'mensagem
                 <div class="card-body p-2">
                     <?php
                     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_enviar'])) {
-                        $dados = [
-                            'mensagem_titulo' => htmlspecialchars($_POST['mensagem_titulo'], ENT_QUOTES, 'UTF-8'),
-                            'mensagem_texto' => htmlspecialchars($_POST['mensagem_texto'], ENT_QUOTES, 'UTF-8'),
-                            'mensagem_status' => 0,
-                            'mensagem_remetente' => $_SESSION['usuario_id'],
-                            'mensagem_destinatario' => htmlspecialchars($_POST['mensagem_destinatario'], ENT_QUOTES, 'UTF-8')
-                        ];
+                        if ($_POST['mensagem_destinatario'] != 0) {
+                            $dados = [
+                                'mensagem_titulo' => htmlspecialchars($_POST['mensagem_titulo'], ENT_QUOTES, 'UTF-8'),
+                                'mensagem_texto' => htmlspecialchars($_POST['mensagem_texto'], ENT_QUOTES, 'UTF-8'),
+                                'mensagem_status' => 0,
+                                'mensagem_remetente' => $_SESSION['usuario_id'],
+                                'mensagem_destinatario' => htmlspecialchars($_POST['mensagem_destinatario'], ENT_QUOTES, 'UTF-8')
+                            ];
 
-                        $result = $mensagemController->novaMensagem($dados);
+                            $result = $mensagemController->novaMensagem($dados);
 
-                        if ($result['status'] == 'success') {
-                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" role="alert" data-timeout="3">' . $result['message'] . '</div>';
-                        } else if ($result['status'] == 'error') {
-                            echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . '</div>';
+                            if ($result['status'] == 'success') {
+                                echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" role="alert" data-timeout="3">' . $result['message'] . '</div>';
+                            } else if ($result['status'] == 'error') {
+                                echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . '</div>';
+                            }
+                        } else {
+                            echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" role="alert" data-timeout="3">Escolha o destinatário</div>';
                         }
                     }
 
@@ -61,7 +65,7 @@ $buscaMensagens = $mensagemController->listarMensagens(1000, 1, 'asc', 'mensagem
                         </div>
                         <div class="col-md-2 col-12">
                             <select class="form-select form-select-sm" name="mensagem_destinatario" required>
-                                <option>Selecione o destinatário</option>
+                                <option value="0">Selecione o destinatário</option>
                                 <?php
                                 $buscaUsuarios = $usuarioController->listarUsuarios(1000, 1, 'asc', 'usuario_nome', $_SESSION['usuario_gabinete']);
                                 if ($buscaUsuarios['status'] == 'success') {
@@ -78,7 +82,7 @@ $buscaMensagens = $mensagemController->listarMensagens(1000, 1, 'asc', 'mensagem
                             <button type="submit" class="btn btn-success btn-sm" name="btn_enviar"><i class="bi bi-forward-fill"></i> Enviar</button>
                         </div>
                         <div class="col-md-12 col-12">
-                            <textarea class="form-control form-control-sm" name="mensagem_texto" rows="10" placeholder="Texto da mensagem"></textarea>
+                            <textarea class="form-control form-control-sm" name="mensagem_texto" rows="10" placeholder="Texto da mensagem" required></textarea>
                         </div>
                     </form>
                 </div>
