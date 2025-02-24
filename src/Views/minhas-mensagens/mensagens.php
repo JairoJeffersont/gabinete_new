@@ -45,7 +45,6 @@ $buscaMensagens = $mensagemController->listarMensagens(1000, 1, 'asc', 'mensagem
                                 'mensagem_remetente' => $_SESSION['usuario_id'],
                                 'mensagem_destinatario' => htmlspecialchars($_POST['mensagem_destinatario'], ENT_QUOTES, 'UTF-8')
                             ];
-
                             $result = $mensagemController->novaMensagem($dados);
 
                             if ($result['status'] == 'success') {
@@ -57,7 +56,6 @@ $buscaMensagens = $mensagemController->listarMensagens(1000, 1, 'asc', 'mensagem
                             echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" role="alert" data-timeout="3">Escolha o destinatário</div>';
                         }
                     }
-
                     ?>
                     <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
                         <div class="col-md-12 col-12">
