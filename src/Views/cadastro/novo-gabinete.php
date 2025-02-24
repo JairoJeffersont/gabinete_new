@@ -28,7 +28,8 @@ $utils = new Utils();
                     'gabinete_nome' => htmlspecialchars($_POST['gabinete_nome'], ENT_QUOTES, 'UTF-8'),
                     'gabinete_nome_sistema' => $utils->sanitizarString(htmlspecialchars($_POST['gabinete_nome'], ENT_QUOTES, 'UTF-8')),
                     'gabinete_tipo' => htmlspecialchars($_POST['gabinete_tipo'], ENT_QUOTES, 'UTF-8'),
-                    'gabinete_estado_autoridade' => htmlspecialchars($_POST['gabinete_estado'], ENT_QUOTES, 'UTF-8')
+                    'gabinete_estado_autoridade' => htmlspecialchars($_POST['gabinete_estado'], ENT_QUOTES, 'UTF-8'),
+                    'gabinete_usuarios' => htmlspecialchars($_POST['gabinete_usuarios'], ENT_QUOTES, 'UTF-8')
                 ];
 
                 $resultGabinete = $gabineteController->novoGabinete($gabinete);
@@ -44,7 +45,7 @@ $utils = new Utils();
                         'usuario_email' => htmlspecialchars($_POST['usuario_email'], ENT_QUOTES, 'UTF-8'),
                         'usuario_telefone' => htmlspecialchars($_POST['usuario_telefone'], ENT_QUOTES, 'UTF-8'),
                         'usuario_ativo' => 1,
-                        'usuario_gestor' => 1
+                        'usuario_gestor' => 1,
                     ];
 
                     $resultUsuario = $usuarioController->novoUsuario($usuario);
@@ -81,8 +82,11 @@ $utils = new Utils();
             <div class="col-md-6 col-6">
                 <input type="password" class="form-control form-control-sm" name="usuario_senha2" placeholder="Confirma a senha" required>
             </div>
-            <div class="col-md-12 col-6">
+            <div class="col-md-8 col-6">
                 <input type="text" class="form-control form-control-sm" name="usuario_telefone" placeholder="Telefone (com DDD)" data-mask="(00) 00000-0000" maxlength="15" required>
+            </div>
+            <div class="col-md-4 col-6">
+                <input type="text" class="form-control form-control-sm" name="gabinete_usuarios" placeholder="Assinaturas"  required>
             </div>
 
             <div class="col-md-6 col-6">

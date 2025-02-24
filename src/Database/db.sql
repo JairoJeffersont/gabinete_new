@@ -207,7 +207,5 @@ CREATE TABLE pessoas (
 
 
 
-CREATE VIEW view_pessoas_tipos AS SELECT pessoas_tipos.*, usuario.usuario_nome, gabinete.gabinete_nome FROM pessoas_tipos INNER JOIN usuario ON pessoa_tipo_criado_por = usuario.usuario_id INNER JOIN gabinete ON pessoas_tipos.pessoa_tipo_gabinete = gabinete.gabinete_id;
-CREATE VIEW view_pessoas_profissoes AS SELECT pessoas_profissoes.*, usuario.usuario_nome, gabinete.gabinete_nome FROM pessoas_profissoes INNER JOIN usuario ON pessoas_profissoes.pessoas_profissoes_criado_por = usuario.usuario_id INNER JOIN gabinete ON pessoas_profissoes.pessoas_profissoes_gabinete = gabinete.gabinete_id; 
 
 CREATE VIEW view_pessoas AS SELECT pessoas.*, usuario.usuario_nome, gabinete.gabinete_nome, pessoas_tipos.pessoa_tipo_nome, pessoas_profissoes.pessoas_profissoes_nome, orgaos.orgao_nome FROM pessoas INNER JOIN usuario ON pessoas.pessoa_criada_por = usuario.usuario_id INNER JOIN gabinete ON pessoas.pessoa_gabinete = gabinete.gabinete_id INNER JOIN pessoas_tipos ON pessoas.pessoa_tipo = pessoas_tipos.pessoa_tipo_id INNER JOIN pessoas_profissoes ON pessoas.pessoa_profissao = pessoas_profissoes.pessoas_profissoes_id INNER JOIN orgaos ON pessoas.pessoa_orgao = orgaos.orgao_id;

@@ -184,7 +184,7 @@ class OrgaoModel {
 
     // LISTAR TIPOS DE ÓRGÃOS
     public function listarOrgaosTipos($orgao_tipo_gabinete) {
-        $query = "SELECT * FROM view_orgaos_tipos WHERE orgao_tipo_gabinete = :orgao_tipo_gabinete ORDER BY orgao_tipo_nome ASC";
+        $query = "SELECT * FROM orgaos_tipos WHERE orgao_tipo_gabinete = :orgao_tipo_gabinete ORDER BY orgao_tipo_nome ASC";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':orgao_tipo_gabinete', $orgao_tipo_gabinete, PDO::PARAM_STR);
@@ -196,7 +196,7 @@ class OrgaoModel {
 
     // BUSCAR TIPO DE ÓRGÃO PELO ID
     public function buscaOrgaoTipo($id) {
-        $query = "SELECT * FROM view_orgaos_tipos WHERE orgao_tipo_id = :id";
+        $query = "SELECT * FROM orgaos_tipos WHERE orgao_tipo_id = :id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':id', $id, PDO::PARAM_STR);

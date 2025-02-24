@@ -143,7 +143,7 @@ class PessoaModel {
 
     // LISTAR TIPOS DE PESSOA
     public function listarTiposPessoa($pessoa_tipo_gabinete) {
-        $query = 'SELECT * FROM view_pessoas_tipos WHERE pessoa_tipo_gabinete = :pessoa_tipo_gabinete ORDER BY pessoa_tipo_nome ASC';
+        $query = 'SELECT * FROM pessoas_tipos WHERE pessoa_tipo_gabinete = :pessoa_tipo_gabinete ORDER BY pessoa_tipo_nome ASC';
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':pessoa_tipo_gabinete', $pessoa_tipo_gabinete, PDO::PARAM_STR);
         $stmt->execute();
@@ -152,7 +152,7 @@ class PessoaModel {
 
     // BUSCAR TIPO DE PESSOA POR ID
     public function buscaTipoPessoa($id) {
-        $query = 'SELECT * FROM view_pessoas_tipos WHERE pessoa_tipo_id = :id';
+        $query = 'SELECT * FROM pessoas_tipos WHERE pessoa_tipo_id = :id';
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':id', $id, PDO::PARAM_STR);
         $stmt->execute();
@@ -198,7 +198,7 @@ class PessoaModel {
 
     // LISTAR PROFISSÕES DE PESSOA
     public function listarProfissoesPessoa($pessoas_profissoes_gabinete) {
-        $query = 'SELECT * FROM view_pessoas_profissoes WHERE pessoas_profissoes_gabinete = :pessoas_profissoes_gabinete ORDER BY pessoas_profissoes_nome ASC';
+        $query = 'SELECT * FROM pessoas_profissoes WHERE pessoas_profissoes_gabinete = :pessoas_profissoes_gabinete ORDER BY pessoas_profissoes_nome ASC';
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':pessoas_profissoes_gabinete', $pessoas_profissoes_gabinete, PDO::PARAM_STR);
         $stmt->execute();
@@ -207,7 +207,7 @@ class PessoaModel {
 
     // BUSCAR PROFISSÃO DE PESSOA POR ID
     public function buscaProfissaoPessoa($id) {
-        $query = 'SELECT * FROM view_pessoas_profissoes WHERE pessoas_profissoes_id = :id';
+        $query = 'SELECT * FROM pessoas_profissoes WHERE pessoas_profissoes_id = :id';
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':id', $id, PDO::PARAM_STR);
         $stmt->execute();
