@@ -18,7 +18,7 @@ class PessoaController {
         $this->pessoaModel = new PessoaModel();
         $this->logger = new Logger();
         $this->fileUpload = new FileUploader();
-        $this->pasta_foto = 'public/arquivos/fotos_pessoas/';
+        $this->pasta_foto = 'public/arquivos/fotos_pessoas';
     }
 
     // CRIAR PESSOA
@@ -58,7 +58,7 @@ class PessoaController {
             }
 
             if (!empty($dados['foto']['tmp_name'])) {
-                $uploadResult = $this->fileUpload->uploadFile($this->pasta_foto . '/' . $dados['pessoa_cliente'], $dados['foto'], ['jpg', 'jpeg', 'png'], 2);
+                $uploadResult = $this->fileUpload->uploadFile($this->pasta_foto . '/' . $dados['pessoa_gabinete'], $dados['foto'], ['image/jpg', 'image/jpeg', 'image/png'], 2);
 
                 if ($uploadResult['status'] !== 'success') {
                     return $uploadResult;
@@ -68,12 +68,14 @@ class PessoaController {
                     $this->fileUpload->deleteFile($buscaPessoa['dados']['pessoa_foto']);
                 }
 
+
                 $dados['pessoa_foto'] = $uploadResult['file_path'];
             } else {
                 $dados['pessoa_foto'] = $pessoa['dados'][0]['pessoa_foto'] ?? null;
             }
 
-
+            unset($dados['foto']);
+            unset($dados['pessoa_gabinete']);
             $this->pessoaModel->atualizarPessoa($dados);
             return ['status' => 'success', 'message' => 'Pessoa atualizada com sucesso'];
         } catch (PDOException $e) {
@@ -119,22 +121,28 @@ class PessoaController {
     }
 
     // APAGAR PESSOA
-    public function apagarPessoa($pessoaId) {
+    public function apagarPessoa($pessoa_id) {
         try {
-            $buscaPessoa = $this->pessoaModel->buscaPessoa('pessoa_id', $pessoaId);
+            $pessoa = $this->buscaPessoa('pessoa_id', $pessoa_id);
 
-            if (!$buscaPessoa) {
-                return ['status' => 'not_found', 'message' => 'Pessoa não encontrada'];
+            if ($pessoa['status'] == 'not_found') {
+                return $pessoa;
             }
 
-            $this->pessoaModel->apagarPessoa($pessoaId);
-            return ['status' => 'success', 'message' => 'Pessoa apagada com sucesso'];
+            if (isset($pessoa['dados']['pessoa_foto'])) {
+                $this->fileUpload->deleteFile($pessoa['dados']['pessoa_foto']);
+            }
+
+            $this->pessoaModel->apagarPessoa($pessoa_id);
+            return ['status' => 'success', 'message' => 'Pessoa apagada com sucesso.'];
         } catch (PDOException $e) {
+
             if (strpos($e->getMessage(), 'FOREIGN KEY') !== false) {
-                return ['status' => 'forbidden', 'message' => 'Não é possível apagar a pessoa. Existem registros dependentes.'];
+                return ['status' => 'error', 'status_code' => 400, 'message' => 'Não é possível apagar a pessoa. Existem registros dependentes.'];
             }
+
             $erro_id = uniqid();
-            $this->logger->novoLog('pessoa_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            $this->logger->novoLog('pessoa_log', $e->getMessage() . ' | ' . $erro_id);
             return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
         }
     }
