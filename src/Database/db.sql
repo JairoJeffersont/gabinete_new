@@ -116,3 +116,31 @@ CREATE TABLE orgaos_tipos (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 
+CREATE TABLE orgaos (
+    orgao_id varchar(36) NOT NULL,
+    orgao_nome text NOT NULL,
+    orgao_email varchar(255) NOT NULL UNIQUE,
+    orgao_telefone varchar(255) DEFAULT NULL,
+    orgao_endereco text,
+    orgao_bairro text,
+    orgao_municipio varchar(255) NOT NULL,
+    orgao_estado varchar(255) NOT NULL,
+    orgao_cep varchar(255) DEFAULT NULL,
+    orgao_tipo varchar(36) NOT NULL,
+    orgao_informacoes text,
+    orgao_site text,
+    orgao_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    orgao_atualizado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    orgao_criado_por varchar(36) NOT NULL,
+    orgao_gabinete varchar(36) NOT NULL,
+    PRIMARY KEY (orgao_id),
+    CONSTRAINT fk_orgao_criado_por FOREIGN KEY (orgao_criado_por) REFERENCES usuario(usuario_id),
+    CONSTRAINT fk_orgao_tipo FOREIGN KEY (orgao_tipo) REFERENCES orgaos_tipos(orgao_tipo_id),
+    CONSTRAINT fk_orgao_gabinete FOREIGN KEY (orgao_gabinete) REFERENCES gabinete(gabinete_id)
+
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+CREATE VIEW view_orgaos AS SELECT orgaos.*, orgaos_tipos.orgao_tipo_nome FROM orgaos INNER JOIN orgaos_tipos ON orgaos.orgao_tipo = orgaos_tipos.orgao_tipo_id INNER JOIN usuario ON orgaos.orgao_criado_por = usuario.usuario_id;
+
+
+
