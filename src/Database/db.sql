@@ -144,3 +144,70 @@ CREATE VIEW view_orgaos AS SELECT orgaos.*, orgaos_tipos.orgao_tipo_nome, usuari
 
 
 
+CREATE TABLE pessoas_tipos (
+    pessoa_tipo_id varchar(36) NOT NULL,
+    pessoa_tipo_nome varchar(255) NOT NULL UNIQUE,
+    pessoa_tipo_descricao text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+    pessoa_tipo_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    pessoa_tipo_atualizado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    pessoa_tipo_criado_por varchar(36) NOT NULL,
+    pessoa_tipo_gabinete varchar(36) NOT NULL,
+    PRIMARY KEY (pessoa_tipo_id),
+    CONSTRAINT fk_pessoa_tipo_criado_por FOREIGN KEY (pessoa_tipo_criado_por) REFERENCES usuario (usuario_id),
+    CONSTRAINT fk_pessoa_tipo_gabinete FOREIGN KEY (pessoa_tipo_gabinete) REFERENCES gabinete (gabinete_id)
+
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+CREATE TABLE pessoas_profissoes (
+    pessoas_profissoes_id varchar(36) NOT NULL,
+    pessoas_profissoes_nome varchar(255) NOT NULL UNIQUE,
+    pessoas_profissoes_descricao text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+    pessoas_profissoes_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    pessoas_profissoes_atualizado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    pessoas_profissoes_criado_por varchar(36) NOT NULL,
+    pessoas_profissoes_gabinete varchar(36) NOT NULL,
+    PRIMARY KEY (pessoas_profissoes_id),
+    CONSTRAINT fk_pessoas_profissoes_criado_por FOREIGN KEY (pessoas_profissoes_criado_por) REFERENCES usuario(usuario_id),
+    CONSTRAINT fk_pessoa_profissao_gabinete FOREIGN KEY (pessoas_profissoes_gabinete) REFERENCES gabinete (gabinete_id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+
+CREATE TABLE pessoas (
+    pessoa_id varchar(36) NOT NULL,
+    pessoa_nome varchar(255) NOT NULL,
+    pessoa_aniversario varchar(255) NOT NULL,
+    pessoa_email varchar(255) NOT NULL UNIQUE,
+    pessoa_telefone varchar(255) DEFAULT NULL,
+    pessoa_endereco text DEFAULT NULL,
+    pessoa_bairro text,
+    pessoa_municipio varchar(255) NOT NULL,
+    pessoa_estado varchar(255) NOT NULL,
+    pessoa_cep varchar(255) DEFAULT NULL,
+    pessoa_sexo varchar(255) DEFAULT NULL,
+    pessoa_facebook varchar(255) DEFAULT NULL,
+    pessoa_instagram varchar(255) DEFAULT NULL,
+    pessoa_x varchar(255) DEFAULT NULL,
+    pessoa_informacoes text DEFAULT NULL,
+    pessoa_profissao varchar(36) NOT NULL,
+    pessoa_cargo varchar(255) DEFAULT NULL,
+    pessoa_tipo varchar(36) NOT NULL,
+    pessoa_orgao varchar(36) NOT NULL,
+    pessoa_foto text DEFAULT NULL,
+    pessoa_criada_em timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    pessoa_atualizada_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    pessoa_criada_por varchar(36) NOT NULL,
+    pessoa_gabinete varchar(36) NOT NULL,
+    PRIMARY KEY (pessoa_id),
+    CONSTRAINT fk_pessoa_criada_por FOREIGN KEY (pessoa_criada_por) REFERENCES usuario(usuario_id),
+    CONSTRAINT fk_pessoa_tipo FOREIGN KEY (pessoa_tipo) REFERENCES pessoas_tipos(pessoa_tipo_id),
+    CONSTRAINT fk_pessoa_profissao FOREIGN KEY (pessoa_profissao) REFERENCES pessoas_profissoes(pessoas_profissoes_id),
+    CONSTRAINT fk_pessoa_orgao FOREIGN KEY (pessoa_orgao) REFERENCES orgaos(orgao_id),
+    CONSTRAINT fk_pessoa_gabinete FOREIGN KEY (pessoa_gabinete) REFERENCES gabinete (gabinete_id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+
+
+CREATE VIEW view_pessoas_tipos AS SELECT pessoas_tipos.*, usuario.usuario_nome, gabinete.gabinete_nome FROM pessoas_tipos INNER JOIN usuario ON pessoa_tipo_criado_por = usuario.usuario_id INNER JOIN gabinete ON pessoas_tipos.pessoa_tipo_gabinete = gabinete.gabinete_id;
+CREATE VIEW view_pessoas_profissoes AS SELECT pessoas_profissoes.*, usuario.usuario_nome, gabinete.gabinete_nome FROM pessoas_profissoes INNER JOIN usuario ON pessoas_profissoes.pessoas_profissoes_criado_por = usuario.usuario_id INNER JOIN gabinete ON pessoas_profissoes.pessoas_profissoes_gabinete = gabinete.gabinete_id; 
+
+CREATE VIEW view_pessoas AS SELECT pessoas.*, usuario.usuario_nome, gabinete.gabinete_nome, pessoas_tipos.pessoa_tipo_nome, pessoas_profissoes.pessoas_profissoes_nome, orgaos.orgao_nome FROM pessoas INNER JOIN usuario ON pessoas.pessoa_criada_por = usuario.usuario_id INNER JOIN gabinete ON pessoas.pessoa_gabinete = gabinete.gabinete_id INNER JOIN pessoas_tipos ON pessoas.pessoa_tipo = pessoas_tipos.pessoa_tipo_id INNER JOIN pessoas_profissoes ON pessoas.pessoa_profissao = pessoas_profissoes.pessoas_profissoes_id INNER JOIN orgaos ON pessoas.pessoa_orgao = orgaos.orgao_id;

@@ -90,7 +90,7 @@ if ($buscaOrgao['status'] != 'success') {
                         $result = $orgaoController->apagarOrgao($id);
                         if ($result['status'] == 'success') {
                             header('Location: ?secao=orgaos');
-                        }  else if ($result['status'] == 'error' || $result['status'] == 'forbidden') {
+                        } else if ($result['status'] == 'error' || $result['status'] == 'forbidden') {
                             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . ' ' . (isset($result['error_id']) ? ' | Código do erro: ' . $result['error_id'] : '') . '</div>';
                         }
                     }
@@ -153,8 +153,8 @@ if ($buscaOrgao['status'] != 'success') {
                             <textarea class="form-control form-control-sm" name="informacoes" rows="5" placeholder="Informações importantes desse órgão"><?php echo $buscaOrgao['dados']['orgao_informacoes'] ?></textarea>
                         </div>
                         <div class="col-md-4 col-6">
-                        <button type="submit" class="btn btn-success btn-sm" name="btn_atualizar"><i class="bi bi-floppy-fill"></i> Atualizar</button>
-                        <button type="submit" class="btn btn-danger btn-sm" name="btn_apagar"><i class="bi bi-trash-fill"></i> Apagar</button>
+                            <button type="submit" class="btn btn-success btn-sm" name="btn_atualizar"><i class="bi bi-floppy-fill"></i> Atualizar</button>
+                            <button type="submit" class="btn btn-danger btn-sm" name="btn_apagar"><i class="bi bi-trash-fill"></i> Apagar</button>
                         </div>
                     </form>
                 </div>
