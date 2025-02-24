@@ -14,20 +14,7 @@ class OrgaoModel {
 
     // CRIAR TIPO DE ÓRGÃO
     public function criarOrgaoTipo($dados) {
-        $query = 'INSERT INTO orgaos_tipos (
-                      orgao_tipo_id, 
-                      orgao_tipo_nome, 
-                      orgao_tipo_descricao, 
-                      orgao_tipo_criado_por, 
-                      orgao_tipo_gabinete
-                  ) VALUES (
-                      UUID(), 
-                      :orgao_tipo_nome, 
-                      :orgao_tipo_descricao, 
-                      :orgao_tipo_criado_por, 
-                      :orgao_tipo_gabinete
-                  )';
-
+        $query = 'INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (UUID(), :orgao_tipo_nome, :orgao_tipo_descricao, :orgao_tipo_criado_por, :orgao_tipo_gabinete)';
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':orgao_tipo_nome', $dados['orgao_tipo_nome'], PDO::PARAM_STR);
         $stmt->bindValue(':orgao_tipo_descricao', $dados['orgao_tipo_descricao'], PDO::PARAM_STR);
@@ -39,13 +26,7 @@ class OrgaoModel {
 
     // ATUALIZAR TIPO DE ÓRGÃO
     public function atualizarOrgaoTipo($dados) {
-        $query = 'UPDATE orgaos_tipos 
-                  SET 
-                      orgao_tipo_nome = :orgao_tipo_nome, 
-                      orgao_tipo_descricao = :orgao_tipo_descricao, 
-                      orgao_tipo_gabinete = :orgao_tipo_gabinete 
-                  WHERE orgao_tipo_id = :orgao_tipo_id';
-
+        $query = 'UPDATE orgaos_tipos SET orgao_tipo_nome = :orgao_tipo_nome, orgao_tipo_descricao = :orgao_tipo_descricao, orgao_tipo_gabinete = :orgao_tipo_gabinete WHERE orgao_tipo_id = :orgao_tipo_id';
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':orgao_tipo_id', $dados['orgao_tipo_id'], PDO::PARAM_STR);
         $stmt->bindValue(':orgao_tipo_nome', $dados['orgao_tipo_nome'], PDO::PARAM_STR);
@@ -63,7 +44,6 @@ class OrgaoModel {
         $stmt->bindValue(':orgao_tipo_gabinete', $orgao_tipo_gabinete, PDO::PARAM_STR);
 
         $stmt->execute();
-
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -88,6 +68,4 @@ class OrgaoModel {
 
         return $stmt->execute();
     }
-
-   
 }
