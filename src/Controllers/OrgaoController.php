@@ -3,23 +3,23 @@
 namespace GabineteMvc\Controllers;
 
 use GabineteMvc\Middleware\Logger;
-use GabineteMvc\Models\OrgaoTipoModel;
+use GabineteMvc\Models\OrgaoModel;
 use PDOException;
 
-class OrgaoTipoController {
+class OrgaoController {
 
-    private $orgaoTipoModel;
+    private $orgaoModel;
     private $logger;
 
     public function __construct() {
-        $this->orgaoTipoModel = new OrgaoTipoModel();
+        $this->orgaoModel = new OrgaoModel();
         $this->logger = new Logger();
     }
 
     // CRIAR NOVO TIPO DE ÓRGÃO
     public function novoOrgaoTipo($dados) {
         try {
-            $this->orgaoTipoModel->criarOrgaoTipo($dados);
+            $this->orgaoModel->criarOrgaoTipo($dados);
             return ['status' => 'success', 'message' => 'Tipo de órgão inserido com sucesso'];
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
@@ -35,13 +35,13 @@ class OrgaoTipoController {
     // ATUALIZAR TIPO DE ÓRGÃO
     public function atualizarOrgaoTipo($dados) {
         try {
-            $buscaTipo = $this->orgaoTipoModel->buscaOrgaoTipo($dados['orgao_tipo_id']);
+            $buscaTipo = $this->orgaoModel->buscaOrgaoTipo($dados['orgao_tipo_id']);
 
             if (!$buscaTipo) {
                 return ['status' => 'not_found', 'message' => 'Tipo de órgão não encontrado'];
             }
 
-            $this->orgaoTipoModel->atualizarOrgaoTipo($dados);
+            $this->orgaoModel->atualizarOrgaoTipo($dados);
             return ['status' => 'success', 'message' => 'Tipo de órgão atualizado com sucesso'];
         } catch (PDOException $e) {
             $erro_id = uniqid();
@@ -51,9 +51,9 @@ class OrgaoTipoController {
     }
 
     // LISTAR TIPOS DE ÓRGÃOS
-    public function listarOrgaosTipos() {
+    public function listarOrgaosTipos($orgao_tipo_gabinete) {
         try {
-            $resultado = $this->orgaoTipoModel->listarOrgaosTipos();
+            $resultado = $this->orgaoModel->listarOrgaosTipos($orgao_tipo_gabinete);
             if ($resultado) {
                 return ['status' => 'success', 'dados' => $resultado];
             } else {
@@ -69,7 +69,7 @@ class OrgaoTipoController {
     // BUSCAR TIPO DE ÓRGÃO PELO ID
     public function buscaOrgaoTipo($id) {
         try {
-            $resultado = $this->orgaoTipoModel->buscaOrgaoTipo($id);
+            $resultado = $this->orgaoModel->buscaOrgaoTipo($id);
             if ($resultado) {
                 return ['status' => 'success', 'dados' => $resultado];
             } else {
@@ -85,13 +85,13 @@ class OrgaoTipoController {
     // APAGAR TIPO DE ÓRGÃO
     public function apagarOrgaoTipo($tipoId) {
         try {
-            $buscaTipo = $this->orgaoTipoModel->buscaOrgaoTipo($tipoId);
+            $buscaTipo = $this->orgaoModel->buscaOrgaoTipo($tipoId);
 
             if (!$buscaTipo) {
                 return ['status' => 'not_found', 'message' => 'Tipo de órgão não encontrado'];
             }
 
-            $this->orgaoTipoModel->apagarOrgaoTipo($tipoId);
+            $this->orgaoModel->apagarOrgaoTipo($tipoId);
             return ['status' => 'success', 'message' => 'Tipo de órgão apagado com sucesso'];
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), 'FOREIGN KEY') !== false) {

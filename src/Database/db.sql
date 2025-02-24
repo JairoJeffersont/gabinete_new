@@ -112,5 +112,7 @@ CREATE TABLE orgaos_tipos (
     orgao_tipo_atualizado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (orgao_tipo_id),
     CONSTRAINT fk_orgao_tipo_criado_por FOREIGN KEY (orgao_tipo_criado_por) REFERENCES usuario(usuario_id),
-    CONSTRAINT fk_orgao_tipo_gabinete FOREIGN KEY (orgao_tipo_gabinete) REFERENCES cliente(cliente_id)
+    CONSTRAINT fk_orgao_tipo_gabinete FOREIGN KEY (orgao_tipo_gabinete) REFERENCES gabinete(gabinete_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+

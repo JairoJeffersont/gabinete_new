@@ -133,8 +133,8 @@ if ($buscaUsuario['status'] != 'success' || $buscaGabinete['status'] != 'success
                         'usuario_nome' => htmlspecialchars($_POST['usuario_nome'], ENT_QUOTES, 'UTF-8'),
                         'usuario_email' => htmlspecialchars($_POST['usuario_email'], ENT_QUOTES, 'UTF-8'),
                         'usuario_telefone' => htmlspecialchars($_POST['usuario_telefone'], ENT_QUOTES, 'UTF-8'),
-                        'usuario_aniversario' => $util->formatarAniversario(htmlspecialchars($_POST['usuario_aniversario'], ENT_QUOTES, 'UTF-8')),// Data formatada
-                        
+                        'usuario_aniversario' => $util->formatarAniversario(htmlspecialchars($_POST['usuario_aniversario'], ENT_QUOTES, 'UTF-8')), // Data formatada
+
                     ];
 
                     $result = $usuarioController->atualizarUsuario($usuario);
@@ -166,10 +166,10 @@ if ($buscaUsuario['status'] != 'success' || $buscaGabinete['status'] != 'success
                         <input type="email" class="form-control form-control-sm" name="usuario_email" placeholder="Email" value="<?php echo $buscaUsuario['dados']['usuario_email'] ?>" required>
                     </div>
                     <div class="col-md-2 col-6">
-                        <input type="text" class="form-control form-control-sm" name="usuario_telefone" placeholder="Celular (com DDD)" data-mask="(00) 00000-0000" value="<?php echo $buscaUsuario['dados']['usuario_telefone'] ?>" maxlength="15" >
+                        <input type="text" class="form-control form-control-sm" name="usuario_telefone" placeholder="Celular (com DDD)" data-mask="(00) 00000-0000" value="<?php echo $buscaUsuario['dados']['usuario_telefone'] ?>" maxlength="15">
                     </div>
                     <div class="col-md-2 col-6">
-                        <input type="text" class="form-control form-control-sm" name="usuario_aniversario" data-mask="00/00" placeholder="Aniversário (dd/mm)" value="<?php echo $buscaUsuario['dados']['usuario_aniversario'] ?  date('d/m', strtotime($buscaUsuario['dados']['usuario_aniversario'])) : '' ?>" >
+                        <input type="text" class="form-control form-control-sm" name="usuario_aniversario" data-mask="00/00" placeholder="Aniversário (dd/mm)" value="<?php echo $buscaUsuario['dados']['usuario_aniversario'] ?  date('d/m', strtotime($buscaUsuario['dados']['usuario_aniversario'])) : '' ?>">
                     </div>
                     <div class="col-md-3 col-12">
                         <button type="submit" class="btn btn-primary btn-sm" name="btn_atualizar_usuario"><i class="bi bi-floppy-fill"></i> Atualizar</button>
@@ -217,7 +217,7 @@ if ($buscaUsuario['status'] != 'success' || $buscaGabinete['status'] != 'success
                     if ($buscaUsuarios['status'] == 'success') {
 
                         foreach ($buscaUsuarios['dados'] as $usuario) {
-                            
+
                             foreach ($usuarioController->listarTipoUsuario()['dados'] as $tipoUsuario) {
                                 if ($tipoUsuario['usuario_tipo_id'] == $usuario['usuario_tipo']) {
                                     $tipoUsuarioNome = $tipoUsuario['usuario_tipo_nome'];
@@ -226,9 +226,9 @@ if ($buscaUsuario['status'] != 'success' || $buscaGabinete['status'] != 'success
                             }
 
 
-                            if($usuario['usuario_id'] == $_SESSION['usuario_id']){
+                            if ($usuario['usuario_id'] == $_SESSION['usuario_id']) {
                                 $link = '<td style="white-space: nowrap; justify-content: center; align-items: center;">' . $usuario['usuario_nome'] . '</td>';
-                            }else{
+                            } else {
                                 $link = '<td style="white-space: nowrap; justify-content: center; align-items: center;"><a href="?secao=usuario&id=' . $usuario['usuario_id'] . '">' . $usuario['usuario_nome'] . '</a></td>';
                             }
 
@@ -306,7 +306,4 @@ if ($buscaUsuario['status'] != 'success' || $buscaGabinete['status'] != 'success
             $('#municipio').empty().append('<option value="" selected>Município</option>');
         }
     });
-
-
-   
 </script>

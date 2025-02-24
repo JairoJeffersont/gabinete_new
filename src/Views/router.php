@@ -12,7 +12,9 @@ $rotas = [
     'meu-gabinete' => './src/Views/meu-gabinete/meu-gabinete.php',
     'usuario' => './src/Views/meu-gabinete/editar-usuario.php',
     'minhas-mensagens' => './src/Views/minhas-mensagens/mensagens.php',
-    'mensagem' => './src/Views/minhas-mensagens/mensagem.php'
+    'mensagem' => './src/Views/minhas-mensagens/mensagem.php',
+    'tipos-orgaos' => './src/Views/orgao/tipos-orgaos.php',
+    'tipo-orgao' => './src/Views/orgao/tipo-orgao.php'
 
 ];
 
