@@ -78,7 +78,6 @@ CREATE TABLE
     PRIMARY KEY(mensagem_id)
   )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
 CREATE VIEW view_mensagem AS SELECT mensagem.*, usuario.usuario_nome FROM mensagem INNER JOIN usuario ON mensagem.mensagem_remetente = usuario.usuario_id;
 
 INSERT INTO gabinete_tipo (gabinete_tipo_id, gabinete_tipo_nome, gabinete_tipo_informacoes)
@@ -101,3 +100,17 @@ INSERT INTO usuario_tipo (usuario_tipo_id, usuario_tipo_nome, usuario_tipo_descr
     (4, 'Legislativo', 'Usuario da assessoria legislativa'),
     (5, 'Orçamento', 'Usuario da assessoria orçamentária'),
     (6, 'Secretaria', 'Usuario da secretaria do gabinete');  
+
+
+CREATE TABLE orgaos_tipos (
+    orgao_tipo_id varchar(36) NOT NULL,
+    orgao_tipo_nome varchar(255) NOT NULL UNIQUE,
+    orgao_tipo_descricao text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+    orgao_tipo_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    orgao_tipo_criado_por varchar(36) NOT NULL,
+    orgao_tipo_gabinete varchar(36) NOT NULL,
+    orgao_tipo_atualizado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (orgao_tipo_id),
+    CONSTRAINT fk_orgao_tipo_criado_por FOREIGN KEY (orgao_tipo_criado_por) REFERENCES usuario(usuario_id),
+    CONSTRAINT fk_orgao_tipo_gabinete FOREIGN KEY (orgao_tipo_gabinete) REFERENCES cliente(cliente_id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
