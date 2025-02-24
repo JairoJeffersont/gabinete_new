@@ -14,7 +14,9 @@ $rotas = [
     'minhas-mensagens' => './src/Views/minhas-mensagens/mensagens.php',
     'mensagem' => './src/Views/minhas-mensagens/mensagem.php',
     'tipos-orgaos' => './src/Views/orgao/tipos-orgaos.php',
-    'tipo-orgao' => './src/Views/orgao/tipo-orgao.php'
+    'tipo-orgao' => './src/Views/orgao/tipo-orgao.php',
+    'orgaos' => './src/Views/orgao/orgaos.php',
+    'orgao' => './src/Views/orgao/orgao.php'
 
 ];
 
