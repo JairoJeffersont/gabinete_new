@@ -77,7 +77,6 @@ if ($busca['status'] == 'not_found') {
                                 <tr>
                                     <th scope="col">Nome</th>
                                     <th scope="col">Descrição</th>
-                                    <th scope="col">Criado por - em</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -88,7 +87,6 @@ if ($busca['status'] == 'not_found') {
                                         echo '<tr>';
                                         echo '<td style="white-space: nowrap;"><a href="?secao=tipo-orgao&id=' . $orgaoTipo['orgao_tipo_id'] . '">' . $orgaoTipo['orgao_tipo_nome'] . '</a></td>';
                                         echo '<td style="white-space: nowrap;">' . $orgaoTipo['orgao_tipo_descricao'] . '</td>';
-                                        echo '<td style="white-space: nowrap;">' . $orgaoTipo['usuario_nome'] . ' - ' . date('d/m', strtotime($orgaoTipo['orgao_tipo_criado_em'])) . '</td>';
                                         echo '</tr>';
                                     }
                                 } else if ($busca['status'] == 'not_found') {
