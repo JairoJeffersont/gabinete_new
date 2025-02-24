@@ -1,4 +1,5 @@
 <?php
+ob_start();
 
 require './src/Middleware/VerificaLogado.php';
 require 'vendor/autoload.php';
@@ -55,7 +56,7 @@ if ($buscaOrgao['status'] != 'success') {
             <div class="card shadow-sm mb-2">
                 <div class="card-body p-2">
                     <?php
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_salvar'])) {
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_atualizar'])) {
                         $dados = [
                             'orgao_nome' => htmlspecialchars($_POST['nome'], ENT_QUOTES, 'UTF-8'),
                             'orgao_email' => htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8'),
@@ -81,6 +82,15 @@ if ($buscaOrgao['status'] != 'success') {
                         } else if ($result['status'] == 'duplicated' || $result['status'] == 'bad_request' || $result['status'] == 'invalid_email') {
                             echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" role="alert" data-timeout="3">' . $result['message'] . '</div>';
                         } else if ($result['status'] == 'error') {
+                            echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . ' ' . (isset($result['error_id']) ? ' | Código do erro: ' . $result['error_id'] : '') . '</div>';
+                        }
+                    }
+
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_apagar'])) {
+                        $result = $orgaoController->apagarOrgao($id);
+                        if ($result['status'] == 'success') {
+                            header('Location: ?secao=orgaos');
+                        }  else if ($result['status'] == 'error' || $result['status'] == 'forbidden') {
                             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . ' ' . (isset($result['error_id']) ? ' | Código do erro: ' . $result['error_id'] : '') . '</div>';
                         }
                     }
@@ -143,7 +153,8 @@ if ($buscaOrgao['status'] != 'success') {
                             <textarea class="form-control form-control-sm" name="informacoes" rows="5" placeholder="Informações importantes desse órgão"><?php echo $buscaOrgao['dados']['orgao_informacoes'] ?></textarea>
                         </div>
                         <div class="col-md-4 col-6">
-                            <button type="submit" class="btn btn-success btn-sm" name="btn_salvar"><i class="fa-regular fa-floppy-disk"></i> Salvar</button>
+                        <button type="submit" class="btn btn-success btn-sm" name="btn_atualizar"><i class="bi bi-floppy-fill"></i> Atualizar</button>
+                        <button type="submit" class="btn btn-danger btn-sm" name="btn_apagar"><i class="bi bi-trash-fill"></i> Apagar</button>
                         </div>
                     </form>
                 </div>
