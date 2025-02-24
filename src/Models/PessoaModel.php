@@ -44,7 +44,7 @@ class PessoaModel {
         return $stmt->execute();
     }
 
-    public function listar($itens, $pagina, $ordem, $ordenarPor, $termo, $estado, $cliente) {
+    public function listar($itens, $pagina, $ordem, $ordenarPor, $termo, $estado, $gabinete) {
         $pagina = (int)$pagina;
         $itens = (int)$itens;
         $offset = ($pagina - 1) * $itens;
@@ -52,30 +52,30 @@ class PessoaModel {
         if ($termo === null) {
             if ($estado != null) {
                 $query = "SELECT view_pessoas.*, 
-                                 (SELECT COUNT(*) FROM pessoas WHERE pessoa_estado = '" . $estado . "' AND pessoa_cliente = :cliente) AS total
+                                 (SELECT COUNT(*) FROM pessoas WHERE pessoa_estado = '" . $estado . "' AND pessoa_gabinete = :gabinete) AS total
                           FROM view_pessoas
-                          WHERE pessoa_estado = '" . $estado . "' AND pessoa_cliente = :cliente
+                          WHERE pessoa_estado = '" . $estado . "' AND pessoa_gabinete = :gabinete
                           ORDER BY $ordenarPor $ordem LIMIT :offset, :itens";
             } else {
                 $query = "SELECT view_pessoas.*, 
-                                 (SELECT COUNT(*) FROM pessoas WHERE pessoa_cliente = :cliente) AS total
+                                 (SELECT COUNT(*) FROM pessoas WHERE pessoa_gabinete = :gabinete) AS total
                           FROM view_pessoas
-                          WHERE pessoa_cliente = :cliente
+                          WHERE pessoa_gabinete = :gabinete
                           ORDER BY $ordenarPor $ordem LIMIT :offset, :itens";
             }
         } else {
             if ($estado != null) {
                 $query = "SELECT view_pessoas.*, 
-                                 (SELECT COUNT(*) FROM pessoas WHERE pessoa_nome LIKE :termo AND pessoa_estado = '" . $estado . "' AND pessoa_cliente = :cliente) AS total
+                                 (SELECT COUNT(*) FROM pessoas WHERE pessoa_nome LIKE :termo AND pessoa_estado = '" . $estado . "' AND pessoa_gabinete = :gabinete) AS total
                           FROM view_pessoas
-                          WHERE pessoa_nome LIKE :termo AND pessoa_estado = '" . $estado . "' AND pessoa_cliente = :cliente
+                          WHERE pessoa_nome LIKE :termo AND pessoa_estado = '" . $estado . "' AND pessoa_gabinete = :gabinete
                           ORDER BY $ordenarPor $ordem LIMIT :offset, :itens";
                 $termo = '%' . $termo . '%';
             } else {
                 $query = "SELECT view_pessoas.*, 
-                                 (SELECT COUNT(*) FROM pessoas WHERE pessoa_nome LIKE :termo AND pessoa_cliente = :cliente) AS total
+                                 (SELECT COUNT(*) FROM pessoas WHERE pessoa_nome LIKE :termo AND pessoa_gabinete = :gabinete) AS total
                           FROM view_pessoas
-                          WHERE pessoa_nome LIKE :termo AND pessoa_cliente = :cliente
+                          WHERE pessoa_nome LIKE :termo AND pessoa_gabinete = :gabinete
                           ORDER BY $ordenarPor $ordem LIMIT :offset, :itens";
                 $termo = '%' . $termo . '%';
             }
@@ -84,7 +84,7 @@ class PessoaModel {
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
         $stmt->bindValue(':itens', $itens, PDO::PARAM_INT);
-        $stmt->bindValue(':cliente', $cliente, PDO::PARAM_INT);
+        $stmt->bindValue(':gabinete', $gabinete, PDO::PARAM_INT);
 
         if ($termo !== null) {
             $stmt->bindValue(':termo', $termo, PDO::PARAM_STR);
@@ -114,14 +114,14 @@ class PessoaModel {
 
     // CRIAÇÃO DE TIPO DE PESSOA
     public function criarTipoPessoa($dados) {
-        $query = 'INSERT INTO pessoas_tipos (pessoa_tipo_id, pessoa_tipo_nome, pessoa_tipo_descricao, pessoa_tipo_criado_por, pessoa_tipo_cliente) 
-                  VALUES (UUID(), :pessoa_tipo_nome, :pessoa_tipo_descricao, :pessoa_tipo_criado_por, :pessoa_tipo_cliente)';
+        $query = 'INSERT INTO pessoas_tipos (pessoa_tipo_id, pessoa_tipo_nome, pessoa_tipo_descricao, pessoa_tipo_criado_por, pessoa_tipo_gabinete) 
+                  VALUES (UUID(), :pessoa_tipo_nome, :pessoa_tipo_descricao, :pessoa_tipo_criado_por, :pessoa_tipo_gabinete)';
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':pessoa_tipo_nome', $dados['pessoa_tipo_nome'], PDO::PARAM_STR);
         $stmt->bindValue(':pessoa_tipo_descricao', $dados['pessoa_tipo_descricao'], PDO::PARAM_STR);
         $stmt->bindValue(':pessoa_tipo_criado_por', $dados['pessoa_tipo_criado_por'], PDO::PARAM_STR);
-        $stmt->bindValue(':pessoa_tipo_cliente', $dados['pessoa_tipo_cliente'], PDO::PARAM_STR);
+        $stmt->bindValue(':pessoa_tipo_gabinete', $dados['pessoa_tipo_gabinete'], PDO::PARAM_STR);
 
         return $stmt->execute();
     }
