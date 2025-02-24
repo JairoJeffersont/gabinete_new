@@ -4,7 +4,7 @@ $pagina = isset($_GET['secao']) ? $_GET['secao'] :  header('Location: ?secao=hom
 
 $rotas = [
     'login' => './src/Views/login/login.php',
-    'cadastro' => './src/Views/cadastro/novo-cliente.php',
+    'cadastro' => './src/Views/cadastro/novo-gabinete.php',
     'novo-usuario' => './src/Views/cadastro/novo-usuario.php',
     'sair' => './src/Views/login/sair.php',
     'fatal-error' => './src/Views/erros/fatal_error.php',

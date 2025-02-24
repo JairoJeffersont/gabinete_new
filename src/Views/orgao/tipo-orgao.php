@@ -1,5 +1,7 @@
 <?php
 
+ob_start();
+
 use GabineteMvc\Controllers\OrgaoController;
 
 require './src/Middleware/VerificaLogado.php';
@@ -26,7 +28,6 @@ if ($busca['status'] != 'success') {
                 <div class="card-body p-1">
                     <a class="btn btn-primary btn-sm custom-nav barra_navegacao" href="?secao=home" role="button"><i class="bi bi-house-door-fill"></i> Início</a>
                     <a class="btn btn-success btn-sm custom-nav barra_navegacao" href="?secao=tipos-orgaos" role="button"><i class="bi bi-arrow-left"></i> Voltar</a>
-
                 </div>
             </div>
             <div class="card mb-2">
@@ -60,6 +61,16 @@ if ($busca['status'] != 'success') {
                             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . ' ' . (isset($result['id_erro']) ? ' | Código do erro: ' . $result['id_erro'] : '') . '</div>';
                         }
                     }
+
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_apagar'])) {
+
+                        $result = $orgaoController->apagarOrgaoTipo($id);
+                        if ($result['status'] == 'success') {
+                            header('Location: ?secao=tipos-orgaos');
+                        } else if ($result['status'] == 'forbidde' || $result['status'] == 'error') {
+                            echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
+                        }
+                    }
                     ?>
                     <form class="row g-2 form_custom" id="form_novo" method="POST">
                         <div class="col-md-2 col-12">
@@ -70,12 +81,11 @@ if ($busca['status'] != 'success') {
                         </div>
                         <div class="col-md-1 col-12">
                             <button type="submit" class="btn btn-success btn-sm" name="btn_salvar"><i class="bi bi-floppy-fill"></i> Salvar</button>
+                            <button type="submit" class="btn btn-danger btn-sm" name="btn_apagar"><i class="bi bi-trash-fill"></i> Apagar</button>
                         </div>
                     </form>
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>
