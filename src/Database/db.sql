@@ -306,23 +306,23 @@ CREATE TABLE documentos_tipos (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 
-INSERT INTO documento_tipo (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) VALUES (1, 'Sem tipo definido', 'Sem tipo definido', 1, 1);
-INSERT INTO documento_tipo (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
+INSERT INTO documentos_tipos (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) VALUES (1, 'Sem tipo definido', 'Sem tipo definido', 1, 1);
+INSERT INTO documentos_tipos (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
 VALUES (2, 'Ofício', 'Documento utilizado para comunicações formais entre órgãos ou instituições', 1, 1);
 
-INSERT INTO documento_tipo (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
+INSERT INTO documentos_tipos (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
 VALUES (3, 'Requerimento', 'Documento formal solicitando algo de uma instituição ou órgão', 1, 1);
 
-INSERT INTO documento_tipo (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
+INSERT INTO documentos_tipos (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
 VALUES (4, 'Carta', 'Documento informal ou formal que transmite informações ou solicitações', 1, 1);
 
-INSERT INTO documento_tipo (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
+INSERT INTO documentos_tipos (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
 VALUES (5, 'Memorando', 'Documento utilizado para comunicação interna entre setores de uma organização', 1, 1);
 
-INSERT INTO documento_tipo (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
+INSERT INTO documentos_tipos (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
 VALUES (6, 'Ata', 'Documento que registra os acontecimentos e decisões de uma reunião ou evento', 1, 1);
 
-INSERT INTO documento_tipo (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
+INSERT INTO documentos_tipos (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
 VALUES (7, 'Termo de Compromisso', 'Documento que formaliza um compromisso ou acordo entre as partes', 1, 1);
 
 
