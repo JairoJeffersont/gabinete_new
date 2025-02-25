@@ -31,7 +31,7 @@ if ($busca['status'] != 'success') {
                 </div>
             </div>
             <div class="card mb-2">
-                <div class="card-header bg-primary text-white px-2 py-1 card_descricao"><i class="bi bi-people-fill"></i> Editar Tipo de Pessoa</div>
+                <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-people-fill"></i> Editar Tipo de Pessoa</div>
                 <div class="card-body card_descricao_body p-2">
                     <p class="card-text mb-2">Nesta seção, é possível editar um tipo de pessoa, garantindo a organização correta dessas informações no sistema.</p>
                     <p class="card-text mb-0">Todos os campos são obrigatórios</p>
