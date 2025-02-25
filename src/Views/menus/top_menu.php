@@ -14,7 +14,7 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item dropdown-item-custom" href="?secao=tipos-documentos">Tipos de documentos</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item dropdown-item-custom" href="?secao=status-postagens">Status das postagens</a>
+                        <a class="dropdown-item dropdown-item-custom" href="?secao=postagens-status">Status das postagens</a>
                         <a class="dropdown-item dropdown-item-custom" href="?secao=tipos-clipping">Tipos de clipping</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item dropdown-item-custom" href="?secao=emendas-status">Status de emenda</a>

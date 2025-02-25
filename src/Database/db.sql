@@ -436,3 +436,43 @@ CREATE TABLE emendas (
 
 
 CREATE VIEW view_emendas AS SELECT emendas.*, emendas_status.emendas_status_nome, emendas_objetivos.emendas_objetivos_nome, orgaos.orgao_nome, usuario.usuario_nome FROM emendas INNER JOIN emendas_status ON emendas.emenda_status = emendas_status.emendas_status_id INNER JOIN emendas_objetivos ON emendas.emenda_objetivo = emendas_objetivos.emendas_objetivos_id INNER JOIN orgaos ON emendas.emenda_orgao = orgaos.orgao_id INNER JOIN usuario ON emendas.emenda_criado_por = usuario.usuario_id;
+
+
+
+CREATE TABLE postagem_status(
+    postagem_status_id varchar(36) NOT NULL,
+    postagem_status_nome VARCHAR(255) NOT NULL UNIQUE,
+    postagem_status_descricao TEXT NULL,
+    postagem_status_criado_por varchar(36) NOT NULL,
+    postagem_status_gabinete varchar(36) NOT NULL,
+    postagem_status_criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    postagem_status_atualizada_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY(postagem_status_id),
+    CONSTRAINT fk_postagem_status_criado_por FOREIGN KEY (postagem_status_criado_por) REFERENCES usuario(usuario_id),
+    CONSTRAINT fk_postagem_status_gabinete FOREIGN KEY (postagem_status_gabinete) REFERENCES gabinete(gabinete_id)
+)ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+INSERT INTO postagem_status (postagem_status_id, postagem_status_nome, postagem_status_descricao,postagem_status_criado_por, postagem_status_gabinete) VALUES (1, 'Iniciada', 'Iniciada uma postagem', 1, 1);
+INSERT INTO postagem_status (postagem_status_id, postagem_status_nome, postagem_status_descricao,postagem_status_criado_por, postagem_status_gabinete) VALUES (2, 'Em produção', 'Postagem em fase de produção', 1,1);
+INSERT INTO postagem_status (postagem_status_id, postagem_status_nome, postagem_status_descricao,postagem_status_criado_por, postagem_status_gabinete) VALUES (3, 'Em aprovação', 'Postagem em fase de aprovação', 1,1);
+INSERT INTO postagem_status (postagem_status_id, postagem_status_nome, postagem_status_descricao,postagem_status_criado_por, postagem_status_gabinete) VALUES (4, 'Aprovada', 'Postagem aprovada', 1,1);
+INSERT INTO postagem_status (postagem_status_id, postagem_status_nome, postagem_status_descricao,postagem_status_criado_por, postagem_status_gabinete) VALUES (5, 'Postada', 'Postagem postada', 1,1);
+
+CREATE TABLE postagens(
+    postagem_id varchar(36) NOT NULL,
+    postagem_titulo VARCHAR(255) NOT NULL UNIQUE,
+    postagem_data VARCHAR(255),
+    postagem_pasta TEXT, 
+    postagem_informacoes TEXT,
+    postagem_midias TEXT,  
+    postagem_status varchar(36) NOT NULL,
+    postagem_criada_por varchar(36) NOT NULL,
+    postagem_gabinete varchar(36) NOT NULL,
+    postagem_criada_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    postagem_atualizada_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY(postagem_id),
+    CONSTRAINT fk_postagem_criada_por FOREIGN KEY (postagem_criada_por) REFERENCES usuario(usuario_id),
+    CONSTRAINT fk_postagem_status FOREIGN KEY (postagem_status) REFERENCES postagem_status(postagem_status_id),
+    CONSTRAINT fk_postagem_gabinete FOREIGN KEY (postagem_gabinete) REFERENCES gabinete(gabinete_id)
+
+)ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
