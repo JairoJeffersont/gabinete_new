@@ -347,3 +347,63 @@ CREATE TABLE documentos(
 
 
 CREATE VIEW view_documentos AS SELECT documentos.*, documentos_tipos.*, orgaos.orgao_nome, orgaos.orgao_id, usuario.usuario_nome FROM documentos INNER JOIN documentos_tipos ON documentos.documento_tipo = documentos_tipos.documento_tipo_id INNER JOIN orgaos ON documentos.documento_orgao = orgaos.orgao_id INNER JOIN usuario ON documentos.documento_criado_por = usuario.usuario_id;
+
+
+CREATE TABLE emendas_status (
+    emendas_status_id varchar(36) NOT NULL,
+    emendas_status_nome varchar(255) NOT NULL UNIQUE,
+    emendas_status_descricao TEXT NOT NULL,
+    emendas_status_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    emendas_status_atualizado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    emendas_status_criado_por varchar(36) NOT NULL,
+    emendas_status_gabinete varchar(36) NOT NULL,
+    PRIMARY KEY (emendas_status_id),
+    CONSTRAINT fk_emendas_status_criado_por FOREIGN KEY (emendas_status_criado_por) REFERENCES usuario (usuario_id),
+    CONSTRAINT fk_emendas_status_gabinete FOREIGN KEY (emendas_status_gabinete) REFERENCES gabinete (gabinete_id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+INSERT INTO emendas_status (emendas_status_id, emendas_status_nome, emendas_status_descricao, emendas_status_criado_por, emendas_status_gabinete)
+VALUES
+    (1, 'Criada', 'A emenda foi criada no sistema.', '1', '1'),
+    (2, 'Em Análise', 'A emenda foi recebida e está sendo analisada pelos responsáveis.', '1', '1'),
+    (3, 'Aprovada', 'A emenda foi aprovada e aguarda os próximos trâmites.', '1', '1'),
+    (4, 'Rejeitada', 'A emenda foi rejeitada por não atender aos critérios estabelecidos.', '1', '1'),
+    (5, 'Em Execução', 'A emenda foi aprovada e está em fase de execução.', '1', '1'),
+    (6, 'Paga', 'A emenda foi totalmente executada e finalizada.', '1', '1'),
+    (7, 'Pendente de Documentação', 'A emenda aguarda a entrega de documentos para seguir para análise.', '1', '1'),
+    (8, 'Cancelada', 'A emenda foi cancelada por solicitação do proponente.', '1', '1'),
+    (9, 'Aguardando Liberação', 'A emenda foi aprovada e está aguardando a liberação de recursos.', '1', '1'),
+    (10, 'Revisão Necessária', 'A emenda precisa de ajustes antes de seguir para aprovação.', '1', '1'),
+    (11, 'Suspensa', 'A execução da emenda foi temporariamente suspensa.', '1', '1');
+
+
+CREATE TABLE emendas_objetivos (
+    emendas_objetivos_id varchar(36) NOT NULL,
+    emendas_objetivos_nome varchar(255) NOT NULL UNIQUE,
+    emendas_objetivos_descricao TEXT NOT NULL,
+    emendas_objetivos_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    emendas_objetivos_atualizado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    emendas_objetivos_criado_por varchar(36) NOT NULL,
+    emendas_objetivos_gabinete varchar(36) NOT NULL,
+    PRIMARY KEY (emendas_objetivos_id),
+    CONSTRAINT fk_emendas_objetivos_criado_por FOREIGN KEY (emendas_objetivos_criado_por) REFERENCES usuario (usuario_id),
+    CONSTRAINT fk_emendas_objetivos_status_gabinete FOREIGN KEY (emendas_objetivos_gabinete) REFERENCES gabinete (gabinete_id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+INSERT INTO emendas_objetivos (emendas_objetivos_id, emendas_objetivos_nome, emendas_objetivos_descricao, emendas_objetivos_criado_por, emendas_objetivos_gabinete)
+VALUES
+    (1, 'Sem objetivo definido', 'Sem objetivo definido.', '1', '1'),
+    (2, 'Transferência especial', 'Emenda PIX.', '1', '1'),
+    (3, 'Saúde', 'Destinação de recursos para hospitais, unidades de saúde e aquisição de equipamentos médicos.', '1', '1'),
+    (4, 'Educação', 'Investimentos em escolas, creches, universidades e formação de professores.', '1', '1'),
+    (5, 'Infraestrutura', 'Obras de pavimentação, saneamento básico e construção de equipamentos públicos.', '1', '1'),
+    (6, 'Segurança Pública', 'Apoio a projetos para melhoria das forças de segurança, aquisição de viaturas e equipamentos.', '1', '1'),
+    (7, 'Cultura', 'Fomento a atividades culturais, reforma de teatros, bibliotecas e museus.', '1', '1'),
+    (8, 'Esporte', 'Incentivo ao esporte e lazer, construção de quadras e centros esportivos.', '1', '1'),
+    (9, 'Assistência Social', 'Apoio a programas sociais voltados para populações vulneráveis.', '1', '1'),
+    (10, 'Agricultura', 'Fomento à agricultura familiar, assistência técnica e compra de equipamentos.', '1', '1'),
+    (11, 'Meio Ambiente', 'Projetos de sustentabilidade, preservação ambiental e energias renováveis.', '1', '1'),
+    (12, 'Turismo', 'Apoio a iniciativas de turismo sustentável e infraestrutura turística.', '1', '1'),
+    (13, 'Ciência e Tecnologia', 'Fomento à inovação, pesquisa e desenvolvimento tecnológico.', '1', '1'),
+    (14, 'Transporte', 'Melhoria da mobilidade urbana e transporte público.', '1', '1'),
+    (15, 'Habitação', 'Investimentos em programas habitacionais e urbanização de áreas carentes.', '1', '1');

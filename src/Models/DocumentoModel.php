@@ -107,16 +107,6 @@ class DocumentoModel {
         return $stmt->execute();
     }
 
-    // LOG DE DOCUMENTO
-    public function novoLog($id) {
-        $query = 'INSERT INTO documento_log(documento_id) VALUES (:documento_id);';
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(':documento_id', $id, PDO::PARAM_STR);
-
-        return $stmt->execute();
-    }
-
     // BUSCAR LOGS DE DOCUMENTO
     public function buscaLog($id) {
         $query = "SELECT * FROM documento_log WHERE documento_id = :id ORDER BY log_data DESC";
