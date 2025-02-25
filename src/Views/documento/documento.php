@@ -11,7 +11,6 @@ require 'vendor/autoload.php';
 $documentoController = new DocumentoController();
 $orgaoController = new OrgaoController();
 
-
 $documentoGet = $_GET['id'];
 
 $buscaDocumento = $documentoController->buscaDocumento('documento_id', $documentoGet);
@@ -177,15 +176,6 @@ if ($buscaDocumento['status'] != 'success') {
         }
     });
 
-    $('#btn_novo_orgao').click(function() {
-        if (window.confirm("Você realmente deseja inserir um novo órgão?")) {
-            window.location.href = "?secao=orgaos";
-        } else {
-            return false;
-        }
-    });
-
-
     $('#tipo').change(function() {
         if ($('#tipo').val() == '+') {
             if (window.confirm("Você realmente deseja inserir um novo tipo?")) {
@@ -193,14 +183,6 @@ if ($buscaDocumento['status'] != 'success') {
             } else {
                 $('#orgao').val(1000).change();
             }
-        }
-    });
-
-    $('#btn_novo_tipo').click(function() {
-        if (window.confirm("Você realmente deseja inserir um novo tipo?")) {
-            window.location.href = "?secao=tipos-documentos";
-        } else {
-            return false;
         }
     });
 </script>
