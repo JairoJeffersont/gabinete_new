@@ -103,7 +103,7 @@ $tipo_busca = (isset($_GET['tipo_busca'])) ? $_GET['tipo_busca'] : ''
                             <input type="file" class="form-control form-control-sm" name="arquivo" required>
                         </div>
                         <div class="col-md-12 col-12">
-                            <textarea class="form-control form-control-sm" name="documento_resumo" rows="5" placeholder="Resumo do documento"></textarea>
+                            <textarea class="form-control form-control-sm" name="documento_resumo" rows="10" placeholder="Resumo do documento"></textarea>
                         </div>
                         <div class="col-md-3 col-12">
                             <button type="submit" class="btn btn-success btn-sm" name="btn_salvar"><i class="fa-regular fa-floppy-disk"></i> Salvar</button>

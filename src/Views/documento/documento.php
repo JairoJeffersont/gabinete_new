@@ -40,7 +40,7 @@ if ($buscaDocumento['status'] != 'success') {
                     <p class="card-text mb-0">Todos os campos são obrigatórios</p>
                 </div>
             </div>
-        
+
             <div class="card shadow-sm mb-2">
                 <div class="card-body p-2">
                     <?php
@@ -54,6 +54,7 @@ if ($buscaDocumento['status'] != 'success') {
                             'documento_ano' => htmlspecialchars($_POST['documento_ano'], ENT_QUOTES, 'UTF-8'),
                             'documento_tipo' => htmlspecialchars($_POST['documento_tipo'], ENT_QUOTES, 'UTF-8'),
                             'documento_orgao' => htmlspecialchars($_POST['documento_orgao'], ENT_QUOTES, 'UTF-8'),
+                            'documento_resumo' => htmlspecialchars($_POST['documento_resumo'], ENT_QUOTES, 'UTF-8'),
                             'documento_gabinete' => $_SESSION['usuario_gabinete'],
                         ];
 
@@ -136,6 +137,9 @@ if ($buscaDocumento['status'] != 'success') {
                         </div>
                         <div class="col-md-3 col-12">
                             <input type="file" class="form-control form-control-sm" name="arquivo" />
+                        </div>
+                        <div class="col-md-12 col-12">
+                            <textarea class="form-control form-control-sm" name="documento_resumo" rows="10" placeholder="Resumo do documento"><?php echo $buscaDocumento['dados']['documento_resumo'] ?></textarea>
                         </div>
                         <div class="col-md-5 col-12">
                             <button type="submit" class="btn btn-success btn-sm" name="btn_atualizar"><i class="bi bi-floppy-fill"></i> Salvar</button>
