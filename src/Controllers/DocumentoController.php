@@ -41,6 +41,10 @@ class DocumentoController {
                 return ['status' => 'not_found', 'message' => 'Tipo de documento não encontrado'];
             }
 
+            if ($buscaTipo['documento_tipo_gabinete'] == 1) {
+                return ['status' => 'forbidden', 'message' => 'Não é possível atualizar um tipo padrão dos sistema.'];
+            }
+
             $this->documentoTipoModel->atualizarDocumentoTipo($dados);
             return ['status' => 'success', 'message' => 'Tipo de documento atualizado com sucesso'];
         } catch (PDOException $e) {
@@ -90,6 +94,11 @@ class DocumentoController {
             if (!$buscaTipo) {
                 return ['status' => 'not_found', 'message' => 'Tipo de documento não encontrado'];
             }
+
+            if ($buscaTipo['documento_tipo_gabinete'] == 1) {
+                return ['status' => 'forbidden', 'message' => 'Não é possível apagar um tipo padrão dos sistema.'];
+            }
+
 
             $this->documentoTipoModel->apagarDocumentoTipo($tipoId);
             return ['status' => 'success', 'message' => 'Tipo de documento apagado com sucesso'];

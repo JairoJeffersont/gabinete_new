@@ -83,8 +83,10 @@ $busca = $documentoTipoController->listarDocumentoTipo($_SESSION['usuario_gabine
                                         echo '<td>' . $documentoTipo['documento_tipo_descricao'] . '</td>';
                                         echo '</tr>';
                                     }
-                                } else {
-                                    echo '<tr><td colspan="2">Nenhum tipo de documento encontrado</td></tr>';
+                                } else if ($busca['status'] == 'not_found') {
+                                    echo '<tr><td colspan="4">' . $busca['message'] . '</td></tr>';
+                                } else if ($busca['status'] == 'error') {
+                                    echo '<tr><td colspan="4">Erro ao carregar os dados. ' . (isset($busca['error_id']) ? ' | Código do erro: ' . $busca['error_id'] : '') . '</td></tr>';
                                 }
                                 ?>
                             </tbody>

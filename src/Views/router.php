@@ -26,10 +26,7 @@ $rotas = [
     'imprimir-pessoa' => './src/Views/pessoa/imprimir-pessoa.php',
     'aniversariantes' => './src/Views/pessoa/aniversariantes.php',
     'tipos-documentos' => './src/Views/documento/tipos-documentos.php',
-
-
-
-
+    'tipo-documento' => './src/Views/documento/tipo-documento.php'
 ];
 
 if (array_key_exists($pagina, $rotas)) {
