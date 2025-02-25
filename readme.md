@@ -32,7 +32,7 @@ return [
         'smtp_host' => 'smtp.host.com',
         'smtp_port' => port,
         'smtp_user' => 'user@host.com',
-        'smtp_password' => 'Intell@3103',
+        'smtp_password' => 'senha',
         'smtp_sender' => 'user@host.com',
         'smtp_from' => 'user@host.com',
         'smtp_from_name' => 'Nome'
