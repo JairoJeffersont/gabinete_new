@@ -13,13 +13,11 @@ $emendaController = new EmendaController();
 $orgaosController = new OrgaoController();
 $gabineteController = new GabineteController();
 
-
-
 $emendaGet = $_GET['id'];
 
 $buscaEmenda = $emendaController->buscarEmenda('emenda_id', $emendaGet);
 
-if ($buscaEmenda['status'] == 'not_found' || $buscaEmenda['status'] == 'error') {
+if ($buscaEmenda['status'] != 'success') {
     header('Location: ?secao=emendas');
 }
 ?>
@@ -32,6 +30,8 @@ if ($buscaEmenda['status'] == 'not_found' || $buscaEmenda['status'] == 'error') 
             <div class="card mb-2 ">
                 <div class="card-body p-1">
                     <a class="btn btn-primary btn-sm custom-nav barra_navegacao" href="?secao=home" role="button"><i class="bi bi-house-door-fill"></i> Início</a>
+                    <a class="btn btn-success btn-sm custom-nav barra_navegacao" href="?secao=emendas" role="button"><i class="bi bi-arrow-left"></i> Voltar</a>
+
                 </div>
             </div>
             <div class="card mb-2">
@@ -202,7 +202,7 @@ if ($buscaEmenda['status'] == 'not_found' || $buscaEmenda['status'] == 'error') 
                     </form>
                 </div>
             </div>
-           
+
         </div>
     </div>
 </div>
