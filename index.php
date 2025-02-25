@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gabinete Digital</title>
+    <title>Mandato Digital</title>
     <link href="public/vendor/startbootstrap-simple-sidebar-master/dist/css/styles.css" rel="stylesheet">
     <link href="public/vendor/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="public/css/custom.css" rel="stylesheet">

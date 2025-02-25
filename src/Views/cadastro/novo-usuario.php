@@ -22,7 +22,7 @@ $buscaUsuarios = $usuarioController->listarUsuarios(1000, 1, 'asc', 'usuario_nom
     <div class="centralizada text-center">
 
         <img src="public/img/logo_white.png" alt="" class="img_logo" />
-        <h2 class="login_title mb-1">Gabinete Digital</h2>
+        <h2 class="login_title mb-1">Mandato Digital</h2>
         <h6 class="host mb-3">Cadastro de usuário | Todos os campos são obrigatórios</h6>
 
         <?php
