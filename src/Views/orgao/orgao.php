@@ -5,12 +5,16 @@ require './src/Middleware/VerificaLogado.php';
 require 'vendor/autoload.php';
 
 use GabineteMvc\Controllers\OrgaoController;
+use GabineteMvc\Controllers\PessoaController;
 
 $orgaoController = new OrgaoController();
+$pessoaController = new PessoaController();
 
 $id = $_GET['id'];
 
 $buscaOrgao = $orgaoController->buscaOrgao('orgao_id', $id);
+$buscaPessoa = $pessoaController->buscaPessoa('pessoa_orgao', $id);
+
 
 if ($buscaOrgao['status'] != 'success') {
     header('Location: ?secao=orgaos');
@@ -159,79 +163,120 @@ if ($buscaOrgao['status'] != 'success') {
                     </form>
                 </div>
             </div>
-
-
+            <div class="card shadow-sm mb-2">
+                <div class="card-body p-2">
+                    <p class="card-text mb-2">Pessoas desse órgão: <?php echo  isset($buscaPessoa['dados']) ? count($buscaPessoa['dados']) : 0 ?></p>
+                    <div class="table-responsive mb-0">
+                        <table class="table table-hover table-bordered table-striped mb-0 custom-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Telefone</th>
+                                    <th scope="col">Endereço</th>
+                                    <th scope="col">UF/Município</th>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Profissão</th>
+                                    <th scope="col">Criado em | por</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                if ($buscaPessoa['status'] == 'success') {
+                                    $total_de_registros = count($buscaPessoa['dados']);
+                                    foreach ($buscaPessoa['dados'] as $pessoa) {
+                                        echo '<tr>';
+                                        echo '<td style="white-space: nowrap;"><a href="?secao=pessoa&id=' . $pessoa['pessoa_id'] . '">' . $pessoa['pessoa_nome'] . '</a></td>';
+                                        echo '<td style="white-space: nowrap;">' . $pessoa['pessoa_email'] . '</td>';
+                                        echo '<td style="white-space: nowrap;">' . $pessoa['pessoa_telefone'] . '</td>';
+                                        echo '<td style="white-space: nowrap;">' . $pessoa['pessoa_endereco'] . '</td>';
+                                        echo '<td style="white-space: nowrap;">' . $pessoa['pessoa_municipio'] . '/' . $pessoa['pessoa_estado'] . '</td>';
+                                        echo '<td style="white-space: nowrap;">' . $pessoa['pessoa_tipo_nome'] . '</td>';
+                                        echo '<td style="white-space: nowrap;">' . $pessoa['pessoas_profissoes_nome'] . '</td>';
+                                        echo '<td style="white-space: nowrap;">' . date('d/m/Y', strtotime($pessoa['pessoa_criada_em'])) . ' | ' . $pessoa['usuario_nome'] . '</td>';
+                                        echo '</tr>';
+                                    }
+                                } else if ($buscaPessoa['status'] == 'not_found') {
+                                    echo '<tr><td colspan="11">' . $buscaPessoa['message'] . '</td></tr>';
+                                } else if ($buscaPessoa['status'] == 'error') {
+                                    echo '<tr><td colspan="11">' . $buscaPessoa['message'] . ' | Código do erro: ' . $buscaPessoa['id_erro'] . '</td></tr>';
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    $(document).ready(function() {
-        carregarEstados();
-    });
-
-    function carregarEstados() {
-        $.getJSON('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome', function(data) {
-            const selectEstado = $('#estado');
-            selectEstado.empty();
-            selectEstado.append('<option value="" selected>UF</option>');
-            data.forEach(estado => {
-                if (estado.sigla === "<?php echo $buscaOrgao['dados']['orgao_estado'] ?>") {
-                    setTimeout(function() {
-                        selectEstado.append(`<option value="${estado.sigla}" selected>${estado.sigla}</option>`).change();
-                    }, 500);
-
-                } else {
-                    setTimeout(function() {
-                        selectEstado.append(`<option value="${estado.sigla}">${estado.sigla}</option>`);
-                    }, 500);
-                }
-            });
+    <script>
+        $(document).ready(function() {
+            carregarEstados();
         });
-    }
 
-    function carregarMunicipios(estadoId) {
-        $.getJSON(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoId}/municipios?orderBy=nome`, function(data) {
-            const selectMunicipio = $('#municipio');
-            selectMunicipio.empty();
-            selectMunicipio.append('<option value="" selected>Município</option>');
-            data.forEach(municipio => {
-                if (municipio.nome === "<?php echo $buscaOrgao['dados']['orgao_municipio'] ?>") {
-                    selectMunicipio.append(`<option value="${municipio.nome}" selected>${municipio.nome}</option>`);
-                } else {
-                    selectMunicipio.append(`<option value="${municipio.nome}">${municipio.nome}</option>`);
-                }
+        function carregarEstados() {
+            $.getJSON('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome', function(data) {
+                const selectEstado = $('#estado');
+                selectEstado.empty();
+                selectEstado.append('<option value="" selected>UF</option>');
+                data.forEach(estado => {
+                    if (estado.sigla === "<?php echo $buscaOrgao['dados']['orgao_estado'] ?>") {
+                        setTimeout(function() {
+                            selectEstado.append(`<option value="${estado.sigla}" selected>${estado.sigla}</option>`).change();
+                        }, 500);
+
+                    } else {
+                        setTimeout(function() {
+                            selectEstado.append(`<option value="${estado.sigla}">${estado.sigla}</option>`);
+                        }, 500);
+                    }
+                });
             });
-        });
-    }
-
-
-    $('#estado').change(function() {
-        const estadoId = $(this).val();
-        if (estadoId) {
-            $('#municipio').empty().append('<option value="">Aguarde...</option>');
-            carregarMunicipios(estadoId);
-        } else {
-            $('#municipio').empty().append('<option value="" selected>Município</option>');
         }
-    });
+
+        function carregarMunicipios(estadoId) {
+            $.getJSON(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoId}/municipios?orderBy=nome`, function(data) {
+                const selectMunicipio = $('#municipio');
+                selectMunicipio.empty();
+                selectMunicipio.append('<option value="" selected>Município</option>');
+                data.forEach(municipio => {
+                    if (municipio.nome === "<?php echo $buscaOrgao['dados']['orgao_municipio'] ?>") {
+                        selectMunicipio.append(`<option value="${municipio.nome}" selected>${municipio.nome}</option>`);
+                    } else {
+                        selectMunicipio.append(`<option value="${municipio.nome}">${municipio.nome}</option>`);
+                    }
+                });
+            });
+        }
 
 
-    $('#tipo').change(function() {
-        if ($('#tipo').val() == '+') {
+        $('#estado').change(function() {
+            const estadoId = $(this).val();
+            if (estadoId) {
+                $('#municipio').empty().append('<option value="">Aguarde...</option>');
+                carregarMunicipios(estadoId);
+            } else {
+                $('#municipio').empty().append('<option value="" selected>Município</option>');
+            }
+        });
+
+
+        $('#tipo').change(function() {
+            if ($('#tipo').val() == '+') {
+                if (window.confirm("Você realmente deseja inserir um novo tipo?")) {
+                    window.location.href = "?secao=tipos-orgaos";
+                } else {
+                    $('#tipo').val(1000).change();
+                }
+            }
+        });
+
+        $('#btn_novo_tipo').click(function() {
             if (window.confirm("Você realmente deseja inserir um novo tipo?")) {
                 window.location.href = "?secao=tipos-orgaos";
             } else {
-                $('#tipo').val(1000).change();
+                return false;
             }
-        }
-    });
-
-    $('#btn_novo_tipo').click(function() {
-        if (window.confirm("Você realmente deseja inserir um novo tipo?")) {
-            window.location.href = "?secao=tipos-orgaos";
-        } else {
-            return false;
-        }
-    });
-</script>
+        });
+    </script>
