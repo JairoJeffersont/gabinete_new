@@ -36,7 +36,8 @@ $rotas = [
     'emendas' => './src/Views/emenda/emendas.php',
     'emenda' => './src/Views/emenda/emenda.php',
     'postagens-status' => './src/Views/postagem/postagens-status.php',
-    'postagem-status' => './src/Views/postagem/postagem-status.php'
+    'postagem-status' => './src/Views/postagem/postagem-status.php',
+    'postagens' => './src/Views/postagem/postagens.php'
 
 
 ];

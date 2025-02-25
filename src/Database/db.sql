@@ -476,3 +476,5 @@ CREATE TABLE postagens(
     CONSTRAINT fk_postagem_gabinete FOREIGN KEY (postagem_gabinete) REFERENCES gabinete(gabinete_id)
 
 )ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+CREATE VIEW view_postagens AS SELECT postagens.*, usuario.usuario_nome, postagem_status.postagem_status_id, postagem_status.postagem_status_nome, postagem_status.postagem_status_descricao FROM postagens INNER JOIN usuario ON postagens.postagem_criada_por = usuario.usuario_id INNER JOIN postagem_status ON postagens.postagem_status = postagem_status.postagem_status_id; 
