@@ -29,40 +29,41 @@ $buscaUsuarios = $usuarioController->listarUsuarios(1000, 1, 'asc', 'usuario_nom
 
         if ($buscaGabinete['status'] != 'success') {
             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">Gabinete não endcontrado</div>';
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_salvar'])) {
-
-            if ($_POST['usuario_senha'] !== $_POST['usuario_senha2']) {
-                echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">As senha não conferem</div>';
-            } elseif (strlen($_POST['usuario_senha']) < 6) {
-                echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">A senha tem menos de 6 caracteres</div>';
-            } else {
-                $usuario = [
-                    'usuario_nome' => htmlspecialchars($_POST['usuario_nome'], ENT_QUOTES, 'UTF-8'),
-                    'usuario_email' => htmlspecialchars($_POST['usuario_email'], ENT_QUOTES, 'UTF-8'),
-                    'usuario_telefone' => htmlspecialchars($_POST['usuario_telefone'], ENT_QUOTES, 'UTF-8'),
-                    'usuario_aniversario' => $utils->formatarAniversario(htmlspecialchars($_POST['usuario_aniversario'], ENT_QUOTES, 'UTF-8')),
-                    'usuario_ativo' => 0,
-                    'usuario_tipo' => 2,
-                    'usuario_senha' => htmlspecialchars($_POST['usuario_senha'], ENT_QUOTES, 'UTF-8'),
-                    'usuario_gabinete' => $buscaGabinete['dados']['gabinete_id']
-                ];
-
-                if ($buscaGabinete['dados']['gabinete_usuarios'] <= count($buscaUsuarios['dados'])) {
-                    echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">Não existem assinaturas disponíveis</div>';
+        } else {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_salvar'])) {
+                if ($_POST['usuario_senha'] !== $_POST['usuario_senha2']) {
+                    echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">As senha não conferem</div>';
+                } elseif (strlen($_POST['usuario_senha']) < 6) {
+                    echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">A senha tem menos de 6 caracteres</div>';
                 } else {
-                    $result = $usuarioController->novoUsuario($usuario);
-                    if ($result['status'] == 'success') {
-                        echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">' . $result['message'] . '</div>';
-                    } else if ($result['status'] == 'duplicated' || $result['status'] == 'bad_request' || $result['status'] == 'invalid_email') {
-                        echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">' . $result['message'] . '</div>';
-                    } else if ($result['status'] == 'error' || $result['status'] == 'forbidden') {
-                        echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="0" role="alert">' . $result['message'] . '</div>';
+                    $usuario = [
+                        'usuario_nome' => htmlspecialchars($_POST['usuario_nome'], ENT_QUOTES, 'UTF-8'),
+                        'usuario_email' => htmlspecialchars($_POST['usuario_email'], ENT_QUOTES, 'UTF-8'),
+                        'usuario_telefone' => htmlspecialchars($_POST['usuario_telefone'], ENT_QUOTES, 'UTF-8'),
+                        'usuario_aniversario' => $utils->formatarAniversario(htmlspecialchars($_POST['usuario_aniversario'], ENT_QUOTES, 'UTF-8')),
+                        'usuario_ativo' => 0,
+                        'usuario_tipo' => 2,
+                        'usuario_senha' => htmlspecialchars($_POST['usuario_senha'], ENT_QUOTES, 'UTF-8'),
+                        'usuario_gabinete' => $buscaGabinete['dados']['gabinete_id']
+                    ];
+
+                    if ($buscaGabinete['dados']['gabinete_usuarios'] <= count($buscaUsuarios['dados'])) {
+                        echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">Não existem assinaturas disponíveis</div>';
+                    } else {
+                        $result = $usuarioController->novoUsuario($usuario);
+                        if ($result['status'] == 'success') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">' . $result['message'] . '</div>';
+                        } else if ($result['status'] == 'duplicated' || $result['status'] == 'bad_request' || $result['status'] == 'invalid_email') {
+                            echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="3" role="alert">' . $result['message'] . '</div>';
+                        } else if ($result['status'] == 'error' || $result['status'] == 'forbidden') {
+                            echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert rounded-5" data-timeout="0" role="alert">' . $result['message'] . '</div>';
+                        }
                     }
                 }
             }
         }
+
+
 
         ?>
         <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">

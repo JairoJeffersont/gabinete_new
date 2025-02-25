@@ -61,6 +61,35 @@ $('button[name="btn_atualizar"]').on('click', function (event) {
 });
 
 
+$('button[name="btn_atualizar_usuario"]').on('click', function (event) {
+    const confirmacao = confirm("Tem certeza que deseja atualizar esse usuário?");
+    if (!confirmacao) {
+        event.preventDefault();
+    }
+});
+
+$('button[name="btn_desativar_usuario"]').on('click', function (event) {
+    const confirmacao = confirm("Tem certeza que deseja desativar esse usuário?");
+    if (!confirmacao) {
+        event.preventDefault();
+    }
+});
+
+$('button[name="btn_ativar_usuario"]').on('click', function (event) {
+    const confirmacao = confirm("Tem certeza que deseja ativar esse usuário?");
+    if (!confirmacao) {
+        event.preventDefault();
+    }
+});
+
+$('button[name="btn_apagar_usuario"]').on('click', function (event) {
+    const confirmacao = confirm("Tem certeza que deseja apagar esse usuário?");
+    if (!confirmacao) {
+        event.preventDefault();
+    }
+});
+
+
 
 function copyToClipboard() {
     // Pega o link do elemento com o id 'link-cadastro'
