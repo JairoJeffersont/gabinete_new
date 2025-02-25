@@ -291,3 +291,36 @@ CREATE TABLE pessoas (
 
 
 CREATE VIEW view_pessoas AS SELECT pessoas.*, usuario.usuario_nome, gabinete.gabinete_nome, pessoas_tipos.pessoa_tipo_nome, pessoas_profissoes.pessoas_profissoes_nome, orgaos.orgao_nome FROM pessoas INNER JOIN usuario ON pessoas.pessoa_criada_por = usuario.usuario_id INNER JOIN gabinete ON pessoas.pessoa_gabinete = gabinete.gabinete_id INNER JOIN pessoas_tipos ON pessoas.pessoa_tipo = pessoas_tipos.pessoa_tipo_id INNER JOIN pessoas_profissoes ON pessoas.pessoa_profissao = pessoas_profissoes.pessoas_profissoes_id INNER JOIN orgaos ON pessoas.pessoa_orgao = orgaos.orgao_id;
+
+CREATE TABLE documento_tipo (
+    documento_tipo_id varchar(36) NOT NULL,
+    documento_tipo_nome varchar(255) NOT NULL UNIQUE,
+    documento_tipo_descricao text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+    documento_tipo_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    documento_tipo_atualizado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    documento_tipo_criado_por varchar(36) NOT NULL,
+    documento_tipo_gabinete varchar(36) NOT NULL,
+    PRIMARY KEY (documento_tipo_id),
+    CONSTRAINT fk_documento_tipo_criado_por FOREIGN KEY (documento_tipo_criado_por) REFERENCES usuario (usuario_id),
+    CONSTRAINT fk_documento_tipo_gabinete FOREIGN KEY (documento_tipo_gabinete) REFERENCES gabinete (gabinete_id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+
+INSERT INTO documento_tipo (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) VALUES (1, 'Sem tipo definido', 'Sem tipo definido', 1, 1);
+INSERT INTO documento_tipo (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
+VALUES (2, 'Ofício', 'Documento utilizado para comunicações formais entre órgãos ou instituições', 1, 1);
+
+INSERT INTO documento_tipo (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
+VALUES (3, 'Requerimento', 'Documento formal solicitando algo de uma instituição ou órgão', 1, 1);
+
+INSERT INTO documento_tipo (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
+VALUES (4, 'Carta', 'Documento informal ou formal que transmite informações ou solicitações', 1, 1);
+
+INSERT INTO documento_tipo (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
+VALUES (5, 'Memorando', 'Documento utilizado para comunicação interna entre setores de uma organização', 1, 1);
+
+INSERT INTO documento_tipo (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
+VALUES (6, 'Ata', 'Documento que registra os acontecimentos e decisões de uma reunião ou evento', 1, 1);
+
+INSERT INTO documento_tipo (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
+VALUES (7, 'Termo de Compromisso', 'Documento que formaliza um compromisso ou acordo entre as partes', 1, 1);

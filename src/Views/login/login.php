@@ -42,10 +42,10 @@ $loginController = new LoginController();
 
         <form id="form_login" method="post" enctype="application/x-www-form-urlencoded" class="form-group">
             <div class="form-group">
-                <input type="email" class="form-control" name="email" id="email" value="jairojeffersont@gmail.com" placeholder="E-mail" required>
+                <input type="email" class="form-control" name="email" id="email" placeholder="E-mail" required>
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" name="senha" id="senha" placeholder="Senha" value="intell01" required>
+                <input type="password" class="form-control" name="senha" id="senha" placeholder="Senha"  required>
             </div>
             <div class="d-flex justify-content-between align-items-center">
                 <button type="submit" name="btn_logar" class="btn">Entrar</button>
