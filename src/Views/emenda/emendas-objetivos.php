@@ -46,7 +46,7 @@ $busca = $emendaObjetivoController->listarEmendaObjetivo($_SESSION['usuario_gabi
                             echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
                         } else if ($result['status'] == 'duplicated' || $result['status'] == 'bad_request') {
                             echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
-                        } else if ($result['status'] == 'error') {
+                        } else if ($result['status'] == 'error' || $result['status'] == 'forbidden') {
                             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . ' ' . (isset($result['id_erro']) ? ' | Código do erro: ' . $result['id_erro'] : '') . '</div>';
                         }
                     }

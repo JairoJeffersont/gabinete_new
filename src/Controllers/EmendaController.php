@@ -19,6 +19,11 @@ class EmendaController {
 
 
     public function criarEmenda($dados) {
+
+        if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 5) {
+            return ['status' => 'forbidden', 'message' => 'Você não tem autorização para criar emendas.'];
+        }
+
         try {
             $this->emendaModel->criar($dados);
             return ['status' => 'success', 'message' => 'Emenda inserida com sucesso.'];
@@ -30,11 +35,15 @@ class EmendaController {
     }
 
     public function atualizarEmenda($emenda_id, $dados) {
-       
+
         $emenda = $this->buscarEmenda('emenda_id', $emenda_id);
 
         if ($emenda['status'] == 'not_found') {
             return $emenda;
+        }
+
+        if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 5) {
+            return ['status' => 'forbidden', 'message' => 'Você não tem autorização para editar emendas.'];
         }
 
         try {
@@ -93,6 +102,10 @@ class EmendaController {
                 return $emenda;
             }
 
+            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 5) {
+                return ['status' => 'forbidden', 'message' => 'Você não tem autorização para apagar emendas.'];
+            }
+
             $this->emendaModel->apagar($emenda_id);
             return ['status' => 'success', 'message' => 'Emenda apagada com sucesso.'];
         } catch (PDOException $e) {
@@ -106,6 +119,11 @@ class EmendaController {
 
     // CRIAR EMENDA STATUS
     public function novoEmendaStatus($dados) {
+
+        if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 5) {
+            return ['status' => 'forbidden', 'message' => 'Você não tem autorização para criar status de emendas.'];
+        }
+
         try {
             $this->emendaModel->criarEmendaStatus($dados);
             return ['status' => 'success', 'message' => 'Status de emenda inserido com sucesso'];
@@ -131,6 +149,10 @@ class EmendaController {
 
             if ($buscaStatus['emendas_status_gabinete'] == 1) {
                 return ['status' => 'forbidden', 'message' => 'Não é possível atualizar um status padrão do sistema.'];
+            }
+
+            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 5) {
+                return ['status' => 'forbidden', 'message' => 'Você não tem autorização para criar status de emendas.'];
             }
 
             $this->emendaModel->atualizarEmendaStatus($dados);
@@ -187,6 +209,10 @@ class EmendaController {
                 return ['status' => 'forbidden', 'message' => 'Não é possível apagar um status padrão do sistema.'];
             }
 
+            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 5) {
+                return ['status' => 'forbidden', 'message' => 'Você não tem autorização para apagar status de emendas.'];
+            }
+
             $this->emendaModel->apagarEmendaStatus($statusId);
             return ['status' => 'success', 'message' => 'Status de emenda apagado com sucesso'];
         } catch (PDOException $e) {
@@ -201,6 +227,11 @@ class EmendaController {
 
     // CRIAR EMENDA OBJETIVO
     public function novoEmendaObjetivo($dados) {
+
+        if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 5) {
+            return ['status' => 'forbidden', 'message' => 'Você não tem autorização para criar objetivos de emendas.'];
+        }
+
         try {
             $this->emendaModel->criarEmendaObjetivo($dados);
             return ['status' => 'success', 'message' => 'Objetivo de emenda inserido com sucesso'];
@@ -226,6 +257,10 @@ class EmendaController {
 
             if ($buscaObjetivo['emendas_objetivos_gabinete'] == 1) {
                 return ['status' => 'forbidden', 'message' => 'Não é possível atualizar um objetivo padrão do sistema.'];
+            }
+
+            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 5) {
+                return ['status' => 'forbidden', 'message' => 'Você não tem autorização para atualizar objetivos de emendas.'];
             }
 
             $this->emendaModel->atualizarEmendaObjetivo($dados);
@@ -280,6 +315,10 @@ class EmendaController {
 
             if ($buscaObjetivo['emendas_objetivos_gabinete'] == 1) {
                 return ['status' => 'forbidden', 'message' => 'Não é possível apagar um objetivo padrão do sistema.'];
+            }
+
+            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 5) {
+                return ['status' => 'forbidden', 'message' => 'Você não tem autorização para apagar objetivos de emendas.'];
             }
 
             $this->emendaModel->apagarEmendaObjetivo($objetivoId);

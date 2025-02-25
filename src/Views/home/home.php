@@ -121,7 +121,7 @@ $utils = new Utils();
                                     echo '<a href="?secao=postagem&id=' . $postagem['postagem_id'] . '" class="list-group-item list-group-item-action">' . date('d/m', strtotime($postagem['postagem_data'])) . ' - ' . $postagem['postagem_titulo'] . '</a>';
                                 }
                             }
-                        }else{
+                        } else {
                             echo '<li class="list-group-item">Nenhuma postagem encontrada</li>';
                         }
                         ?>

@@ -58,7 +58,7 @@ class PessoaController {
             }
 
             if (!empty($dados['foto']['tmp_name'])) {
-                $uploadResult = $this->fileUpload->uploadFile($this->pasta_foto . '/' . $dados['pessoa_gabinete'], $dados['foto'], ['image/jpg', 'image/jpeg', 'image/png'], 2);
+                $uploadResult = $this->fileUpload->uploadFile($this->pasta_foto . '/' . $dados['pessoa_gabinete'], $dados['foto'], ['image/jpg', 'image/jpeg', 'image/png'], 20);
 
                 if ($uploadResult['status'] !== 'success') {
                     return $uploadResult;
@@ -242,10 +242,6 @@ class PessoaController {
             return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
         }
     }
-
-
-
-
 
 
     // CRIAR PROFISSÃO DE PESSOA

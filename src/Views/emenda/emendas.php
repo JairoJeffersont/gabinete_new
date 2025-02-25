@@ -93,7 +93,7 @@ $municipioGet = isset($_GET['municipio']) ? htmlspecialchars($_GET['municipio'])
                         if ($result['status'] == 'success') {
                             $emendas = $emendaController->listarEmendas(10, 1, 'asc', 'emenda_numero', 1, 1, 1, 1, null, null, 2025, $_SESSION['usuario_gabinete']);
                             echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
-                        } else {
+                        } else if($result['status'] == 'error' || $result['status'] == 'forbidden') {
                             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
                         }
                     }

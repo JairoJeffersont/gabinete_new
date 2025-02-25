@@ -85,7 +85,7 @@ if ($buscaEmenda['status'] != 'success') {
                         if ($result['status'] == 'success') {
                             echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
                             $buscaEmenda = $emendaController->buscarEmenda('emenda_id', $emendaGet);
-                        } else {
+                        } else if ($result['status'] == 'error' || $result['status'] == 'forbidden') {
                             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
                         }
                     }
