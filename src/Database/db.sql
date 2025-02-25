@@ -292,7 +292,7 @@ CREATE TABLE pessoas (
 
 CREATE VIEW view_pessoas AS SELECT pessoas.*, usuario.usuario_nome, gabinete.gabinete_nome, pessoas_tipos.pessoa_tipo_nome, pessoas_profissoes.pessoas_profissoes_nome, orgaos.orgao_nome FROM pessoas INNER JOIN usuario ON pessoas.pessoa_criada_por = usuario.usuario_id INNER JOIN gabinete ON pessoas.pessoa_gabinete = gabinete.gabinete_id INNER JOIN pessoas_tipos ON pessoas.pessoa_tipo = pessoas_tipos.pessoa_tipo_id INNER JOIN pessoas_profissoes ON pessoas.pessoa_profissao = pessoas_profissoes.pessoas_profissoes_id INNER JOIN orgaos ON pessoas.pessoa_orgao = orgaos.orgao_id;
 
-CREATE TABLE documento_tipo (
+CREATE TABLE documentos_tipos (
     documento_tipo_id varchar(36) NOT NULL,
     documento_tipo_nome varchar(255) NOT NULL UNIQUE,
     documento_tipo_descricao text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
@@ -324,3 +324,26 @@ VALUES (6, 'Ata', 'Documento que registra os acontecimentos e decisões de uma r
 
 INSERT INTO documento_tipo (documento_tipo_id, documento_tipo_nome, documento_tipo_descricao, documento_tipo_criado_por, documento_tipo_gabinete) 
 VALUES (7, 'Termo de Compromisso', 'Documento que formaliza um compromisso ou acordo entre as partes', 1, 1);
+
+
+CREATE TABLE documentos(
+    documento_id varchar(36) NOT NULL,
+    documento_titulo VARCHAR(255) NOT NULL UNIQUE,
+    documento_resumo text,
+    documento_arquivo text,
+    documento_ano int,
+    documento_tipo varchar(36) NOT NULL,
+    documento_orgao varchar(36) NOT NULL,
+    documento_criado_por varchar(36) NOT NULL,
+    documento_gabinete varchar(36) NOT NULL,
+    documento_criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    documento_atualizado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY(documento_id),
+    CONSTRAINT fk_documento_criado_por FOREIGN KEY (documento_criado_por) REFERENCES usuario(usuario_id),
+    CONSTRAINT fk_documento_orgao FOREIGN KEY (documento_orgao) REFERENCES orgaos(orgao_id),
+    CONSTRAINT fk_documento_tipo FOREIGN KEY (documento_tipo) REFERENCES documentos_tipos(documento_tipo_id),
+    CONSTRAINT fk_documento_gabinete FOREIGN KEY (documento_gabinete) REFERENCES gabinete(gabinete_id)
+)ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+
+CREATE VIEW view_documentos AS SELECT documentos.*, documentos_tipos.*, orgaos.orgao_nome, orgaos.orgao_id, usuario.usuario_nome FROM documentos INNER JOIN documentos_tipos ON documentos.documento_tipo = documentos_tipos.documento_tipo_id INNER JOIN orgaos ON documentos.documento_orgao = orgaos.orgao_id INNER JOIN usuario ON documentos.documento_criado_por = usuario.usuario_id;
