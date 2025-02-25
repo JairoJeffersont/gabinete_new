@@ -14,7 +14,6 @@ $fileUploader = new FileUploader();
 $postagemGet = $_GET['id'];
 $buscaPostagem = $postagemController->buscarPostagem('postagem_id', $postagemGet);
 
-
 if ($buscaPostagem['status'] == 'not_found' || $buscaPostagem['status'] == 'error') {
     header('Location: ?secao=postagens');
 }
@@ -64,7 +63,7 @@ if ($buscaPostagem['status'] == 'not_found' || $buscaPostagem['status'] == 'erro
                         }
                     }
 
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_apagar'])) {
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_apagar_post'])) {
                         $resultado = $postagemController->apagarPostagem($postagemGet);
 
                         if ($resultado['status'] === 'success') {
@@ -108,7 +107,7 @@ if ($buscaPostagem['status'] == 'not_found' || $buscaPostagem['status'] == 'erro
                         </div>
                         <div class="col-md-3 col-12">
                             <button type="submit" class="btn btn-success btn-sm" name="btn_atualizar"><i class="bi bi-floppy-fill"></i> Atualizar</button>
-                            <button type="submit" class="btn btn-danger btn-sm" name="btn_apagar"><i class="bi bi-trash-fill"></i> Apagar</button>
+                            <button type="submit" class="btn btn-danger btn-sm" name="btn_apagar_post"><i class="bi bi-trash-fill"></i> Apagar</button>
 
                         </div>
                     </form>

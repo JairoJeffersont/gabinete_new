@@ -21,6 +21,24 @@ $('button[name="btn_apagar"]').on('click', function (event) {
     }
 });
 
+
+$('button[name="btn_apagar_arquivo"]').on('click', function (event) {
+    const confirmacao = confirm("Tem certeza que deseja apagar esse arquivo?");
+    if (!confirmacao) {
+        event.preventDefault();
+    }
+});
+
+
+$('button[name="btn_apagar_post"]').on('click', function (event) {
+    
+    const confirmacao = confirm("⚠️ Atenção! Ao apagar essa postagem, todos os arquivos associados a ela serão permanentemente excluídos e não poderão ser recuperados!");
+    if (!confirmacao) {
+        event.preventDefault();
+    }
+});
+
+
 $('button[name="btn_upload"]').on('click', function (event) {
     const confirmacao = confirm("Tem certeza que deseja fazer upload desse arquivo?");
     if (!confirmacao) {
