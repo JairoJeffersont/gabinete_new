@@ -171,7 +171,7 @@ class PessoaController {
             if (!$buscaTipo) {
                 return ['status' => 'not_found', 'message' => 'Tipo de pessoa não encontrado'];
             }
-            
+
             if ($buscaTipo['pessoa_tipo_gabinete'] == 1) {
                 return ['status' => 'forbidden', 'message' => 'Não é possível atualizar um tipo de pessoa padrão dos sistema.'];
             }
@@ -339,6 +339,21 @@ class PessoaController {
             }
             $erro_id = uniqid();
             $this->logger->novoLog('pessoa_profissao_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
+    public function buscarAniversarianteMes($mes, $estado, $cliente) {
+        try {
+            $pessoas = $this->pessoaModel->buscarAniversarianteMes($mes, $estado, $cliente);
+            if ($pessoas) {
+                return ['status' => 'success', 'dados' => $pessoas];
+            } else {
+                return ['status' => 'not_found', 'message' => 'Nenhum aniversáriante para o mês.'];
+            }
+        } catch (PDOException $e) {
+            $erro_id = uniqid();
+            $this->logger->novoLog('pessoa_log', $e->getMessage() . ' | ' . $erro_id);
             return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
         }
     }

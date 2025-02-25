@@ -240,4 +240,36 @@ class PessoaModel {
         $stmt->bindValue(':pessoas_profissoes_id', $pessoas_profissoes_id, PDO::PARAM_STR);
         return $stmt->execute();
     }
+
+
+    public function buscarAniversarianteMes($mes, $estado, $gabinete) {
+
+
+        if (empty($estado)) {
+            $query = "SELECT * FROM view_pessoas 
+                      WHERE MONTH(pessoa_aniversario) = :mes 
+                      AND pessoa_gabinete = :pessoa_gabinete 
+                      ORDER BY DAY(pessoa_aniversario) ASC;";
+        } else {
+            $query = "SELECT * FROM view_pessoas 
+                      WHERE MONTH(pessoa_aniversario) = :mes 
+                      AND pessoa_gabinete = :pessoa_gabinete 
+                      AND pessoa_estado = :estado 
+                      ORDER BY DAY(pessoa_aniversario) ASC;";
+        }
+
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':pessoa_gabinete', $gabinete, PDO::PARAM_STR);
+        $stmt->bindParam(':mes', $mes, PDO::PARAM_INT);
+
+        if (!empty($estado)) {
+            $stmt->bindParam(':estado', $estado, PDO::PARAM_STR);
+        }
+
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
