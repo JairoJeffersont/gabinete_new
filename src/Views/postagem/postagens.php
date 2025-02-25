@@ -105,7 +105,7 @@ $situacao = isset($_GET['situacao']) ? strtolower(htmlspecialchars($_GET['situac
                             </select>
                         </div>
                         <div class="col-md-12 col-12">
-                            <textarea class="form-control form-control-sm" name="postagem_informacoes" placeholder="Informações" rows="4" required></textarea>
+                            <textarea class="form-control form-control-sm" name="postagem_informacoes" placeholder="Informações, textos, instruções..." rows="4" required></textarea>
                         </div>
                         <div class="col-md-3 col-12">
                             <button type="submit" class="btn btn-success btn-sm" name="btn_salvar"><i class="fa-regular fa-floppy-disk"></i> Salvar</button>

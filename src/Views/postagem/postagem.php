@@ -142,7 +142,7 @@ if ($buscaPostagem['status'] == 'not_found' || $buscaPostagem['status'] == 'erro
                 </div>
             </div>
             <div class="card shadow-sm mb-2">
-                <div class="card-body p-2">
+                <div class="card-body card_descricao_body p-2">
                     <?php
                     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_apagar_arquivo'])) {
                         $arquivoParaApagar = $_POST['arquivo_para_apagar'] ?? '';
