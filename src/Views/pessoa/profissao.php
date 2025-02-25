@@ -40,7 +40,7 @@ if ($busca['status'] != 'success') {
             <div class="card shadow-sm mb-2">
                 <div class="card-body p-2">
                     <?php
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_salvar'])) {
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_atualizar'])) {
                         $dados = [
                             'pessoas_profissoes_nome' => htmlspecialchars($_POST['pessoas_profissoes_nome'], ENT_QUOTES, 'UTF-8'),
                             'pessoas_profissoes_descricao' => htmlspecialchars($_POST['pessoas_profissoes_descricao'], ENT_QUOTES, 'UTF-8'),
@@ -79,7 +79,7 @@ if ($busca['status'] != 'success') {
                             <input type="text" class="form-control form-control-sm" name="pessoas_profissoes_descricao" placeholder="Descrição" value="<?php echo $busca['dados']['pessoas_profissoes_descricao'] ?>" required>
                         </div>
                         <div class="col-md-6 col-12">
-                            <button type="submit" class="btn btn-success btn-sm" name="btn_salvar"><i class="bi bi-floppy-fill"></i> Salvar</button>
+                            <button type="submit" class="btn btn-success btn-sm" name="btn_atualizar"><i class="bi bi-floppy-fill"></i> Salvar</button>
                             <button type="submit" class="btn btn-danger btn-sm" name="btn_apagar"><i class="bi bi-trash-fill"></i> Apagar</button>
                         </div>
                     </form>

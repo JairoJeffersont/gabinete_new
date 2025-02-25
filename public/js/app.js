@@ -14,6 +14,34 @@ $('#file-input').on('change', function () {
     $('#file-button').html(fileName ? '<i class="bi bi-check-circle"></i> Ok!' : 'Nada foi enviado');
 });
 
+$('button[name="btn_apagar"]').on('click', function (event) {
+    const confirmacao = confirm("Tem certeza que deseja apagar esse registro?");
+    if (!confirmacao) {
+        event.preventDefault();
+    }
+});
+
+$('button[name="btn_upload"]').on('click', function (event) {
+    const confirmacao = confirm("Tem certeza que deseja fazer upload desse arquivo?");
+    if (!confirmacao) {
+        event.preventDefault();
+    }
+});
+
+$('button[name="btn_salvar"]').on('click', function (event) {
+    const confirmacao = confirm("Tem certeza que deseja inserir esse registro?");
+    if (!confirmacao) {
+        event.preventDefault();
+    }
+});
+
+$('button[name="btn_atualizar"]').on('click', function (event) {
+    const confirmacao = confirm("Tem certeza que deseja atualizar esse registro?");
+    if (!confirmacao) {
+        event.preventDefault();
+    }
+});
+
 
 
 function copyToClipboard() {
