@@ -3,6 +3,8 @@
 use GabineteMvc\Controllers\GabineteController;
 use GabineteMvc\Controllers\MensagemController;
 use GabineteMvc\Controllers\UsuarioController;
+use GabineteMvc\Controllers\PessoaController;
+
 use GabineteMvc\Middleware\Utils;
 
 ob_start();
@@ -13,6 +15,8 @@ require_once './vendor/autoload.php';
 $usuarioController = new UsuarioController();
 $gabineteController = new GabineteController();
 $mensagemController = new MensagemController();
+$pessoaController = new PessoaController();
+
 
 $buscaUsuario = $usuarioController->buscaUsuario('usuario_id', $_SESSION['usuario_id']);
 $buscaGabinete = $gabineteController->buscaGabinete('gabinete_id', $buscaUsuario['dados']['usuario_gabinete']);
@@ -62,7 +66,49 @@ $utils = new Utils();
                     ?>
                 </div>
             </div>
-            
+            <div class="card mb-2">
+                <div class="card-body card_descricao_body">
+                    <h6 class="card-title mb-2">Aniversariantes do dia</h6>
+                    <div class="list-group">
+                        <?php
+                        $buscaPessoas = $pessoaController->buscarAniversarianteMes(date('m'), null, $_SESSION['usuario_gabinete']);
+                        $buscaUsuario = $usuarioController->listarUsuarios(1000, 1, 'asc', 'usuario_nome', $_SESSION['usuario_gabinete']);
+
+                        if ($buscaUsuario['status'] == 'success') {
+                            foreach ($buscaUsuario['dados'] as $usuario) {
+                                if (date('d') == date('d', strtotime($usuario['usuario_aniversario']))) {
+                                    echo '<a href="?secao=meu-gabinete" style="font-size: 0.9em" class="list-group-item list-group-item-action d-flex align-items-center">';
+                                    echo '<img src="public/img/not_found.jpg" alt="Foto de ' . htmlspecialchars($usuario['usuario_nome'], ENT_QUOTES, 'UTF-8') . '" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">';
+                                    echo '<div>';
+                                    echo '<h5 class="mb-1" style="font-size: 1.2em; font-weight: 600">' . htmlspecialchars($usuario['usuario_nome'], ENT_QUOTES, 'UTF-8') . ' (Funcionário do gabinete)</h5>';
+                                    echo '<p class="mb-1" style="word-wrap: break-word; overflow-wrap: break-word; word-break: break-all;">' . htmlspecialchars($usuario['usuario_email'], ENT_QUOTES, 'UTF-8') . '</p>';
+                                    echo '</div>';
+                                    echo '</a>';
+                                }
+                            }
+                        }
+
+                        if ($buscaPessoas['status'] == 'success') {
+                            foreach ($buscaPessoas['dados'] as $pessoa) {
+                                if (date('d') == date('d', strtotime($pessoa['pessoa_aniversario']))) {
+                                    echo '<a href="?secao=pessoa&id=' . $pessoa['pessoa_id'] . '" style="font-size: 0.9em" class="list-group-item list-group-item-action d-flex align-items-center">';
+                                    echo '<img src="' . (!empty($pessoa['pessoa_foto']) ? $pessoa['pessoa_foto'] : 'public/img/not_found.jpg') . '" alt="Foto de ' . htmlspecialchars($pessoa['pessoa_nome'], ENT_QUOTES, 'UTF-8') . '" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">';
+                                    echo '<div>';
+                                    echo '<h5 class="mb-1" style="font-size: 1.2em; font-weight: 600">' . htmlspecialchars($pessoa['pessoa_nome'], ENT_QUOTES, 'UTF-8') . '</h5>';
+                                    echo '<p class="mb-1" style="word-wrap: break-word; overflow-wrap: break-word; word-break: break-all;">' . htmlspecialchars($pessoa['pessoa_email'], ENT_QUOTES, 'UTF-8') . '</p>';
+                                    echo '</div>';
+                                    echo '</a>';
+                                }
+                            }
+                        } else {
+                            echo '<p class="card-text mb-0 mt-1"><i class="bi bi-envelope"></i> Nenhum aniversáriante para hoje.</p>';
+                        }
+                        ?>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

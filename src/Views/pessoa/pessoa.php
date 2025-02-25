@@ -93,10 +93,12 @@ if ($buscaPessoa['status'] == 'not_found' || is_integer($pessoaGet) || $buscaPes
 
                         $result = $pessoaController->atualizarPessoa($dados);
 
+                       
+
                         if ($result['status'] == 'success') {
                             echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '. Aguarde...</div>';
                             $buscaPessoa = $pessoaController->buscaPessoa('pessoa_id', $pessoaGet);
-                        } else if ($result['status'] == 'duplicated' || $result['status'] == 'file_not_permited' || $result['status'] == 'too_big' || $result['status'] == 'bad_request' || $result['status'] == 'invalid_email') {
+                        } else if ($result['status'] == 'duplicated' || $result['status'] == 'file_not_permited' || $result['status'] == 'max_file_size_exceeded' || $result['status'] == 'bad_request' || $result['status'] == 'invalid_email') {
                             echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
                         } else if ($result['status'] == 'error' || $result['status'] == 'forbidden' || $result['status'] == 'file_not_permitted' || $result['status'] == 'file_too_large') {
                             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . '</div>';
@@ -113,6 +115,10 @@ if ($buscaPessoa['status'] == 'not_found' || is_integer($pessoaGet) || $buscaPes
                         } else if ($result['status'] == 'error') {
                             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . ' ' . (isset($result['id_erro']) ? ' | Código do erro: ' . $result['id_erro'] : '') . '</div>';
                         }
+                    }
+
+                    if (date('d/m', strtotime($buscaPessoa['dados']['pessoa_aniversario'])) == date('d/m')) {
+                        echo '<div class="alert alert-warning px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">Hoje é aniversário de <b>' . $buscaPessoa['dados']['pessoa_nome'] . '</b>! Parabéns!</div>';
                     }
                     ?>
                     <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
