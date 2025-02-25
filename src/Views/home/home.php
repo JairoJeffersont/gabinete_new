@@ -113,26 +113,21 @@ $utils = new Utils();
                 <div class="card-body card_descricao_body">
                     <h6 class="card-title mb-3">Postagens programadas para hoje</h6>
                     <div class="list-group">
-
                         <?php
-
                         $buscaPostagens = $postagemController->listarPostagens(1000, 1, 'asc', 'postagem_titulo', 'all', 2025, $_SESSION['usuario_gabinete']);
-                        foreach ($buscaPostagens['dados'] as $postagem) {
-                            if (date('d/m') == date('d/m', strtotime($postagem['postagem_data']))) {
-                                echo '<a href="?secao=postagem&id='.$postagem['postagem_id'].'" class="list-group-item list-group-item-action">'.date('d/m', strtotime($postagem['postagem_data'])).' - '.$postagem['postagem_titulo'].'</a>';
+                        if ($buscaPostagens['status'] == 'success') {
+                            foreach ($buscaPostagens['dados'] as $postagem) {
+                                if (date('d/m') == date('d/m', strtotime($postagem['postagem_data']))) {
+                                    echo '<a href="?secao=postagem&id=' . $postagem['postagem_id'] . '" class="list-group-item list-group-item-action">' . date('d/m', strtotime($postagem['postagem_data'])) . ' - ' . $postagem['postagem_titulo'] . '</a>';
+                                }
                             }
+                        }else{
+                            echo '<li class="list-group-item">Nenhuma postagem encontrada</li>';
                         }
-
                         ?>
-
-
-
-
-
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
