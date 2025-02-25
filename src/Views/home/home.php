@@ -4,7 +4,7 @@ use GabineteMvc\Controllers\GabineteController;
 use GabineteMvc\Controllers\MensagemController;
 use GabineteMvc\Controllers\UsuarioController;
 use GabineteMvc\Controllers\PessoaController;
-
+use GabineteMvc\Controllers\PostagemController;
 use GabineteMvc\Middleware\Utils;
 
 ob_start();
@@ -16,6 +16,7 @@ $usuarioController = new UsuarioController();
 $gabineteController = new GabineteController();
 $mensagemController = new MensagemController();
 $pessoaController = new PessoaController();
+$postagemController = new PostagemController();
 
 
 $buscaUsuario = $usuarioController->buscaUsuario('usuario_id', $_SESSION['usuario_id']);
@@ -106,6 +107,29 @@ $utils = new Utils();
                         ?>
                     </div>
 
+                </div>
+            </div>
+            <div class="card mb-2">
+                <div class="card-body card_descricao_body">
+                    <h6 class="card-title mb-3">Postagens programadas para hoje</h6>
+                    <div class="list-group">
+
+                        <?php
+
+                        $buscaPostagens = $postagemController->listarPostagens(1000, 1, 'asc', 'postagem_titulo', 'all', 2025, $_SESSION['usuario_gabinete']);
+                        foreach ($buscaPostagens['dados'] as $postagem) {
+                            if (date('d/m') == date('d/m', strtotime($postagem['postagem_data']))) {
+                                echo '<a href="?secao=postagem&id='.$postagem['postagem_id'].'" class="list-group-item list-group-item-action">'.date('d/m', strtotime($postagem['postagem_data'])).' - '.$postagem['postagem_titulo'].'</a>';
+                            }
+                        }
+
+                        ?>
+
+
+
+
+
+                    </div>
                 </div>
             </div>
 
