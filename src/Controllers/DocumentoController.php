@@ -52,12 +52,32 @@ class DocumentoController {
 
     // ATUALIZAR DOCUMENTO
     public function atualizarDocumento($dados) {
+
         try {
-            $buscaDocumento = $this->documentoModel->buscaDocumento('documento_id', $dados['documento_id']);
+            $buscaDocumento = $this->buscaDocumento('documento_id', $dados['documento_id']);
 
             if (!$buscaDocumento) {
                 return ['status' => 'not_found', 'message' => 'Documento não encontrado'];
             }
+
+
+            if (!empty($dados['arquivo']['tmp_name'])) {
+                $uploadResult = $this->fileUpload->uploadFile($this->pasta_arquivo . '/' . $dados['documento_gabinete'], $dados['arquivo'], ['application/pdf', 'application/docx', 'application/doc', 'application/xls', 'application/xlsx'], 15);
+
+                if ($uploadResult['status'] !== 'success') {
+                    return $uploadResult;
+                }
+
+                if (!empty($buscaDocumento['dados']['documento_arquivo'])) {
+                    $this->fileUpload->deleteFile($buscaDocumento['dados']['documento_arquivo']);
+                }
+
+                $dados['documento_arquivo'] = $uploadResult['file_path'];
+            } else {
+                $dados['documento_arquivo'] = $buscaDocumento['dados']['documento_arquivo'] ?? null;
+            }
+
+            unset($dados['arquivo']);
 
             $this->documentoModel->atualizarDocumento($dados);
             return ['status' => 'success', 'message' => 'Documento atualizado com sucesso'];
@@ -90,7 +110,7 @@ class DocumentoController {
             $resultado = $this->documentoModel->listarDocumentos($ano, $tipo, $busca, $gabinete);
 
             if ($resultado) {
-                
+
                 return ['status' => 'success', 'dados' => $resultado];
             } else {
                 return ['status' => 'not_found', 'message' => 'Nenhum documento encontrado'];
@@ -109,6 +129,10 @@ class DocumentoController {
 
             if (!$buscaDocumento) {
                 return ['status' => 'not_found', 'message' => 'Documento não encontrado'];
+            }
+
+            if (isset($buscaDocumento['documento_arquivo'])) {
+                $this->fileUpload->deleteFile($buscaDocumento['documento_arquivo']);
             }
 
             $this->documentoModel->apagarDocumento($documentoId);

@@ -11,8 +11,7 @@ $orgaoController = new OrgaoController();
 
 $ano_busca = (isset($_GET['busca_ano'])) ? $_GET['busca_ano'] : date('Y');
 $termo = (isset($_GET['termo'])) ? $_GET['termo'] : '';
-$tipo_busca = (isset($_GET['tipo_busca'])) ? $_GET['tipo_busca'] : '';
-
+$tipo_busca = (isset($_GET['tipo_busca'])) ? $_GET['tipo_busca'] : ''
 
 ?>
 

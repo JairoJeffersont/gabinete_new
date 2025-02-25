@@ -88,7 +88,7 @@ class DocumentoModel {
 
     // BUSCAR DOCUMENTO POR COLUNA E VALOR
     public function buscaDocumento($coluna, $valor) {
-        $query = "SELECT * FROM documentos WHERE $coluna = :valor";
+        $query = "SELECT * FROM view_documentos WHERE $coluna = :valor";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':valor', $valor, PDO::PARAM_STR);
