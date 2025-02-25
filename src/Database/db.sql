@@ -407,3 +407,32 @@ VALUES
     (13, 'Ciência e Tecnologia', 'Fomento à inovação, pesquisa e desenvolvimento tecnológico.', '1', '1'),
     (14, 'Transporte', 'Melhoria da mobilidade urbana e transporte público.', '1', '1'),
     (15, 'Habitação', 'Investimentos em programas habitacionais e urbanização de áreas carentes.', '1', '1');
+
+
+CREATE TABLE emendas (
+    emenda_id varchar(36) NOT NULL,
+    emenda_numero INT NOT NULL,
+    emenda_ano INT NOT NULL,
+    emenda_valor DECIMAL(12,2),
+    emenda_descricao TEXT NOT NULL,
+    emenda_status VARCHAR(36) NOT NULL,
+    emenda_orgao VARCHAR(36) NOT NULL,
+    emenda_municipio VARCHAR(50) NOT NULL,
+    emenda_estado VARCHAR(3) NOT NULL,
+    emenda_objetivo VARCHAR(36) NOT NULL,
+    emenda_informacoes TEXT NULL,
+    emenda_tipo VARCHAR(12) NOT NULL,
+    emenda_gabinete VARCHAR(36) NOT NULL,
+    emenda_criado_por VARCHAR(36) NOT NULL,
+    emenda_criada_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    emenda_atualizada_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (emenda_id),
+    CONSTRAINT fk_emenda_status FOREIGN KEY (emenda_status) REFERENCES emendas_status (emendas_status_id),
+    CONSTRAINT fk_emendas_objetivos FOREIGN KEY (emenda_objetivo) REFERENCES emendas_objetivos (emendas_objetivos_id),
+    CONSTRAINT fk_emenda_criado_por FOREIGN KEY (emenda_criado_por) REFERENCES usuario (usuario_id),
+    CONSTRAINT fk_emenda_gabinete FOREIGN KEY (emenda_gabinete) REFERENCES gabinete (gabinete_id),
+    CONSTRAINT fk_emenda_orgao FOREIGN KEY (emenda_orgao) REFERENCES orgaos (orgao_id)
+)ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+
+CREATE VIEW view_emendas AS SELECT emendas.*, emendas_status.emendas_status_nome, emendas_objetivos.emendas_objetivos_nome, orgaos.orgao_nome, usuario.usuario_nome FROM emendas INNER JOIN emendas_status ON emendas.emenda_status = emendas_status.emendas_status_id INNER JOIN emendas_objetivos ON emendas.emenda_objetivo = emendas_objetivos.emendas_objetivos_id INNER JOIN orgaos ON emendas.emenda_orgao = orgaos.orgao_id INNER JOIN usuario ON emendas.emenda_criado_por = usuario.usuario_id;

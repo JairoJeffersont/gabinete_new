@@ -32,7 +32,9 @@ $rotas = [
     'emendas-status' => './src/Views/emenda/emendas-status.php',
     'emenda-status' => './src/Views/emenda/emenda-status.php',
     'emendas-objetivos' => './src/Views/emenda/emendas-objetivos.php',
-    'emenda-objetivo' => './src/Views/emenda/emenda-objetivo.php'
+    'emenda-objetivo' => './src/Views/emenda/emenda-objetivo.php',
+    'emendas' => './src/Views/emenda/emendas.php',
+    'emenda' => './src/Views/emenda/emenda.php'
 
 
 ];

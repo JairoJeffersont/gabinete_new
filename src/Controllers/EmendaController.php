@@ -17,6 +17,93 @@ class EmendaController {
         $this->logger = new Logger();
     }
 
+
+    public function criarEmenda($dados) {
+        try {
+            $this->emendaModel->criar($dados);
+            return ['status' => 'success', 'message' => 'Emenda inserida com sucesso.'];
+        } catch (PDOException $e) {
+            $erro_id = uniqid();
+            $this->logger->novoLog('emenda_log', $e->getMessage() . ' | ' . $erro_id);
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
+    public function atualizarEmenda($emenda_id, $dados) {
+       
+        $emenda = $this->buscarEmenda('emenda_id', $emenda_id);
+
+        if ($emenda['status'] == 'not_found') {
+            return $emenda;
+        }
+
+        try {
+            $this->emendaModel->atualizar($emenda_id, $dados);
+            return ['status' => 'success', 'message' => 'Emenda atualizada com sucesso.'];
+        } catch (PDOException $e) {
+            $erro_id = uniqid();
+            $this->logger->novoLog('emenda_log', $e->getMessage() . ' | ' . $erro_id);
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
+
+    public function listarEmendas($itens, $pagina, $ordem, $ordenarPor, $status, $tipo, $objetivo, $ano, $estado, $municipio,  $cliente) {
+        try {
+            $emendas = $this->emendaModel->listar($itens, $pagina, $ordem, $ordenarPor, $status, $tipo, $objetivo, $ano, $estado, $municipio,  $cliente);
+
+
+            $total = (isset($emendas[0]['total'])) ? $emendas[0]['total'] : 0;
+            $totalPaginas = ceil($total / $itens);
+
+            if (empty($emendas)) {
+                return ['status' => 'empty', 'message' => 'Nenhuma emenda registrada'];
+            }
+
+            return ['status' => 'success', 'message' => count($emendas) . ' emenda(s) encontrada(s)', 'dados' => $emendas, 'total_paginas' => $totalPaginas];
+        } catch (PDOException $e) {
+            $erro_id = uniqid();
+            $this->logger->novoLog('emenda_log', $e->getMessage() . ' | ' . $erro_id);
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
+
+    public function buscarEmenda($coluna, $valor) {
+
+        try {
+            $emenda = $this->emendaModel->buscar($coluna, $valor);
+            if ($emenda) {
+                return ['status' => 'success', 'dados' => $emenda];
+            } else {
+                return ['status' => 'not_found', 'message' => 'Emenda não encontrada.'];
+            }
+        } catch (PDOException $e) {
+            $erro_id = uniqid();
+            $this->logger->novoLog('emenda_log', $e->getMessage() . ' | ' . $erro_id);
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
+    public function apagarEmenda($emenda_id) {
+        try {
+            $emenda = $this->buscarEmenda('emenda_id', $emenda_id);
+
+            if ($emenda['status'] == 'not_found') {
+                return $emenda;
+            }
+
+            $this->emendaModel->apagar($emenda_id);
+            return ['status' => 'success', 'message' => 'Emenda apagada com sucesso.'];
+        } catch (PDOException $e) {
+            $erro_id = uniqid();
+            $this->logger->novoLog('emenda_log', $e->getMessage() . ' | ' . $erro_id);
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
+
+
     // CRIAR EMENDA STATUS
     public function novoEmendaStatus($dados) {
         try {
