@@ -57,7 +57,7 @@ if ($busca['status'] != 'success') {
                             $busca = $pessoaController->buscaTipoPessoa($id);
                         } else if ($result['status'] == 'duplicated' || $result['status'] == 'bad_request') {
                             echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
-                        } else if ($result['status'] == 'error') {
+                        } else if ($result['status'] == 'error' || $result['status'] == 'forbidden') {
                             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . ' ' . (isset($result['id_erro']) ? ' | Código do erro: ' . $result['id_erro'] : '') . '</div>';
                         }
                     }
@@ -65,9 +65,11 @@ if ($busca['status'] != 'success') {
                     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_apagar'])) {
 
                         $result = $pessoaController->apagarTipoPessoa($id);
+
+
                         if ($result['status'] == 'success') {
                             header('Location: ?secao=tipos-pessoas');
-                        } else if ($result['status'] == 'forbidde' || $result['status'] == 'error') {
+                        } else if ($result['status'] == 'forbidden' || $result['status'] == 'error') {
                             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
                         }
                     }
@@ -79,7 +81,7 @@ if ($busca['status'] != 'success') {
                         <div class="col-md-4 col-12">
                             <input type="text" class="form-control form-control-sm" name="pessoa_tipo_descricao" placeholder="Descrição" value="<?php echo $busca['dados']['pessoa_tipo_descricao'] ?>" required>
                         </div>
-                        <div class="col-md-1 col-12">
+                        <div class="col-md-6 col-12">
                             <button type="submit" class="btn btn-success btn-sm" name="btn_salvar"><i class="bi bi-floppy-fill"></i> Salvar</button>
                             <button type="submit" class="btn btn-danger btn-sm" name="btn_apagar"><i class="bi bi-trash-fill"></i> Apagar</button>
                         </div>

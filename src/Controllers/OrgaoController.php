@@ -131,6 +131,10 @@ class OrgaoController {
                 return ['status' => 'not_found', 'message' => 'Tipo de órgão não encontrado'];
             }
 
+            if ($buscaTipo['orgao_tipo_criado_por'] == 1) {
+                return ['status' => 'forbidden', 'message' => 'Não é possível atualizar um tipo de órgão padrão dos sistema.'];
+            }
+
             $this->orgaoModel->atualizarOrgaoTipo($dados);
             return ['status' => 'success', 'message' => 'Tipo de órgão atualizado com sucesso'];
         } catch (PDOException $e) {
@@ -179,6 +183,10 @@ class OrgaoController {
 
             if (!$buscaTipo) {
                 return ['status' => 'not_found', 'message' => 'Tipo de órgão não encontrado'];
+            }
+
+            if ($buscaTipo['orgao_tipo_criado_por'] == 1) {
+                return ['status' => 'forbidden', 'message' => 'Não é possível apagar um tipo de órgão padrão dos sistema.'];
             }
 
             $this->orgaoModel->apagarOrgaoTipo($tipoId);

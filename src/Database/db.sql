@@ -92,6 +92,9 @@ INSERT INTO gabinete_tipo (gabinete_tipo_id, gabinete_tipo_nome, gabinete_tipo_i
     (8, 'Secretaria de municipio', 'Secretaria de um munícipio'),
     (9, 'Secretaria de estado', 'Secretaria de um estado');  
 
+INSERT INTO gabinete (gabinete_id, gabinete_tipo, gabinete_nome, gabinete_nome_sistema, gabinete_usuarios, gabinete_endereco, gabinete_municipio, gabinete_estado, gabinete_estado_autoridade, gabinete_email, gabinete_telefone) 
+VALUES ('1', 1, 'GABINETE_SISTEMA', 'gabinete_central', '1', 'Rua Principal, 123', 'São Paulo', 'SP', 'GABINETE_SISTEMA', 'contato@gabinete.com.br', '(11) 98765-4321');
+
 INSERT INTO usuario_tipo (usuario_tipo_id, usuario_tipo_nome, usuario_tipo_descricao) 
   VALUES 
     (1, 'Administrador', 'Usuario root do sistema'),
@@ -101,6 +104,8 @@ INSERT INTO usuario_tipo (usuario_tipo_id, usuario_tipo_nome, usuario_tipo_descr
     (5, 'Orçamento', 'Usuario da assessoria orçamentária'),
     (6, 'Secretaria', 'Usuario da secretaria do gabinete');  
 
+INSERT INTO usuario (usuario_id, usuario_nome, usuario_email, usuario_telefone, usuario_senha, usuario_tipo, usuario_ativo, usuario_aniversario, usuario_gabinete) 
+VALUES ('1', 'USUÁRIO SISTEMA', 'email@email.com', '000000', 'sd9fasdfasd9fasd89fsad9f8', 1, 1, '2000-01-01', '1');
 
 CREATE TABLE orgaos_tipos (
     orgao_tipo_id varchar(36) NOT NULL,
@@ -142,6 +147,30 @@ CREATE TABLE orgaos (
 
 CREATE VIEW view_orgaos AS SELECT orgaos.*, orgaos_tipos.orgao_tipo_nome, usuario.usuario_nome FROM orgaos INNER JOIN orgaos_tipos ON orgaos.orgao_tipo = orgaos_tipos.orgao_tipo_id INNER JOIN usuario ON orgaos.orgao_criado_por = usuario.usuario_id;
 
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (1, 'Tipo não informado', 'Sem tipo definido', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (2, 'Ministério', 'Órgão responsável por uma área específica do governo federal', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (3, 'Autarquia Federal', 'Órgão com autonomia administrativa e financeira', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (4, 'Empresa Pública Federal', 'Órgão que realiza atividades econômicas como públicos, correios, eletrobras..', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (5, 'Universidade Federal', 'Instituição de ensino superior federal', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (6, 'Polícia Federal', 'Órgão responsável pela segurança e investigação em âmbito federal', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (7, 'Governo Estadual', 'Órgão executivo estadual responsável pela administração de um estado', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (8, 'Assembleia Legislativa Estadual', 'Órgão legislativo estadual responsável pela criação de leis estaduais', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (9, 'Prefeitura', 'Órgão executivo municipal responsável pela administração local', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (10, 'Câmara Municipal', 'Órgão legislativo municipal responsável pela criação de leis municipais', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (11, 'Entidade Civil', 'Organização sem fins lucrativos que atua em prol de causas sociais', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (12, 'Escola estadual', 'Escolas estaduais', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (13, 'Escola municipal', 'Escolas municipais', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (14, 'Escola Federal', 'Escolas federais', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (15, 'Partido Político', 'Partido Político', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (16, 'Câmara Federal', 'Câmara Federal', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (17, 'Senado Federal', 'Senado Federal', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (18, 'Presidência da Repúlica', 'Presidência da Repúlica', 1, 1);
+INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, orgao_tipo_criado_por, orgao_tipo_gabinete) VALUES (19, 'Veículo de comunicação', 'Jornais, revistas, sites de notícias, emissoras de rádio e TV', 1, 1);
+
+
+
+INSERT INTO orgaos (orgao_id, orgao_nome, orgao_email, orgao_municipio, orgao_estado, orgao_tipo, orgao_criado_por, orgao_gabinete) 
+VALUES (1, 'Órgão não informado', 'email@email', 'municipio', 'estado', 1, 1, 1);
 
 
 CREATE TABLE pessoas_tipos (
@@ -158,6 +187,16 @@ CREATE TABLE pessoas_tipos (
 
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
+
+INSERT INTO pessoas_tipos (pessoa_tipo_id, pessoa_tipo_nome, pessoa_tipo_descricao, pessoa_tipo_criado_por, pessoa_tipo_gabinete) VALUES (1, 'Sem tipo definido', 'Sem tipo definido', 1, 1);
+INSERT INTO pessoas_tipos (pessoa_tipo_id, pessoa_tipo_nome, pessoa_tipo_descricao, pessoa_tipo_criado_por, pessoa_tipo_gabinete) VALUES (2, 'Familiares', 'Familiares do deputado', 1, 1);
+INSERT INTO pessoas_tipos (pessoa_tipo_id, pessoa_tipo_nome, pessoa_tipo_descricao, pessoa_tipo_criado_por, pessoa_tipo_gabinete) VALUES (3, 'Empresários', 'Donos de empresa', 1, 1);
+INSERT INTO pessoas_tipos (pessoa_tipo_id, pessoa_tipo_nome, pessoa_tipo_descricao, pessoa_tipo_criado_por, pessoa_tipo_gabinete) VALUES (4, 'Eleitores', 'Eleitores em geral', 1, 1);
+INSERT INTO pessoas_tipos (pessoa_tipo_id, pessoa_tipo_nome, pessoa_tipo_descricao, pessoa_tipo_criado_por, pessoa_tipo_gabinete) VALUES (5, 'Imprensa', 'Jornalistas, diretores de jornais, assessoria', 1, 1);
+INSERT INTO pessoas_tipos (pessoa_tipo_id, pessoa_tipo_nome, pessoa_tipo_descricao, pessoa_tipo_criado_por, pessoa_tipo_gabinete) VALUES (6, 'Site', 'Pessoas registradas no site', 1, 1);
+INSERT INTO pessoas_tipos (pessoa_tipo_id, pessoa_tipo_nome, pessoa_tipo_descricao, pessoa_tipo_criado_por, pessoa_tipo_gabinete) VALUES (7, 'Amigos', 'Amigos pessoais do deputado', 1, 1);
+INSERT INTO pessoas_tipos (pessoa_tipo_id, pessoa_tipo_nome, pessoa_tipo_descricao, pessoa_tipo_criado_por, pessoa_tipo_gabinete) VALUES (8, 'Autoridades', 'Autoridades públicas', 1, 1);
+
 CREATE TABLE pessoas_profissoes (
     pessoas_profissoes_id varchar(36) NOT NULL,
     pessoas_profissoes_nome varchar(255) NOT NULL UNIQUE,
@@ -171,6 +210,49 @@ CREATE TABLE pessoas_profissoes (
     CONSTRAINT fk_pessoa_profissao_gabinete FOREIGN KEY (pessoas_profissoes_gabinete) REFERENCES gabinete (gabinete_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
+INSERT INTO pessoas_profissoes (pessoas_profissoes_id, pessoas_profissoes_nome, pessoas_profissoes_descricao, pessoas_profissoes_criado_por, pessoas_profissoes_gabinete) 
+VALUES 
+(1, 'Profissão não informada', 'Profissão não informada', 1, 1),
+(2, 'Médico', 'Profissional responsável por diagnosticar e tratar doenças', 1, 1),
+(3, 'Engenheiro de Software', 'Profissional especializado em desenvolvimento e manutenção de sistemas de software', 1, 1),
+(4, 'Advogado', 'Profissional que oferece consultoria e representação legal', 1, 1),
+(5, 'Professor', 'Profissional responsável por ministrar aulas e orientar estudantes', 1, 1),
+(6, 'Enfermeiro', 'Profissional da saúde que cuida e monitoriza pacientes', 1, 1),
+(7, 'Arquiteto', 'Profissional que projeta e planeja edifícios e espaços urbanos', 1, 1),
+(8, 'Contador', 'Profissional que gerencia contas e prepara relatórios financeiros', 1, 1),
+(9, 'Designer Gráfico', 'Profissional especializado em criação visual e design', 1, 1),
+(10, 'Jornalista', 'Profissional que coleta, escreve e distribui notícias', 1, 1),
+(11, 'Chef de Cozinha', 'Profissional que planeja, dirige e prepara refeições em restaurantes', 1, 1),
+(12, 'Psicólogo', 'Profissional que realiza avaliações psicológicas e oferece terapia', 1, 1),
+(13, 'Fisioterapeuta', 'Profissional que ajuda na reabilitação física de pacientes', 1, 1),
+(14, 'Veterinário', 'Profissional responsável pelo cuidado e tratamento de animais', 1, 1),
+(15, 'Fotógrafo', 'Profissional que captura e edita imagens fotográficas', 1, 1),
+(16, 'Tradutor', 'Profissional que converte textos de um idioma para outro', 1, 1),
+(17, 'Administrador', 'Profissional que gerencia operações e processos em uma organização', 1, 1),
+(18, 'Biólogo', 'Profissional que estuda organismos vivos e seus ecossistemas', 1, 1),
+(19, 'Economista', 'Profissional que analisa dados econômicos e desenvolve modelos de previsão', 1, 1),
+(20, 'Programador', 'Profissional que escreve e testa códigos de software', 1, 1),
+(21, 'Cientista de Dados', 'Profissional que analisa e interpreta grandes volumes de dados', 1, 1),
+(22, 'Analista de Marketing', 'Profissional que desenvolve e implementa estratégias de marketing', 1, 1),
+(23, 'Engenheiro Civil', 'Profissional que projeta e constrói infraestrutura como pontes e edifícios', 1, 1),
+(24, 'Cozinheiro', 'Profissional que prepara e cozinha alimentos em ambientes como restaurantes', 1, 1),
+(25, 'Social Media', 'Profissional que gerencia e cria conteúdo para redes sociais', 1, 1),
+(26, 'Auditor', 'Profissional que examina e avalia registros financeiros e operacionais', 1, 1),
+(27, 'Técnico em Informática', 'Profissional que presta suporte técnico e manutenção de hardware e software', 1, 1),
+(28, 'Líder de Projeto', 'Profissional que coordena e supervisiona projetos para garantir a conclusão bem-sucedida', 1, 1),
+(29, 'Químico', 'Profissional que realiza pesquisas e experimentos químicos', 1, 1),
+(30, 'Gerente de Recursos Humanos', 'Profissional responsável pela gestão de pessoal e políticas de recursos humanos', 1, 1),
+(31, 'Engenheiro Eletricista', 'Profissional que projeta e implementa sistemas elétricos e eletrônicos', 1, 1),
+(32, 'Designer de Moda', 'Profissional que cria e desenvolve roupas e acessórios', 1, 1),
+(33, 'Engenheiro Mecânico', 'Profissional que projeta e desenvolve sistemas mecânicos e máquinas', 1, 1),
+(34, 'Web Designer', 'Profissional que cria e mantém layouts e interfaces de sites', 1, 1),
+(35, 'Geólogo', 'Profissional que estuda a composição e estrutura da Terra', 1, 1),
+(36, 'Segurança da Informação', 'Profissional que protege sistemas e dados contra ameaças e ataques', 1, 1),
+(37, 'Consultor Financeiro', 'Profissional que oferece orientação sobre gestão e planejamento financeiro', 1, 1),
+(38, 'Artista Plástico', 'Profissional que cria obras de arte em diversos meios e materiais', 1, 1),
+(39, 'Logístico', 'Profissional que coordena e gerencia operações de logística e cadeia de suprimentos', 1, 1),
+(40, 'Fonoaudiólogo', 'Profissional que avalia e trata problemas de comunicação e linguagem', 1, 1),
+(41, 'Corretor de Imóveis', 'Profissional que facilita a compra, venda e aluguel de propriedades', 1, 1);
 
 CREATE TABLE pessoas (
     pessoa_id varchar(36) NOT NULL,

@@ -184,7 +184,7 @@ class OrgaoModel {
 
     // LISTAR TIPOS DE ÓRGÃOS
     public function listarOrgaosTipos($orgao_tipo_gabinete) {
-        $query = "SELECT * FROM orgaos_tipos WHERE orgao_tipo_gabinete = :orgao_tipo_gabinete ORDER BY orgao_tipo_nome ASC";
+        $query = "SELECT * FROM orgaos_tipos WHERE orgao_tipo_gabinete = :orgao_tipo_gabinete OR orgao_tipo_gabinete = 1 ORDER BY orgao_tipo_nome ASC";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':orgao_tipo_gabinete', $orgao_tipo_gabinete, PDO::PARAM_STR);

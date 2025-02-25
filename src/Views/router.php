@@ -23,6 +23,8 @@ $rotas = [
     'profissao' => './src/Views/pessoa/profissao.php',
     'pessoas' => './src/Views/pessoa/pessoas.php',
     'pessoa' => './src/Views/pessoa/pessoa.php',
+    'imprimir-pessoa' => './src/Views/pessoa/imprimir-pessoa.php',
+
 
 
 

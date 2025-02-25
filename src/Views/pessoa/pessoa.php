@@ -93,8 +93,6 @@ if ($buscaPessoa['status'] == 'not_found' || is_integer($pessoaGet) || $buscaPes
 
                         $result = $pessoaController->atualizarPessoa($dados);
 
-                        print_r($result);
-
                         if ($result['status'] == 'success') {
                             echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '. Aguarde...</div>';
                             $buscaPessoa = $pessoaController->buscaPessoa('pessoa_id', $pessoaGet);
@@ -235,9 +233,10 @@ if ($buscaPessoa['status'] == 'not_found' || is_integer($pessoaGet) || $buscaPes
                         <div class="col-md-12 col-12">
                             <textarea class="form-control form-control-sm" name="informacoes" rows="5" placeholder="Informações importantes dessa pessoa"><?php echo $buscaPessoa['dados']['pessoa_informacoes'] ?></textarea>
                         </div>
-                        <div class="col-md-2 col-6">
+                        <div class="col-md-2 col-12">
                             <button type="submit" class="btn btn-success btn-sm" name="btn_atualizar"><i class="fa-regular fa-floppy-disk"></i> Atualizar</button>
                             <button type="submit" class="btn btn-danger btn-sm" name="btn_apagar"><i class="bi bi-trash-fill"></i> Apagar</button>
+                            <a href="?secao=imprimir-pessoa&id=<?php echo $pessoaGet ?>" target="_blank"  class="btn btn-primary btn-sm" ><i class="bi bi-printer-fill"></i> Imprimir</a>
                         </div>
                     </form>
                 </div>
@@ -245,7 +244,6 @@ if ($buscaPessoa['status'] == 'not_found' || is_integer($pessoaGet) || $buscaPes
 
         </div>
     </div>
-</div>
 </div>
 <script>
     $(document).ready(function() {

@@ -171,6 +171,10 @@ class PessoaController {
             if (!$buscaTipo) {
                 return ['status' => 'not_found', 'message' => 'Tipo de pessoa não encontrado'];
             }
+            
+            if ($buscaTipo['pessoa_tipo_gabinete'] == 1) {
+                return ['status' => 'forbidden', 'message' => 'Não é possível atualizar um tipo de pessoa padrão dos sistema.'];
+            }
 
             $this->pessoaModel->atualizarTipoPessoa($dados);
             return ['status' => 'success', 'message' => 'Tipo de pessoa atualizado com sucesso'];
@@ -218,12 +222,17 @@ class PessoaController {
         try {
             $buscaTipo = $this->pessoaModel->buscaTipoPessoa($tipoId);
 
+
             if (!$buscaTipo) {
                 return ['status' => 'not_found', 'message' => 'Tipo de pessoa não encontrado'];
             }
 
+            if ($buscaTipo['pessoa_tipo_gabinete'] == 1) {
+                return ['status' => 'forbidden', 'message' => 'Não é possível apagar um tipo de pessoa padrão dos sistema.'];
+            }
+
             $this->pessoaModel->apagarTipoPessoa($tipoId);
-            return ['status' => 'success', 'message' => 'Tipo de pessoa apagado com sucesso'];
+            return ['status' => 'successs', 'message' => 'Tipo de pessoa apagado com sucesso'];
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), 'FOREIGN KEY') !== false) {
                 return ['status' => 'forbidden', 'message' => 'Não é possível apagar o tipo de pessoa. Existem registros dependentes.'];
@@ -262,6 +271,10 @@ class PessoaController {
 
             if (!$buscaProfissao) {
                 return ['status' => 'not_found', 'message' => 'Profissão de pessoa não encontrada'];
+            }
+
+            if ($buscaProfissao['pessoas_profissoes_gabinete'] == 1) {
+                return ['status' => 'forbidden', 'message' => 'Não é possível atualizar uma profissão padrão dos sistema.'];
             }
 
             $this->pessoaModel->atualizarProfissaoPessoa($dados);
@@ -312,6 +325,10 @@ class PessoaController {
 
             if (!$buscaProfissao) {
                 return ['status' => 'not_found', 'message' => 'Profissão de pessoa não encontrada'];
+            }
+
+            if ($buscaProfissao['pessoas_profissoes_gabinete'] == 1) {
+                return ['status' => 'forbidden', 'message' => 'Não é possível apagar uma profissão padrão dos sistema.'];
             }
 
             $this->pessoaModel->apagarProfissaoPessoa($profissaoId);
