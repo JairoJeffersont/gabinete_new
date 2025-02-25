@@ -100,7 +100,7 @@ class PostagemController {
                 return $postagem;
             }
 
-            $pasta = $postagem['dados'][0]['postagem_pasta'];
+            $pasta = $postagem['dados']['postagem_pasta'];
 
             if (is_dir($pasta)) {
                 $files = array_diff(scandir($pasta), ['.', '..']);

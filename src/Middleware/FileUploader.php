@@ -41,9 +41,7 @@ class FileUploader {
      */
     public function uploadFile(string $directory, array $file, array $allowedTypes, int $maxSize, bool $uniqueFlag = true): array {
         // Verifica se houve erro no upload
-        if ($file['error'] !== UPLOAD_ERR_OK) {
-            return ['status' => 'upload_error', 'message' => 'Erro ao fazer upload.'];
-        }
+       
 
         // Obtém a extensão real do arquivo e verifica o tipo MIME
         $fileMime = mime_content_type($file['tmp_name']);

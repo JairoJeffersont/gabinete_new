@@ -83,7 +83,7 @@ class PostagemModel {
         $stmt->bindParam(':valor', $valor, PDO::PARAM_STR);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function apagar($postagem_id) {

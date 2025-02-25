@@ -25,15 +25,15 @@ $situacao = isset($_GET['situacao']) ? strtolower(htmlspecialchars($_GET['situac
                     <a class="btn btn-primary btn-sm custom-nav barra_navegacao" href="?secao=home" role="button"><i class="bi bi-house-door-fill"></i> Início</a>
                 </div>
             </div>
-            <div class="card mb-2 card-description">
-                <div class="card-header bg-primary text-white px-2 py-1 card_description_bg"><i class="bi bi-stickies"></i> Adicionar Postagem</div>
-                <div class="card-body p-2">
+            <div class="card mb-2 ">
+                <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-stickies"></i> Adicionar Postagem</div>
+                <div class="card-body card_descricao_body p-2">
                     <p class="card-text mb-2">Nesta seção, é possível adicionar e editar as postagens, garantindo a organização correta dessas informações no sistema.</p>
                     <p class="card-text mb-0">Todos os campos são obrigatórios</p>
                 </div>
             </div>
             <div class="card shadow-sm mb-2 ">
-                <div class="card-body card_description_body p-0">
+                <div class="card-body card_descricao_body p-0">
                     <nav class="navbar navbar-expand bg-body-tertiary p-0 ">
                         <div class="container-fluid p-0">
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
