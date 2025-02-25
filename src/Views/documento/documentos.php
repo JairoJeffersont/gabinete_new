@@ -54,7 +54,7 @@ $tipo_busca = (isset($_GET['tipo_busca'])) ? $_GET['tipo_busca'] : ''
                             echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
                         } else if ($result['status'] == 'duplicated' || $result['status'] == 'format_not_allowed' || $result['status'] == 'max_file_size_exceeded' ||  $result['status'] == 'directory_creation_failed' ||  $result['status'] == 'file_already_exists') {
                             echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
-                        } else if ($result['status'] == 'error') {
+                        } else if ($result['status'] == 'error' || $result['status'] == 'forbidden') {
                             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . ' ' . (isset($result['id_erro']) ? ' | Código do erro: ' . $result['id_erro'] : '') . '</div>';
                         }
                     }

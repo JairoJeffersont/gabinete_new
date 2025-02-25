@@ -25,6 +25,12 @@ class DocumentoController {
 
     // CRIAR DOCUMENTO
     public function novoDocumento($dados) {
+
+        if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 6) {
+            return ['status' => 'forbidden', 'message' => 'Você não tem autorização para arquivar documentos.'];
+        }
+
+
         try {
 
             if (!empty($dados['arquivo']['tmp_name'])) {
@@ -52,6 +58,10 @@ class DocumentoController {
 
     // ATUALIZAR DOCUMENTO
     public function atualizarDocumento($dados) {
+
+        if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 6) {
+            return ['status' => 'forbidden', 'message' => 'Você não tem autorização para atualizar documentos.'];
+        }
 
         try {
             $buscaDocumento = $this->buscaDocumento('documento_id', $dados['documento_id']);
@@ -124,6 +134,11 @@ class DocumentoController {
 
     // APAGAR DOCUMENTO
     public function apagarDocumento($documentoId) {
+
+        if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 6) {
+            return ['status' => 'forbidden', 'message' => 'Você não tem autorização para apagar documentos.'];
+        }
+
         try {
             $buscaDocumento = $this->documentoModel->buscaDocumento('documento_id', $documentoId);
 
@@ -151,6 +166,11 @@ class DocumentoController {
 
     // CRIAR DOCUMENTO TIPO
     public function novoDocumentoTipo($dados) {
+
+        if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 6) {
+            return ['status' => 'forbidden', 'message' => 'Você não tem autorização para criar tipos de  documentos.'];
+        }
+
         try {
             $this->documentoModel->criarDocumentoTipo($dados);
             return ['status' => 'success', 'message' => 'Tipo de documento inserido com sucesso'];
@@ -167,6 +187,13 @@ class DocumentoController {
 
     // ATUALIZAR DOCUMENTO TIPO
     public function atualizarDocumentoTipo($dados) {
+
+
+        if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 6) {
+            return ['status' => 'forbidden', 'message' => 'Você não tem autorização para atualizar tipos de  documentos.'];
+        }
+
+
         try {
             $buscaTipo = $this->documentoModel->buscaDocumentoTipo($dados['documento_tipo_id']);
 
@@ -232,6 +259,10 @@ class DocumentoController {
                 return ['status' => 'forbidden', 'message' => 'Não é possível apagar um tipo padrão dos sistema.'];
             }
 
+
+            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 6) {
+                return ['status' => 'forbidden', 'message' => 'Você não tem autorização para apagar tispo de documentos.'];
+            }
 
             $this->documentoModel->apagarDocumentoTipo($tipoId);
             return ['status' => 'success', 'message' => 'Tipo de documento apagado com sucesso'];
