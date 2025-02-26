@@ -50,7 +50,7 @@ $estado = (isset($_GET['estado']) && $_GET['estado'] !== 'null') ? $_GET['estado
                         <div class="col-md-12 col-12">
                             <button type="submit" class="btn btn-success btn-sm" name="btn_xls"><i class="bi bi-file-earmark-excel-fill"></i> Excel</button>
                             <button type="submit" class="btn btn-primary btn-sm" name="btn_csv"><i class="bi bi-filetype-csv"></i> CSV</button>
-                            <a href="?secao=imprimir-pessoas&estado=<?php echo $estado ?>"type="button" target="_blank" class="btn btn-secondary btn-sm" id="btn_imprimir"><i class="bi bi-printer-fill"></i> Imprimir</a>
+                            <a href="?secao=imprimir-pessoas&estado=<?php echo $estado ?>" type="button" target="_blank" class="btn btn-secondary btn-sm" id="btn_imprimir"><i class="bi bi-printer-fill"></i> Imprimir</a>
                         </div>
                     </form>
                 </div>
@@ -461,6 +461,13 @@ $estado = (isset($_GET['estado']) && $_GET['estado'] !== 'null') ? $_GET['estado
         const confirmacao = confirm("Tem certeza que deseja criar esse arquivo? Essa operação pode levar varios minutos");
         if (!confirmacao) {
             event.preventDefault();
+        }
+    });
+
+    window.addEventListener('keydown', function(event) {
+        if ((event.ctrlKey || event.metaKey) && event.key === 'p') {
+            event.preventDefault(); // Impede a janela de impressão padrão
+            window.open('?secao=imprimir-pessoas&estado=<?php echo $estado ?>', '_blank'); // Abre a URL em uma nova aba
         }
     });
 </script>
