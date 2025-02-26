@@ -478,3 +478,19 @@ CREATE TABLE postagens(
 )ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 CREATE VIEW view_postagens AS SELECT postagens.*, usuario.usuario_nome, postagem_status.postagem_status_id, postagem_status.postagem_status_nome, postagem_status.postagem_status_descricao FROM postagens INNER JOIN usuario ON postagens.postagem_criada_por = usuario.usuario_id INNER JOIN postagem_status ON postagens.postagem_status = postagem_status.postagem_status_id; 
+
+CREATE TABLE clipping_tipos (
+    clipping_tipo_id varchar(36) NOT NULL,
+    clipping_tipo_nome varchar(255) NOT NULL UNIQUE,
+    clipping_tipo_descricao text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+    clipping_tipo_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    clipping_tipo_criado_por varchar(36) NOT NULL,
+    clipping_tipo_gabinete varchar(36) NOT NULL,
+    PRIMARY KEY (clipping_tipo_id),
+    CONSTRAINT fk_clipping_tipo_criado_por FOREIGN KEY (clipping_tipo_criado_por) REFERENCES usuario(usuario_id),
+    CONSTRAINT fk_clipping_tipo_gabinete FOREIGN KEY (clipping_tipo_gabinete) REFERENCES gabinete(gabinete_id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+INSERT INTO clipping_tipos (clipping_tipo_id, clipping_tipo_nome, clipping_tipo_descricao, clipping_tipo_criado_por, clipping_tipo_gabinete) VALUES (1, 'Sem tipo definido', 'Sem tipo definido', 1,1);
+INSERT INTO clipping_tipos (clipping_tipo_id, clipping_tipo_nome, clipping_tipo_descricao, clipping_tipo_criado_por, clipping_tipo_gabinete) VALUES (2, 'Notícia Jornalística', 'Matéria Jornalistica de site, revista, blog...', 1, 1);
+INSERT INTO clipping_tipos (clipping_tipo_id, clipping_tipo_nome, clipping_tipo_descricao, clipping_tipo_criado_por, clipping_tipo_gabinete) VALUES (3, 'Post de rede social', 'Post de instagram, facebook....', 1, 1);

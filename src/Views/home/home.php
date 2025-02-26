@@ -18,7 +18,6 @@ $mensagemController = new MensagemController();
 $pessoaController = new PessoaController();
 $postagemController = new PostagemController();
 
-
 $buscaUsuario = $usuarioController->buscaUsuario('usuario_id', $_SESSION['usuario_id']);
 $buscaGabinete = $gabineteController->buscaGabinete('gabinete_id', $buscaUsuario['dados']['usuario_gabinete']);
 $buscaMensagens = $mensagemController->listarMensagens(1000, 1, 'asc', 'mensagem_enviada_em', $_SESSION['usuario_id'], 0);
@@ -73,22 +72,6 @@ $utils = new Utils();
                     <div class="list-group">
                         <?php
                         $buscaPessoas = $pessoaController->buscarAniversarianteMes(date('m'), null, $_SESSION['usuario_gabinete']);
-                        $buscaUsuario = $usuarioController->listarUsuarios(1000, 1, 'asc', 'usuario_nome', $_SESSION['usuario_gabinete']);
-
-                        if ($buscaUsuario['status'] == 'success') {
-                            foreach ($buscaUsuario['dados'] as $usuario) {
-                                if (date('d') == date('d', strtotime($usuario['usuario_aniversario']))) {
-                                    echo '<a href="?secao=meu-gabinete" style="font-size: 0.9em" class="list-group-item list-group-item-action d-flex align-items-center">';
-                                    echo '<img src="public/img/not_found.jpg" alt="Foto de ' . htmlspecialchars($usuario['usuario_nome'], ENT_QUOTES, 'UTF-8') . '" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">';
-                                    echo '<div>';
-                                    echo '<h5 class="mb-1" style="font-size: 1.2em; font-weight: 600">' . htmlspecialchars($usuario['usuario_nome'], ENT_QUOTES, 'UTF-8') . ' (Funcionário do gabinete)</h5>';
-                                    echo '<p class="mb-1" style="word-wrap: break-word; overflow-wrap: break-word; word-break: break-all;">' . htmlspecialchars($usuario['usuario_email'], ENT_QUOTES, 'UTF-8') . '</p>';
-                                    echo '</div>';
-                                    echo '</a>';
-                                }
-                            }
-                        }
-
                         if ($buscaPessoas['status'] == 'success') {
                             foreach ($buscaPessoas['dados'] as $pessoa) {
                                 if (date('d') == date('d', strtotime($pessoa['pessoa_aniversario']))) {
