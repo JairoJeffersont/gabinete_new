@@ -172,7 +172,6 @@ INSERT INTO orgaos_tipos (orgao_tipo_id, orgao_tipo_nome, orgao_tipo_descricao, 
 INSERT INTO orgaos (orgao_id, orgao_nome, orgao_email, orgao_municipio, orgao_estado, orgao_tipo, orgao_criado_por, orgao_gabinete) 
 VALUES (1, 'Órgão não informado', 'email@email', 'municipio', 'estado', 1, 1, 1);
 
-
 CREATE TABLE pessoas_tipos (
     pessoa_tipo_id varchar(36) NOT NULL,
     pessoa_tipo_nome varchar(255) NOT NULL UNIQUE,
@@ -186,7 +185,6 @@ CREATE TABLE pessoas_tipos (
     CONSTRAINT fk_pessoa_tipo_gabinete FOREIGN KEY (pessoa_tipo_gabinete) REFERENCES gabinete (gabinete_id)
 
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
 
 INSERT INTO pessoas_tipos (pessoa_tipo_id, pessoa_tipo_nome, pessoa_tipo_descricao, pessoa_tipo_criado_por, pessoa_tipo_gabinete) VALUES (1, 'Sem tipo definido', 'Sem tipo definido', 1, 1);
 INSERT INTO pessoas_tipos (pessoa_tipo_id, pessoa_tipo_nome, pessoa_tipo_descricao, pessoa_tipo_criado_por, pessoa_tipo_gabinete) VALUES (2, 'Familiares', 'Familiares do deputado', 1, 1);
