@@ -52,7 +52,7 @@ class PessoaController {
     public function gerarCsv($gabinete) {
         try {
             // Recupera as pessoas
-            $result = $this->listarPessoas(1000, 1, 'asc', 'pessoa_nome', null, null, $gabinete);
+            $result = $this->listarPessoas(10000000, 1, 'asc', 'pessoa_nome', null, null, $gabinete);
             if ($result['status'] == 'success') {
                 $buscaPessoas = $result['dados'];
 
@@ -126,7 +126,7 @@ class PessoaController {
     public function gerarXls($gabinete) {
         try {
             // Recupera as pessoas
-            $result = $this->listarPessoas(1000, 1, 'asc', 'pessoa_nome', null, null, $gabinete);           
+            $result = $this->listarPessoas(10000000, 1, 'asc', 'pessoa_nome', null, null, $gabinete);           
 
             if ($result['status'] == 'success') {
 

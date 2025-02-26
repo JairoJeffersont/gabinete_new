@@ -45,12 +45,12 @@ $estado = (isset($_GET['estado']) && $_GET['estado'] !== 'null') ? $_GET['estado
                 </div>
             </div>
             <div class="card shadow-sm mb-2">
-                <div class="card-body p-2">
-
+                <div class="card-body p-1">
                     <form class="row g-2 form_custom mb-0" method="post" enctype="application/x-www-form-urlencoded">
                         <div class="col-md-12 col-12">
-                            <button type="submit" class="btn btn-success btn-sm" name="btn_xls"><i class="bi bi-file-earmark-excel-fill"></i> Exportar para excel</button>
-                            <button type="submit" class="btn btn-primary btn-sm" name="btn_csv"><i class="bi bi-filetype-csv"></i> Exportar para csv</button>
+                            <button type="submit" class="btn btn-success btn-sm" name="btn_xls"><i class="bi bi-file-earmark-excel-fill"></i> Excel</button>
+                            <button type="submit" class="btn btn-primary btn-sm" name="btn_csv"><i class="bi bi-filetype-csv"></i> CSV</button>
+                            <a href="?secao=imprimir-pessoas&estado=<?php echo $estado ?>"type="button" target="_blank" class="btn btn-secondary btn-sm" id="btn_imprimir"><i class="bi bi-printer-fill"></i> Imprimir</a>
                         </div>
                     </form>
                 </div>

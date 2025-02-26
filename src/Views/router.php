@@ -24,6 +24,7 @@ $rotas = [
     'pessoas' => './src/Views/pessoa/pessoas.php',
     'pessoa' => './src/Views/pessoa/pessoa.php',
     'imprimir-pessoa' => './src/Views/pessoa/imprimir-pessoa.php',
+    'imprimir-pessoas' => './src/Views/pessoa/imprimir-pessoas.php',
     'aniversariantes' => './src/Views/pessoa/aniversariantes.php',
     'tipos-documentos' => './src/Views/documento/tipos-documentos.php',
     'tipo-documento' => './src/Views/documento/tipo-documento.php',
