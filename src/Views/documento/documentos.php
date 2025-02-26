@@ -26,10 +26,29 @@ $tipo_busca = (isset($_GET['tipo_busca'])) ? $_GET['tipo_busca'] : ''
                 </div>
             </div>
             <div class="card mb-2">
-                <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-file-earmark-text"></i> Adicionar Tipo de Documento</div>
+                <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-file-earmark-text"></i> Documentos</div>
                 <div class="card-body card_descricao_body p-2">
-                    <p class="card-text mb-2">Aqui você pode adicionar e editar os tipos de documentos, mantendo a organização das informações no sistema.</p>
+                    <p class="card-text mb-2">Aqui você pode adicionar e editar os documentos, mantendo a organização das informações no sistema.</p>
                     <p class="card-text mb-0">Todos os campos são obrigatórios. São permitidos arquivos <b>PDF</b>, <b>Word</b> e <b>Excel</b>. Tamanho máximo de <b>20MB</b></p>
+                </div>
+            </div>
+            <div class="card shadow-sm mb-2 ">
+                <div class="card-body card_descricao_body p-0">
+                    <nav class="navbar navbar-expand bg-body-tertiary p-0 ">
+                        <div class="container-fluid p-0">
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav me-auto mb-0 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link active p-1" aria-current="page" href="#">
+                                            <button class="btn btn-primary btn-sm" style="font-size: 0.850em;" id="btn_novo_orgao" type="button"><i class="bi bi-plus-circle-fill"></i> Novo órgão</button>
+                                            <button class="btn btn-success btn-sm" style="font-size: 0.850em;" id="btn_novo_tipo" type="button"><i class="bi bi-plus-circle-fill"></i> Novo tipo</button>
+
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
                 </div>
             </div>
             <div class="card shadow-sm mb-2">

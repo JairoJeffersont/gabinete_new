@@ -73,8 +73,13 @@ $utils = new Utils();
                     <div class="list-group">
                         <?php
                         $buscaPessoas = $pessoaController->buscarAniversarianteMes(date('m'), null, $_SESSION['usuario_gabinete']);
-                        
+
                         if ($buscaPessoas['status'] == 'success') {
+                            // Ordenar o array de pessoas por nome (pessoa_nome) em ordem crescente
+                            usort($buscaPessoas['dados'], function ($a, $b) {
+                                return strcmp($a['pessoa_nome'], $b['pessoa_nome']);
+                            });
+
                             foreach ($buscaPessoas['dados'] as $pessoa) {
                                 if (date('d') == date('d', strtotime($pessoa['pessoa_aniversario']))) {
                                     echo '<a href="?secao=pessoa&id=' . $pessoa['pessoa_id'] . '" style="font-size: 0.9em" class="list-group-item list-group-item-action d-flex align-items-center">';
@@ -90,29 +95,30 @@ $utils = new Utils();
                             echo '<p class="card-text mb-0 mt-1"><i class="bi bi-envelope"></i> Nenhum aniversáriante para hoje.</p>';
                         }
                         ?>
+
                     </div>
                 </div>
             </div>
-            <?php if($_SESSION['usuario_tipo'] == 2 || $_SESSION['usuario_tipo'] == 3){ ?>
-            <div class="card mb-2">
-                <div class="card-body card_descricao_body">
-                    <h6 class="card-title mb-3">Postagens programadas para hoje</h6>
-                    <div class="list-group">
-                        <?php
-                        $buscaPostagens = $postagemController->listarPostagens(1000, 1, 'asc', 'postagem_titulo', 'all', 2025, $_SESSION['usuario_gabinete']);
-                        if ($buscaPostagens['status'] == 'success') {
-                            foreach ($buscaPostagens['dados'] as $postagem) {
-                                if (date('d/m') == date('d/m', strtotime($postagem['postagem_data']))) {
-                                    echo '<a href="?secao=postagem&id=' . $postagem['postagem_id'] . '" class="list-group-item list-group-item-action">' . date('d/m', strtotime($postagem['postagem_data'])) . ' - ' . $postagem['postagem_titulo'] . '</a>';
+            <?php if ($_SESSION['usuario_tipo'] == 2 || $_SESSION['usuario_tipo'] == 3) { ?>
+                <div class="card mb-2">
+                    <div class="card-body card_descricao_body">
+                        <h6 class="card-title mb-3">Postagens programadas para hoje</h6>
+                        <div class="list-group">
+                            <?php
+                            $buscaPostagens = $postagemController->listarPostagens(1000, 1, 'asc', 'postagem_titulo', 'all', 2025, $_SESSION['usuario_gabinete']);
+                            if ($buscaPostagens['status'] == 'success') {
+                                foreach ($buscaPostagens['dados'] as $postagem) {
+                                    if (date('d/m') == date('d/m', strtotime($postagem['postagem_data']))) {
+                                        echo '<a href="?secao=postagem&id=' . $postagem['postagem_id'] . '" class="list-group-item list-group-item-action">' . date('d/m', strtotime($postagem['postagem_data'])) . ' - ' . $postagem['postagem_titulo'] . '</a>';
+                                    }
                                 }
+                            } else {
+                                echo '<li class="list-group-item">Nenhuma postagem encontrada</li>';
                             }
-                        } else {
-                            echo '<li class="list-group-item">Nenhuma postagem encontrada</li>';
-                        }
-                        ?>
+                            ?>
+                        </div>
                     </div>
                 </div>
-            </div>
             <?php } ?>
         </div>
     </div>

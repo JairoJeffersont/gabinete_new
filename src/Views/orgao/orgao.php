@@ -13,7 +13,9 @@ $pessoaController = new PessoaController();
 $id = $_GET['id'];
 
 $buscaOrgao = $orgaoController->buscaOrgao('orgao_id', $id);
-$buscaPessoa = $pessoaController->buscaPessoa('pessoa_orgao', $id);
+$buscaPessoa = $pessoaController->listarPessoas(1000, 1, 'asc', 'pessoa_nome', null, null, $_SESSION['usuario_gabinete']);
+
+
 
 
 if ($buscaOrgao['status'] != 'success') {
@@ -165,7 +167,8 @@ if ($buscaOrgao['status'] != 'success') {
             </div>
             <div class="card shadow-sm mb-2">
                 <div class="card-body p-2">
-                    <p class="card-text mb-2">Pessoas desse órgão: <?php echo  isset($buscaPessoa['dados']) ? count($buscaPessoa['dados']) : 0 ?></p>
+                    <p class="card-text mb-2">Pessoas desse órgão/entidade:</a></p>
+
                     <div class="table-responsive mb-0">
                         <table class="table table-hover table-bordered table-striped mb-0 custom-table">
                             <thead>
@@ -183,18 +186,20 @@ if ($buscaOrgao['status'] != 'success') {
                             <tbody>
                                 <?php
                                 if ($buscaPessoa['status'] == 'success') {
-                                    $total_de_registros = count($buscaPessoa['dados']);
+
                                     foreach ($buscaPessoa['dados'] as $pessoa) {
-                                        echo '<tr>';
-                                        echo '<td style="white-space: nowrap;"><a href="?secao=pessoa&id=' . $pessoa['pessoa_id'] . '">' . $pessoa['pessoa_nome'] . '</a></td>';
-                                        echo '<td style="white-space: nowrap;">' . $pessoa['pessoa_email'] . '</td>';
-                                        echo '<td style="white-space: nowrap;">' . $pessoa['pessoa_telefone'] . '</td>';
-                                        echo '<td style="white-space: nowrap;">' . $pessoa['pessoa_endereco'] . '</td>';
-                                        echo '<td style="white-space: nowrap;">' . $pessoa['pessoa_municipio'] . '/' . $pessoa['pessoa_estado'] . '</td>';
-                                        echo '<td style="white-space: nowrap;">' . $pessoa['pessoa_tipo_nome'] . '</td>';
-                                        echo '<td style="white-space: nowrap;">' . $pessoa['pessoas_profissoes_nome'] . '</td>';
-                                        echo '<td style="white-space: nowrap;">' . date('d/m/Y', strtotime($pessoa['pessoa_criada_em'])) . ' | ' . $pessoa['usuario_nome'] . '</td>';
-                                        echo '</tr>';
+                                        if ($pessoa['pessoa_orgao'] == $id) {
+                                            echo '<tr>';
+                                            echo '<td style="white-space: nowrap;"><a href="?secao=pessoa&id=' . $pessoa['pessoa_id'] . '">' . $pessoa['pessoa_nome'] . '</a></td>';
+                                            echo '<td style="white-space: nowrap;">' . $pessoa['pessoa_email'] . '</td>';
+                                            echo '<td style="white-space: nowrap;">' . $pessoa['pessoa_telefone'] . '</td>';
+                                            echo '<td style="white-space: nowrap;">' . $pessoa['pessoa_endereco'] . '</td>';
+                                            echo '<td style="white-space: nowrap;">' . $pessoa['pessoa_municipio'] . '/' . $pessoa['pessoa_estado'] . '</td>';
+                                            echo '<td style="white-space: nowrap;">' . $pessoa['pessoa_tipo_nome'] . '</td>';
+                                            echo '<td style="white-space: nowrap;">' . $pessoa['pessoas_profissoes_nome'] . '</td>';
+                                            echo '<td style="white-space: nowrap;">' . date('d/m/Y', strtotime($pessoa['pessoa_criada_em'])) . ' | ' . $pessoa['usuario_nome'] . '</td>';
+                                            echo '</tr>';
+                                        }
                                     }
                                 } else if ($buscaPessoa['status'] == 'not_found') {
                                     echo '<tr><td colspan="11">' . $buscaPessoa['message'] . '</td></tr>';
