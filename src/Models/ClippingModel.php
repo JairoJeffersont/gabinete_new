@@ -13,7 +13,108 @@ class ClippingModel {
     }
 
 
-    
+
+    public function criarClipping($dados) {
+        $query = "INSERT INTO clipping (clipping_id, clipping_resumo, clipping_titulo, clipping_data, clipping_link, clipping_orgao, clipping_arquivo, clipping_tipo, clipping_criado_por, clipping_gabinete)
+                  VALUES (UUID(), :clipping_resumo, :clipping_titulo, :clipping_data, :clipping_link, :clipping_orgao, :clipping_arquivo, :clipping_tipo, :clipping_criado_por, :clipping_gabinete)";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':clipping_resumo', $dados['clipping_resumo'], PDO::PARAM_STR);
+        $stmt->bindParam(':clipping_titulo', $dados['clipping_titulo'], PDO::PARAM_STR);
+        $stmt->bindParam(':clipping_data', $dados['clipping_data'], PDO::PARAM_STR);
+        $stmt->bindParam(':clipping_link', $dados['clipping_link'], PDO::PARAM_STR);
+        $stmt->bindParam(':clipping_orgao', $dados['clipping_orgao'], PDO::PARAM_STR);
+        $stmt->bindParam(':clipping_arquivo', $dados['clipping_arquivo'], PDO::PARAM_STR);
+        $stmt->bindParam(':clipping_tipo', $dados['clipping_tipo'], PDO::PARAM_STR);
+        $stmt->bindParam(':clipping_criado_por', $dados['clipping_criado_por'], PDO::PARAM_STR);
+        $stmt->bindParam(':clipping_gabinete', $dados['clipping_gabinete'], PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    public function atualizarClipping($clipping_id, $dados) {
+        $query = "UPDATE clipping 
+                  SET clipping_resumo = :clipping_resumo, 
+                      clipping_titulo = :clipping_titulo, 
+                      clipping_data = :clipping_data, 
+                      clipping_link = :clipping_link, 
+                      clipping_orgao = :clipping_orgao, 
+                      clipping_arquivo = :clipping_arquivo, 
+                      clipping_tipo = :clipping_tipo
+                  WHERE clipping_id = :clipping_id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':clipping_resumo', $dados['clipping_resumo'], PDO::PARAM_STR);
+        $stmt->bindParam(':clipping_titulo', $dados['clipping_titulo'], PDO::PARAM_STR);
+        $stmt->bindParam(':clipping_data', $dados['clipping_data'], PDO::PARAM_STR);
+        $stmt->bindParam(':clipping_link', $dados['clipping_link'], PDO::PARAM_STR);
+        $stmt->bindParam(':clipping_orgao', $dados['clipping_orgao'], PDO::PARAM_STR);
+        $stmt->bindParam(':clipping_arquivo', $dados['clipping_arquivo'], PDO::PARAM_STR);
+        $stmt->bindParam(':clipping_tipo', $dados['clipping_tipo'], PDO::PARAM_STR);
+        $stmt->bindParam(':clipping_id', $clipping_id, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+
+    public function listarClipping($busca, $ano, $gabinete)
+    {
+        if ($busca === '') {
+            $query = 'SELECT * FROM view_clipping WHERE YEAR(clipping_data) = :ano AND clipping_gabinete = :clipping_gabinete ORDER BY clipping_criado_em DESC';
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(':clipping_gabinete', $gabinete, PDO::PARAM_STR);
+            $stmt->bindValue(':ano', $ano, PDO::PARAM_STR);
+        } else {
+            $query = 'SELECT * FROM view_clipping WHERE (clipping_titulo LIKE :busca OR clipping_resumo LIKE :busca) AND clipping_gabinete = :clipping_gabinete ORDER BY clipping_criado_em DESC';
+            $stmt = $this->conn->prepare($query);
+            $busca = '%' . $busca . '%';
+            $stmt->bindValue(':busca', $busca, PDO::PARAM_STR);
+            $stmt->bindValue(':clipping_gabinete', $gabinete, PDO::PARAM_STR);
+        }
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function buscarClipping($coluna, $valor)
+    {
+        $query = "SELECT * FROM view_clipping  WHERE $coluna = :valor";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':valor', $valor, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function apagarClipping($clipping_id)
+    {
+        $query = "DELETE FROM clipping WHERE clipping_id = :clipping_id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':clipping_id', $clipping_id, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    public function buscarAno($gabinete)
+    {
+        $query = "SELECT clipping_data, COUNT(*) as contagem, (SELECT COUNT(*) FROM view_clipping WHERE clipping_gabinete = :clipping_gabinete) AS total
+        FROM view_clipping
+        WHERE clipping_gabinete = :clipping_gabinete
+        GROUP BY clipping_data 
+        ORDER BY contagem DESC";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':clipping_gabinete', $gabinete, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
     // CRIAR TIPO DE CLIPPING
     public function criarClippingTipo($dados) {

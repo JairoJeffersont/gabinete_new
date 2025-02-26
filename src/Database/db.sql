@@ -516,3 +516,5 @@ CREATE TABLE clipping (
     CONSTRAINT fk_clipping_gabinete FOREIGN KEY (clipping_gabinete) REFERENCES gabinete(gabinete_id)
 
 )ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+CREATE VIEW view_clipping AS SELECT clipping.*, usuario.usuario_nome, orgaos.orgao_nome, clipping_tipos.clipping_tipo_nome FROM clipping INNER JOIN clipping_tipos ON clipping.clipping_tipo = clipping_tipos.clipping_tipo_id INNER JOIN orgaos ON clipping.clipping_orgao = orgaos.orgao_id INNER JOIN usuario ON clipping.clipping_criado_por = usuario.usuario_id 
