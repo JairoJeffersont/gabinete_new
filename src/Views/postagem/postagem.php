@@ -122,7 +122,7 @@ if ($buscaPostagem['status'] == 'not_found' || $buscaPostagem['status'] == 'erro
 
                         if ($uploadResult['status'] == 'success') {
                             echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $uploadResult['message'] . '</div>';
-                        } else if ($uploadResult['status'] == 'file_not_permited' || $uploadResult['status'] == 'too_big' || $uploadResult['status'] == 'file_exists') {
+                        } else if ($uploadResult['status'] == 'format_not_allowed' || $uploadResult['status'] == 'max_file_size_exceeded' || $uploadResult['status'] == 'file_already_exists') {
                             echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $uploadResult['message'] . '</div>';
                         } else if ($uploadResult['status'] == 'upload_error' || $uploadResult['status'] == 'folder_error') {
                             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $uploadResult['message'] . '</div>';
@@ -136,13 +136,13 @@ if ($buscaPostagem['status'] == 'not_found' || $buscaPostagem['status'] == 'erro
                             <input type="file" class="form-control form-control-sm" name="arquivo" required>
                         </div>
                         <div class="col-md-3 col-12">
-                            <button type="submit" class="btn btn-primary btn-sm" name="btn_upload"><i class="bi bi-cloud-arrow-up"></i> Upload</button>
+                            <button type="submit" class="btn btn-primary btn-sm" id="btn_upload" name="btn_upload"><i class="bi bi-cloud-arrow-up"></i> Upload</button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="card shadow-sm mb-2">
-                <div class="card-body card_descricao_body p-2">
+                <div class="card-body p-2">
                     <?php
                     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_apagar_arquivo'])) {
                         $arquivoParaApagar = $_POST['arquivo_para_apagar'] ?? '';

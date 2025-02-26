@@ -47,7 +47,7 @@ $utils = new Utils();
                         echo '<p class="card-text mb-0 mt-1">' . $aniversario . '</p>';
                     }
                     ?>
-                    <hr>
+                    
 
                     <?php
                     if ($buscaMensagens['status'] == 'success') {

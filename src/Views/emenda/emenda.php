@@ -103,7 +103,7 @@ if ($buscaEmenda['status'] != 'success') {
 
                                 if ($emendasStatus['status'] == 'success') {
                                     foreach ($emendasStatus['dados'] as $status) {
-                                        if ($status['emendas_status_id'] == 1 || $status['emendas_status_id'] == $buscaEmenda['dados']['emenda_status']) {
+                                        if ($status['emendas_status_id'] == $buscaEmenda['dados']['emenda_status']) {
                                             echo '<option value="' . $status['emendas_status_id'] . '" selected>' . $status['emendas_status_nome'] . '</option>';
                                         } else {
                                             echo '<option value="' . $status['emendas_status_id'] . '">' . $status['emendas_status_nome'] . '</option>';

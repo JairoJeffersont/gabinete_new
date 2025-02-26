@@ -35,9 +35,9 @@ class Utils {
         $diferencaDias = $dataAtual->diff($dataAniversario)->days;
 
         if ($mesDiaAniversario === $dataAtual->format('m-d')) {
-            return '🎉 Parabéns! Hoje é o seu aniversário! 🎂';
+            return '🎉 Parabéns! Hoje é o seu aniversário! 🎂<hr>';
         } elseif ($diferencaDias <= 90) {
-            return '<i class="bi bi-cake"></i> Seu aniversário está chegando! Faltam ' . $diferencaDias . ' dias';
+            return '<i class="bi bi-cake"></i> Seu aniversário está chegando! Faltam ' . $diferencaDias . ' dias<hr>';
         }
         return '';
     }
