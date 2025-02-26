@@ -494,3 +494,25 @@ CREATE TABLE clipping_tipos (
 INSERT INTO clipping_tipos (clipping_tipo_id, clipping_tipo_nome, clipping_tipo_descricao, clipping_tipo_criado_por, clipping_tipo_gabinete) VALUES (1, 'Sem tipo definido', 'Sem tipo definido', 1,1);
 INSERT INTO clipping_tipos (clipping_tipo_id, clipping_tipo_nome, clipping_tipo_descricao, clipping_tipo_criado_por, clipping_tipo_gabinete) VALUES (2, 'Notícia Jornalística', 'Matéria Jornalistica de site, revista, blog...', 1, 1);
 INSERT INTO clipping_tipos (clipping_tipo_id, clipping_tipo_nome, clipping_tipo_descricao, clipping_tipo_criado_por, clipping_tipo_gabinete) VALUES (3, 'Post de rede social', 'Post de instagram, facebook....', 1, 1);
+
+
+CREATE TABLE clipping (
+    clipping_id varchar(36) NOT NULL,
+    clipping_resumo TEXT NOT NULL,
+    clipping_titulo TEXT NOT NULL,
+    clipping_link VARCHAR(255) NOT NULL UNIQUE,
+    clipping_orgao varchar(36) NOT NULL,
+    clipping_arquivo VARCHAR(255),
+    clipping_data date NOT NULL,
+    clipping_tipo varchar(36) NOT NULL,
+    clipping_criado_por varchar(36) NOT NULL,
+    clipping_gabinete varchar(36) NOT NULL,
+    clipping_criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    clipping_atualizado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (clipping_id),
+    CONSTRAINT fk_clipping_criado_por FOREIGN KEY (clipping_criado_por) REFERENCES usuario(usuario_id),
+    CONSTRAINT fk_clipping_orgao FOREIGN KEY (clipping_orgao) REFERENCES orgaos(orgao_id),
+    CONSTRAINT fk_clipping_tipo FOREIGN KEY (clipping_tipo) REFERENCES clipping_tipos(clipping_tipo_id),
+    CONSTRAINT fk_clipping_gabinete FOREIGN KEY (clipping_gabinete) REFERENCES gabinete(gabinete_id)
+
+)ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;

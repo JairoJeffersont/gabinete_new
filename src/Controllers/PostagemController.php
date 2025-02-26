@@ -25,7 +25,7 @@ class PostagemController {
                 mkdir($dados['postagem_pasta'], 0777, true);
             }
 
-            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 2) {
+            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 3) {
                 return ['status' => 'forbidden', 'message' => 'Você não tem autorização para criar postagens.'];
             }
 
@@ -51,7 +51,7 @@ class PostagemController {
             return $postagem;
         }
 
-        if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 2) {
+        if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 3) {
             return ['status' => 'forbidden', 'message' => 'Você não tem autorização para editar postagens.'];
         }
 
@@ -108,7 +108,7 @@ class PostagemController {
                 return $postagem;
             }
 
-            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 2) {
+            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 3) {
                 return ['status' => 'forbidden', 'message' => 'Você não tem autorização para apagar postagens.'];
             }
 
@@ -139,7 +139,7 @@ class PostagemController {
     // CRIAR NOVO STATUS DE POSTAGEM
     public function novoPostagemStatus($dados) {
 
-        if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 2) {
+        if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 3) {
             return ['status' => 'forbidden', 'message' => 'Você não tem autorização para criar status de postagens.'];
         }
 
@@ -166,7 +166,7 @@ class PostagemController {
                 return ['status' => 'not_found', 'message' => 'Status de postagem não encontrado'];
             }
 
-            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 2) {
+            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 3) {
                 return ['status' => 'forbidden', 'message' => 'Você não tem autorização para atualizar status de postagens.'];
             }
 
@@ -225,10 +225,11 @@ class PostagemController {
                 return ['status' => 'not_found', 'message' => 'Status de postagem não encontrado'];
             }
 
-            return ['status' => 'forbidden', 'message' => 'Você não tem autorização para apagar status de postagens.'];
 
+            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 3) {
+                return ['status' => 'forbidden', 'message' => 'Você não tem autorização para apagar status de postagens.'];
+            }
 
-            // Lógica de restrição para não permitir apagar status padrão
             if ($buscaStatus['postagem_status_criado_por'] == 1) {
                 return ['status' => 'forbidden', 'message' => 'Não é possível apagar um status de postagem padrão do sistema.'];
             }

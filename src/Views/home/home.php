@@ -18,6 +18,7 @@ $mensagemController = new MensagemController();
 $pessoaController = new PessoaController();
 $postagemController = new PostagemController();
 
+
 $buscaUsuario = $usuarioController->buscaUsuario('usuario_id', $_SESSION['usuario_id']);
 $buscaGabinete = $gabineteController->buscaGabinete('gabinete_id', $buscaUsuario['dados']['usuario_gabinete']);
 $buscaMensagens = $mensagemController->listarMensagens(1000, 1, 'asc', 'mensagem_enviada_em', $_SESSION['usuario_id'], 0);
@@ -72,6 +73,7 @@ $utils = new Utils();
                     <div class="list-group">
                         <?php
                         $buscaPessoas = $pessoaController->buscarAniversarianteMes(date('m'), null, $_SESSION['usuario_gabinete']);
+                        
                         if ($buscaPessoas['status'] == 'success') {
                             foreach ($buscaPessoas['dados'] as $pessoa) {
                                 if (date('d') == date('d', strtotime($pessoa['pessoa_aniversario']))) {
@@ -89,9 +91,9 @@ $utils = new Utils();
                         }
                         ?>
                     </div>
-
                 </div>
             </div>
+            <?php if($_SESSION['usuario_tipo'] == 2 || $_SESSION['usuario_tipo'] == 3){ ?>
             <div class="card mb-2">
                 <div class="card-body card_descricao_body">
                     <h6 class="card-title mb-3">Postagens programadas para hoje</h6>
@@ -111,6 +113,7 @@ $utils = new Utils();
                     </div>
                 </div>
             </div>
+            <?php } ?>
         </div>
     </div>
 </div>

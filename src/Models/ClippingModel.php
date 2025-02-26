@@ -12,6 +12,9 @@ class ClippingModel {
         $this->conn = Database::getConnection();
     }
 
+
+    
+
     // CRIAR TIPO DE CLIPPING
     public function criarClippingTipo($dados) {
         $query = 'INSERT INTO clipping_tipos (clipping_tipo_id, clipping_tipo_nome, clipping_tipo_descricao, clipping_tipo_criado_por, clipping_tipo_gabinete) 
