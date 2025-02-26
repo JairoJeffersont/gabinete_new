@@ -48,28 +48,44 @@ $municipioGet = isset($_GET['municipio']) ? htmlspecialchars($_GET['municipio'])
                     <p class="card-text mb-0">Além disso, é possível filtrar e visualizar emendas já cadastradas, organizadas por diferentes critérios como número, valor, status e município.
                 </div>
             </div>
-            <div class="card shadow-sm mb-2 no-print">
-                <div class="card-body card_descricao_body p-0">
-                    <nav class="navbar navbar-expand bg-body-tertiary p-0 ">
-                        <div class="container-fluid p-0">
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav me-auto mb-0 mb-lg-0">
-                                    <li class="nav-item">
-                                        <a class="nav-link active p-1" aria-current="page" href="#">
-                                            <button class="btn btn-success btn-sm" style="font-size: 0.850em;" id="btn_novo_objetivo" type="button"><i class="bi bi-plus-circle-fill"></i> Novo objetivo</button>
-                                            <button class="btn btn-secondary btn-sm" style="font-size: 0.850em;" id="btn_nova_status" type="button"><i class="bi bi-plus-circle-fill"></i> Novo status</button>
-                                            <button class="btn btn-primary btn-sm" style="font-size: 0.850em;" id="btn_novo_orgao" type="button"><i class="bi bi-plus-circle-fill"></i> Novo órgão</button>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+            <div class="card shadow-sm mb-2">
+                <div class="card-body p-1">
+                    <form class="row g-2 form_custom mb-0" method="post" enctype="application/x-www-form-urlencoded">
+                        <div class="col-md-12 col-12">
+                            <button type="submit" class="btn btn-success btn-sm" name="btn_xls"><i class="bi bi-file-earmark-excel-fill"></i> Excel</button>
+                            <button type="submit" class="btn btn-primary btn-sm" name="btn_csv"><i class="bi bi-filetype-csv"></i> CSV</button>
+                            <?php echo '<a href="?secao=imprimir-emendas&ordenarPor=' . $ordenarPor . '&ordem=' . $ordem . '&status=' . $statusGet . '&objetivo=' . $objetivoGet . '&tipo=' . $tipoGet . '&estado=' . $estadoGet . '&municipio=' . $municipioGet . '"" type="button" target="_blank" class="btn btn-secondary btn-sm" id="btn_imprimir"><i class="bi bi-printer-fill"></i> Imprimir</a>'; ?>
                         </div>
-                    </nav>
+                    </form>
                 </div>
             </div>
             <div class="card shadow-sm mb-2 no-print">
                 <div class="card-body p-2">
                     <?php
+
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_csv'])) {
+
+                        $result = $emendaController->gerarCsv($itens, $pagina, $ordem, $ordenarPor, $statusGet, $tipoGet, $objetivoGet, $anoGet, $estadoGet, $municipioGet, $_SESSION['usuario_gabinete']);
+
+                        if ($result['status'] == 'success') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="20" role="alert">' . $result['message'] . '. <a href="' . $result['file'] . '">Download</a></div>';
+                        } else if ($result['status'] == 'not_found') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">Nenhum arquivo foi gerado</div>';
+                        }
+                    }
+
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_xls'])) {
+
+                        $result = $emendaController->gerarXls($itens, $pagina, $ordem, $ordenarPor, $statusGet, $tipoGet, $objetivoGet, $anoGet, $estadoGet, $municipioGet, $_SESSION['usuario_gabinete']);
+
+                        if ($result['status'] == 'success') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="20" role="alert">' . $result['message'] . '. <a href="' . $result['file'] . '">Download</a></div>';
+                        } else if ($result['status'] == 'not_found') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">Nenhum arquivo foi gerado</div>';
+                        }
+                    }
+
+
                     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_salvar'])) {
                         $dadosEmenda = [
                             'emenda_numero' => htmlspecialchars($_POST['emenda_numero'], ENT_QUOTES, 'UTF-8'),
@@ -93,7 +109,7 @@ $municipioGet = isset($_GET['municipio']) ? htmlspecialchars($_GET['municipio'])
                         if ($result['status'] == 'success') {
                             $emendas = $emendaController->listarEmendas(10, 1, 'asc', 'emenda_numero', 1, 1, 1, 1, null, null, 2025, $_SESSION['usuario_gabinete']);
                             echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
-                        } else if($result['status'] == 'error' || $result['status'] == 'forbidden') {
+                        } else if ($result['status'] == 'error' || $result['status'] == 'forbidden') {
                             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
                         }
                     }
@@ -502,6 +518,27 @@ $municipioGet = isset($_GET['municipio']) ? htmlspecialchars($_GET['municipio'])
             window.location.href = "?secao=orgaos";
         } else {
             return false;
+        }
+    });
+
+    $('button[name="btn_csv"]').on('click', function(event) {
+        const confirmacao = confirm("Tem certeza que deseja criar esse arquivo? Essa operação pode levar varios minutos");
+        if (!confirmacao) {
+            event.preventDefault();
+        }
+    });
+
+    $('button[name="btn_xls"]').on('click', function(event) {
+        const confirmacao = confirm("Tem certeza que deseja criar esse arquivo? Essa operação pode levar varios minutos");
+        if (!confirmacao) {
+            event.preventDefault();
+        }
+    });
+
+    window.addEventListener('keydown', function(event) {
+        if ((event.ctrlKey || event.metaKey) && event.key === 'p') {
+            event.preventDefault(); // Impede a janela de impressão padrão
+            alert('Clique no botão imprimir');
         }
     });
 </script>

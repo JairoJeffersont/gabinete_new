@@ -437,8 +437,6 @@ CREATE TABLE emendas (
 
 CREATE VIEW view_emendas AS SELECT emendas.*, emendas_status.emendas_status_nome, emendas_objetivos.emendas_objetivos_nome, orgaos.orgao_nome, usuario.usuario_nome FROM emendas INNER JOIN emendas_status ON emendas.emenda_status = emendas_status.emendas_status_id INNER JOIN emendas_objetivos ON emendas.emenda_objetivo = emendas_objetivos.emendas_objetivos_id INNER JOIN orgaos ON emendas.emenda_orgao = orgaos.orgao_id INNER JOIN usuario ON emendas.emenda_criado_por = usuario.usuario_id;
 
-
-
 CREATE TABLE postagem_status(
     postagem_status_id varchar(36) NOT NULL,
     postagem_status_nome VARCHAR(255) NOT NULL UNIQUE,
@@ -483,7 +481,7 @@ CREATE TABLE clipping_tipos (
     clipping_tipo_id varchar(36) NOT NULL,
     clipping_tipo_nome varchar(255) NOT NULL UNIQUE,
     clipping_tipo_descricao text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-    clipping_tipo_criado_em timestamp NOT NULL DEFAULTƒ CURRENT_TIMESTAMP,
+    clipping_tipo_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     clipping_tipo_criado_por varchar(36) NOT NULL,
     clipping_tipo_gabinete varchar(36) NOT NULL,
     PRIMARY KEY (clipping_tipo_id),
