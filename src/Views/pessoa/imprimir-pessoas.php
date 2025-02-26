@@ -92,7 +92,7 @@ $estado = (isset($_GET['estado']) && $_GET['estado'] !== 'null') ? $_GET['estado
         }
     }
 </style>
-
+<h6 class="text-center mb-4">Lista de pessoas <?php echo $estado ? ' - ' . $estado : ' - Todos os estados' ?></h6>
 <table class="table table-hover table-bordered table-striped mb-0 custom-table">
     <thead>
         <tr>
