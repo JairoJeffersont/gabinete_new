@@ -19,5 +19,8 @@
         "allow-plugins": {
             "symfony/flex": true
         }
+    },
+    "require": {
+        "phpoffice/phpspreadsheet": "^4.0"
     }
 }

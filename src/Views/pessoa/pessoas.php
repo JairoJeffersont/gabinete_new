@@ -44,28 +44,42 @@ $estado = (isset($_GET['estado']) && $_GET['estado'] !== 'null') ? $_GET['estado
                     <p class="card-text mb-0">Os campos <b>Nome</b>, <b>email</b>, <b>aniversário</b>, <b>estado</b> e <b>município</b> são <b>obrigatórios</b>. A foto deve ser em <b>JPG</b> ou <b>PNG</b> e ter no máximo <b>20MB</b></p>
                 </div>
             </div>
-            <div class="card shadow-sm mb-2 ">
-                <div class="card-body card_descricao_body p-0">
-                    <nav class="navbar navbar-expand bg-body-tertiary p-0 ">
-                        <div class="container-fluid p-0">
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav me-auto mb-0 mb-lg-0">
-                                    <li class="nav-item">
-                                        <a class="nav-link active p-1" aria-current="page" href="#">
-                                            <button class="btn btn-success btn-sm" style="font-size: 0.850em;" id="btn_novo_tipo" type="button"><i class="bi bi-plus-circle-fill"></i> Novo tipo</button>
-                                            <button class="btn btn-secondary btn-sm" style="font-size: 0.850em;" id="btn_nova_profissao" type="button"><i class="bi bi-plus-circle-fill"></i> Nova profissao</button>
-                                            <button class="btn btn-primary btn-sm" style="font-size: 0.850em;" id="btn_novo_orgao" type="button"><i class="bi bi-plus-circle-fill"></i> Novo órgão</button>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+            <div class="card shadow-sm mb-2">
+                <div class="card-body p-2">
+
+                    <form class="row g-2 form_custom mb-0" method="post" enctype="application/x-www-form-urlencoded">
+                        <div class="col-md-12 col-12">
+                            <button type="submit" class="btn btn-success btn-sm" name="btn_xls"><i class="bi bi-file-earmark-excel-fill"></i> Exportar para excel</button>
+                            <button type="submit" class="btn btn-primary btn-sm" name="btn_csv"><i class="bi bi-filetype-csv"></i> Exportar para csv</button>
                         </div>
-                    </nav>
+                    </form>
                 </div>
             </div>
             <div class="card shadow-sm mb-2">
                 <div class="card-body p-2">
                     <?php
+
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_csv'])) {
+
+                        $result = $pessoaController->gerarCsv($_SESSION['usuario_gabinete']);
+
+                        if ($result['status'] == 'success') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="20" role="alert">' . $result['message'] . '. <a href="' . $result['file'] . '">Download</a></div>';
+                        } else if ($result['status'] == 'not_found') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">Nenhum arquivo foi gerado</div>';
+                        }
+                    }
+
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_xls'])) {
+
+                        $result = $pessoaController->gerarXls($_SESSION['usuario_gabinete']);
+
+                        if ($result['status'] == 'success') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="20" role="alert">' . $result['message'] . '. <a href="' . $result['file'] . '">Download</a></div>';
+                        } else if ($result['status'] == 'not_found') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">Nenhum arquivo foi gerado</div>';
+                        }
+                    }
                     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_salvar'])) {
                         $dados = [
                             'pessoa_nome' => htmlspecialchars($_POST['nome'], ENT_QUOTES, 'UTF-8'),
@@ -324,14 +338,14 @@ $estado = (isset($_GET['estado']) && $_GET['estado'] !== 'null') ? $_GET['estado
 
                     if ($totalPagina > 0 && $totalPagina != 1) {
                         echo '<ul class="pagination custom-pagination mt-2 mb-0">';
-                        echo '<li class="page-item ' . ($pagina == 1 ? 'active' : '') . '"><a class="page-link" href="?secao=pessoas&itens=' . $itens . '&pagina=1&ordenarPor=' . $ordenarPor . '&ordem=' . $ordem . (isset($termo) ? '&termo=' . $termo : '') . '&estado='.$estado.'">Primeira</a></li>';
+                        echo '<li class="page-item ' . ($pagina == 1 ? 'active' : '') . '"><a class="page-link" href="?secao=pessoas&itens=' . $itens . '&pagina=1&ordenarPor=' . $ordenarPor . '&ordem=' . $ordem . (isset($termo) ? '&termo=' . $termo : '') . '&estado=' . $estado . '">Primeira</a></li>';
 
                         for ($i = 1; $i < $totalPagina - 1; $i++) {
                             $pageNumber = $i + 1;
-                            echo '<li class="page-item ' . ($pagina == $pageNumber ? 'active' : '') . '"><a class="page-link" href="?secao=pessoas&itens=' . $itens . '&pagina=' . $pageNumber . '&ordenarPor=' . $ordenarPor . '&ordem=' . $ordem . (isset($termo) ? '&termo=' . $termo : '') . '&estado='.$estado.'">' . $pageNumber . '</a></li>';
+                            echo '<li class="page-item ' . ($pagina == $pageNumber ? 'active' : '') . '"><a class="page-link" href="?secao=pessoas&itens=' . $itens . '&pagina=' . $pageNumber . '&ordenarPor=' . $ordenarPor . '&ordem=' . $ordem . (isset($termo) ? '&termo=' . $termo : '') . '&estado=' . $estado . '">' . $pageNumber . '</a></li>';
                         }
 
-                        echo '<li class="page-item ' . ($pagina == $totalPagina ? 'active' : '') . '"><a class="page-link" href="?secao=pessoas&itens=' . $itens . '&pagina=' . $totalPagina . '&ordenarPor=' . $ordenarPor . '&ordem=' . $ordem . (isset($termo) ? '&termo=' . $termo : '') . '&estado='.$estado.'">Última</a></li>';
+                        echo '<li class="page-item ' . ($pagina == $totalPagina ? 'active' : '') . '"><a class="page-link" href="?secao=pessoas&itens=' . $itens . '&pagina=' . $totalPagina . '&ordenarPor=' . $ordenarPor . '&ordem=' . $ordem . (isset($termo) ? '&termo=' . $termo : '') . '&estado=' . $estado . '">Última</a></li>';
                         echo '</ul>';
                     }
                     ?>
@@ -432,6 +446,21 @@ $estado = (isset($_GET['estado']) && $_GET['estado'] !== 'null') ? $_GET['estado
             window.location.href = "?secao=profissoes";
         } else {
             return false;
+        }
+    });
+
+
+    $('button[name="btn_csv"]').on('click', function(event) {
+        const confirmacao = confirm("Tem certeza que deseja criar esse arquivo? Essa operação pode levar varios minutos");
+        if (!confirmacao) {
+            event.preventDefault();
+        }
+    });
+
+    $('button[name="btn_xls"]').on('click', function(event) {
+        const confirmacao = confirm("Tem certeza que deseja criar esse arquivo? Essa operação pode levar varios minutos");
+        if (!confirmacao) {
+            event.preventDefault();
         }
     });
 </script>

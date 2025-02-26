@@ -15,9 +15,6 @@ $id = $_GET['id'];
 $buscaOrgao = $orgaoController->buscaOrgao('orgao_id', $id);
 $buscaPessoa = $pessoaController->listarPessoas(1000, 1, 'asc', 'pessoa_nome', null, null, $_SESSION['usuario_gabinete']);
 
-
-
-
 if ($buscaOrgao['status'] != 'success') {
     header('Location: ?secao=orgaos');
 }
@@ -167,7 +164,7 @@ if ($buscaOrgao['status'] != 'success') {
             </div>
             <div class="card shadow-sm mb-2">
                 <div class="card-body p-2">
-                    <p class="card-text mb-2">Pessoas desse órgão/entidade:</a></p>
+                    <p class="card-text mb-2">Pessoas que fazem parte desse órgão/entidade</a></p>
 
                     <div class="table-responsive mb-0">
                         <table class="table table-hover table-bordered table-striped mb-0 custom-table">
