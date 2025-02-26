@@ -33,9 +33,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['usuario_nome'] ?></a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        
                         <a class="dropdown-item dropdown-item-custom" href="?secao=minhas-mensagens"><i class="bi bi-envelope"></i> Mensagens</a>
-
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item dropdown-item-custom" id="btn-sair" href="?secao=sair"><i class="bi bi-door-open"></i> Sair</a>
                     </div>

@@ -483,7 +483,7 @@ CREATE TABLE clipping_tipos (
     clipping_tipo_id varchar(36) NOT NULL,
     clipping_tipo_nome varchar(255) NOT NULL UNIQUE,
     clipping_tipo_descricao text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-    clipping_tipo_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    clipping_tipo_criado_em timestamp NOT NULL DEFAULTƒ CURRENT_TIMESTAMP,
     clipping_tipo_criado_por varchar(36) NOT NULL,
     clipping_tipo_gabinete varchar(36) NOT NULL,
     PRIMARY KEY (clipping_tipo_id),
