@@ -25,6 +25,5 @@
         <p style="margin-left: 10px; margin-top:20px;font-weight: bolder;" class="text-muted"><i class="bi bi-list"></i> Comunicação do gabinete</p>
         <a class="list-group-item list-group-item-action list-group-item-light px-4" href="?secao=postagens"><i class="bi bi-instagram"></i> Postagens</a>
         <a class="list-group-item list-group-item-action list-group-item-light px-4" href="?secao=clippings"><i class="bi bi-newspaper"></i> Clipping</a>
-        <a class="list-group-item list-group-item-action list-group-item-light px-4" href="?secao=estatisticas-clipping"><i class="bi bi-arrow-return-right"></i> Estatísticas</a>
     </div>
 </div>

@@ -22,11 +22,10 @@ class ClippingController {
     }
 
 
-    public function criarClipping($dados)
-    {
-        
+    public function criarClipping($dados) {
+
         if (!empty($dados['arquivo']['tmp_name'])) {
-            $uploadResult = $this->fileUploader->uploadFile($this->pasta_arquivo . '/' . $dados['clipping_gabinete'], $dados['arquivo'], ['image/pdf', 'image/png', 'image/jpg', 'image/jpeg'], 20);
+            $uploadResult = $this->fileUploader->uploadFile($this->pasta_arquivo . '/' . $dados['clipping_gabinete'], $dados['arquivo'], ['application/pdf', 'image/png', 'image/jpg', 'image/jpeg'], 20);
 
             if ($uploadResult['status'] !== 'success') {
                 return $uploadResult;
@@ -53,10 +52,9 @@ class ClippingController {
         }
     }
 
-    public function listarClippings($busca, $ano, $cliente)
-    {
+    public function listarClippings($busca, $ano, $gabinete) {
         try {
-            $result = $this->clippingModel->listarClipping($busca, $ano, $cliente);
+            $result = $this->clippingModel->listarClipping($busca, $ano, $gabinete);
 
             if (empty($result)) {
                 return ['status' => 'empty', 'message' => 'Nenhum clipping encontrado.'];
@@ -70,8 +68,7 @@ class ClippingController {
         }
     }
 
-    public function buscarClipping($coluna, $valor)
-    {
+    public function buscarClipping($coluna, $valor) {
         try {
             $clipping = $this->clippingModel->buscarClipping($coluna, $valor);
             if ($clipping) {
@@ -87,9 +84,8 @@ class ClippingController {
     }
 
 
-    public function atualizarClipping($clipping_id, $dados)
-    {
-       
+    public function atualizarClipping($clipping_id, $dados) {
+
 
         $clipping = $this->buscarClipping('clipping_id', $clipping_id);
 
@@ -98,7 +94,7 @@ class ClippingController {
         }
 
         if (!empty($dados['arquivo']['tmp_name'])) {
-            $uploadResult = $this->fileUploader->uploadFile($this->pasta_arquivo . '/' . $dados['clipping_cliente'], $dados['arquivo'], ['pdf', 'png', 'jpg', 'jpeg'], 5);
+            $uploadResult = $this->fileUploader->uploadFile($this->pasta_arquivo . '/' . $dados['clipping_gabinete'], $dados['arquivo'], ['application/pdf', 'image/png', 'image/jpg', 'image/jpeg'], 5);
 
             if ($uploadResult['status'] !== 'success') {
                 return $uploadResult;
@@ -124,8 +120,7 @@ class ClippingController {
     }
 
 
-    public function apagarClipping($clipping_id)
-    {
+    public function apagarClipping($clipping_id) {
         try {
             $clipping = $this->buscarClipping('clipping_id', $clipping_id);
 
@@ -166,6 +161,7 @@ class ClippingController {
             }
         }
     }
+
 
     // ATUALIZAR TIPO DE CLIPPING
     public function atualizarClippingTipo($dados) {

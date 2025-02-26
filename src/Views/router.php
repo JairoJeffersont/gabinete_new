@@ -41,7 +41,9 @@ $rotas = [
     'postagem' => './src/Views/postagem/postagem.php',
     'tipos-clipping' => './src/Views/clipping/tipos-clipping.php',
     'tipo-clipping' => './src/Views/clipping/tipo-clipping.php',
-    'clippings' => './src/Views/clipping/clippings.php'
+    'clippings' => './src/Views/clipping/clippings.php',
+    'clipping' => './src/Views/clipping/clipping.php'
+
 
 
 ];

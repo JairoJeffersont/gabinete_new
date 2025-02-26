@@ -58,9 +58,7 @@ class ClippingModel {
         return $stmt->execute();
     }
 
-
-    public function listarClipping($busca, $ano, $gabinete)
-    {
+    public function listarClipping($busca, $ano, $gabinete) {
         if ($busca === '') {
             $query = 'SELECT * FROM view_clipping WHERE YEAR(clipping_data) = :ano AND clipping_gabinete = :clipping_gabinete ORDER BY clipping_criado_em DESC';
             $stmt = $this->conn->prepare($query);
@@ -79,40 +77,23 @@ class ClippingModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function buscarClipping($coluna, $valor)
-    {
+    public function buscarClipping($coluna, $valor) {
         $query = "SELECT * FROM view_clipping  WHERE $coluna = :valor";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':valor', $valor, PDO::PARAM_STR);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function apagarClipping($clipping_id)
-    {
+    public function apagarClipping($clipping_id) {
         $query = "DELETE FROM clipping WHERE clipping_id = :clipping_id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':clipping_id', $clipping_id, PDO::PARAM_STR);
 
         return $stmt->execute();
-    }
-
-    public function buscarAno($gabinete)
-    {
-        $query = "SELECT clipping_data, COUNT(*) as contagem, (SELECT COUNT(*) FROM view_clipping WHERE clipping_gabinete = :clipping_gabinete) AS total
-        FROM view_clipping
-        WHERE clipping_gabinete = :clipping_gabinete
-        GROUP BY clipping_data 
-        ORDER BY contagem DESC";
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':clipping_gabinete', $gabinete, PDO::PARAM_STR);
-        $stmt->execute();
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
