@@ -123,138 +123,141 @@ if ($buscaPessoa['status'] == 'not_found' || is_integer($pessoaGet) || $buscaPes
                         echo '<div class="alert alert-warning px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">Hoje é aniversário de <b>' . $buscaPessoa['dados']['pessoa_nome'] . '</b>! Parabéns!</div>';
                     }
                     ?>
-                    <div class="row">
-                        <div class="col-lg-10 col-12 mt-1">
-                            <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
-                                <div class="col-md-4 col-12">
-                                    <input type="text" class="form-control form-control-sm" name="nome" placeholder="Nome" value="<?php echo $buscaPessoa['dados']['pessoa_nome'] ?>" required>
-                                </div>
-                                <div class="col-md-4 col-12">
-                                    <input type="text" class="form-control form-control-sm" name="email" placeholder="Email" value="<?php echo $buscaPessoa['dados']['pessoa_email'] ?>" required>
-                                </div>
-                                <div class="col-md-2 col-6">
-                                    <input type="text" class="form-control form-control-sm" name="aniversario" placeholder="Aniversário (dd/mm)" data-mask="00/00" value="<?php echo date('d/m', strtotime($buscaPessoa['dados']['pessoa_aniversario'])) ?>" required>
-                                </div>
-                                <div class="col-md-2 col-6">
-                                    <input type="text" class="form-control form-control-sm" name="telefone" placeholder="Telefone (Somente números)" maxlength="11" value="<?php echo $buscaPessoa['dados']['pessoa_telefone'] ?>" data-mask="(00) 00000-0000">
-                                </div>
-                                <div class="col-md-5 col-12">
-                                    <input type="text" class="form-control form-control-sm" name="endereco" placeholder="Endereço" value="<?php echo $buscaPessoa['dados']['pessoa_endereco'] ?>">
-                                </div>
-                                <div class="col-md-2 col-6">
-                                    <input type="text" class="form-control form-control-sm" name="bairro" placeholder="Bairro" value="<?php echo $buscaPessoa['dados']['pessoa_bairro'] ?>">
-                                </div>
-                                <div class="col-md-2 col-6">
-                                    <input type="text" class="form-control form-control-sm" name="cep" placeholder="CEP (Somente números)" maxlength="8" data-mask="00000-000" value="<?php echo $buscaPessoa['dados']['pessoa_cep'] ?>">
-                                </div>
-                                <div class="col-md-1 col-6">
-                                    <select class="form-select form-select-sm" id="estado" name="estado" required>
-                                        <option value="" selected>UF</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2 col-6">
-                                    <select class="form-select form-select-sm" id="municipio" name="municipio" required>
-                                        <option value="" selected>Município</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2 col-12">
-                                    <select class="form-select form-select-sm" id="sexo" name="sexo" required>
-                                        <option value="Sexo não informado" <?= $buscaPessoa['dados']['pessoa_sexo'] == 1 ? 'selected' : '' ?>>Sexo não informado</option>
-                                        <option value="Masculino" <?= $buscaPessoa['dados']['pessoa_sexo'] == 'Masculino' ? 'selected' : '' ?>>Masculino</option>
-                                        <option value="Feminino" <?= $buscaPessoa['dados']['pessoa_sexo'] == 'Feminino' ? 'selected' : '' ?>>Feminino</option>
-                                        <option value="Outro" <?= $buscaPessoa['dados']['pessoa_sexo'] == 'Outro' ? 'selected' : '' ?>>Outro</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2 col-4">
-                                    <input type="text" class="form-control form-control-sm" name="facebook" placeholder="@facebook " value="<?php echo $buscaPessoa['dados']['pessoa_facebook'] ?>">
-                                </div>
-                                <div class="col-md-2 col-4">
-                                    <input type="text" class="form-control form-control-sm" name="instagram" placeholder="@instagram " value="<?php echo $buscaPessoa['dados']['pessoa_instagram'] ?>">
-                                </div>
-                                <div class="col-md-2 col-4">
-                                    <input type="text" class="form-control form-control-sm" name="x" placeholder="@X (Twitter) " value="<?php echo $buscaPessoa['dados']['pessoa_x'] ?>">
-                                </div>
-                                <div class="col-md-2 col-12">
-                                    <select class="form-select form-select-sm" id="orgao" name="orgao">
-                                        <option value="1" selected>Órgão não informado</option>
-                                        <?php
-
-                                        $buscaOrgao = $orgaoController->listarOrgaos(1000, 1, 'ASC', 'orgao_nome', null, null, $_SESSION['usuario_gabinete']);
-
-                                        if ($buscaOrgao['status'] === 'success') {
-                                            foreach ($buscaOrgao['dados'] as $orgao) {
-                                                if ($orgao['orgao_id'] == $buscaPessoa['dados']['pessoa_orgao']) {
-                                                    echo '<option value="' . $orgao['orgao_id'] . '" selected>' . $orgao['orgao_nome'] . '</option>';
-                                                } else {
-                                                    echo '<option value="' . $orgao['orgao_id'] . '">' . $orgao['orgao_nome'] . '</option>';
-                                                }
-                                            }
-                                        }
-                                        ?>
-
-                                        <option value="+">Novo órgão + </option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2 col-12">
-                                    <select class="form-select form-select-sm" id="tipo" name="tipo" required>
-                                        <!--<option value="1" selected>Sem tipo definido</option>-->
-                                        <?php
-                                        $buscaTipo = $pessoaController->listarTiposPessoa($_SESSION['usuario_gabinete']);
-                                        if ($buscaTipo['status'] === 'success') {
-                                            foreach ($buscaTipo['dados'] as $tipo) {
-                                                if ($tipo['pessoa_tipo_id'] == $buscaPessoa['dados']['pessoa_tipo']) {
-                                                    echo '<option value="' . $tipo['pessoa_tipo_id'] . '" selected>' . $tipo['pessoa_tipo_nome'] . '</option>';
-                                                } else {
-                                                    echo '<option value="' . $tipo['pessoa_tipo_id'] . '">' . $tipo['pessoa_tipo_nome'] . '</option>';
-                                                }
-                                            }
-                                        }
-                                        ?>
-                                        <option value="+">Novo tipo + </option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3 col-12">
-                                    <select class="form-select form-select-sm" id="profissao" name="profissao" required>
-                                        <!--<option value="1" selected>Profissão não informada</option>-->
-                                        <?php
-                                        $buscaProfissao = $pessoaController->listarProfissoesPessoa($_SESSION['usuario_gabinete']);
-                                        if ($buscaProfissao['status'] === 'success') {
-                                            foreach ($buscaProfissao['dados'] as $profissao) {
-                                                if ($profissao['pessoas_profissoes_id'] == $buscaPessoa['dados']['pessoa_profissao']) {
-                                                    echo '<option value="' . $profissao['pessoas_profissoes_id'] . '" selected>' . $profissao['pessoas_profissoes_nome'] . '</option>';
-                                                } else {
-                                                    echo '<option value="' . $profissao['pessoas_profissoes_id'] . '">' . $profissao['pessoas_profissoes_nome'] . '</option>';
-                                                }
-                                            }
-                                        }
-                                        ?>
-                                        <option value="+">Nova profissao + </option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3 col-12">
-                                    <input type="text" class="form-control form-control-sm" name="cargo" placeholder="Cargo (Diretor, assessor, coordenador....)" value="<?php echo $buscaPessoa['dados']['pessoa_cargo'] ?>">
-                                </div>
-                                <div class="col-md-3 col-12">
-                                    <div class="file-upload">
-                                        <input type="file" id="file-input" name="foto" style="display: none;" />
-                                        <button id="file-button" type="button" class="btn btn-primary btn-sm"><i class="fa-regular fa-image"></i> Escolher Foto</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-12">
-                                    <textarea class="form-control form-control-sm" name="informacoes" rows="5" placeholder="Informações importantes dessa pessoa"><?php echo $buscaPessoa['dados']['pessoa_informacoes'] ?></textarea>
-                                </div>
-                                <div class="col-md-12 col-12">
-                                    <button type="submit" class="btn btn-success btn-sm" name="btn_atualizar"><i class="fa-regular fa-floppy-disk"></i> Atualizar</button>
-                                    <button type="submit" class="btn btn-danger btn-sm" name="btn_apagar"><i class="bi bi-trash-fill"></i> Apagar</button>
-                                    <a href="?secao=imprimir-pessoa&id=<?php echo $pessoaGet ?>" target="_blank" class="btn btn-primary btn-sm"><i class="bi bi-printer-fill"></i> Imprimir</a>
-                                </div>
-                            </form>
+                    <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
+                        <div class="col-md-4 col-12">
+                            <input type="text" class="form-control form-control-sm" name="nome" placeholder="Nome" value="<?php echo $buscaPessoa['dados']['pessoa_nome'] ?>" required>
                         </div>
-                        <div class="col-lg-2 col-12 mt-1">
-                            <img class="img-fluid shadow-sm" src="<?php echo !empty($buscaPessoa['dados']['pessoa_foto']) ? $buscaPessoa['dados']['pessoa_foto'] : './public/img/not_found.jpg' ?>" style="width: 100%; height: 230px; object-fit: cover; object-position: top; border-radius: 5px;" />
+                        <div class="col-md-4 col-12">
+                            <input type="text" class="form-control form-control-sm" name="email" placeholder="Email" value="<?php echo $buscaPessoa['dados']['pessoa_email'] ?>" required>
                         </div>
-                    </div>
+                        <div class="col-md-2 col-6">
+                            <input type="text" class="form-control form-control-sm" name="aniversario" placeholder="Aniversário (dd/mm)" data-mask="00/00" value="<?php echo date('d/m', strtotime($buscaPessoa['dados']['pessoa_aniversario'])) ?>" required>
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <input type="text" class="form-control form-control-sm" name="telefone" placeholder="Telefone (Somente números)" maxlength="11" value="<?php echo $buscaPessoa['dados']['pessoa_telefone'] ?>" data-mask="(00) 00000-0000">
+                        </div>
+                        <div class="col-md-5 col-12">
+                            <input type="text" class="form-control form-control-sm" name="endereco" placeholder="Endereço" value="<?php echo $buscaPessoa['dados']['pessoa_endereco'] ?>">
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <input type="text" class="form-control form-control-sm" name="bairro" placeholder="Bairro" value="<?php echo $buscaPessoa['dados']['pessoa_bairro'] ?>">
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <input type="text" class="form-control form-control-sm" name="cep" placeholder="CEP (Somente números)" maxlength="8" data-mask="00000-000" value="<?php echo $buscaPessoa['dados']['pessoa_cep'] ?>">
+                        </div>
+                        <div class="col-md-1 col-6">
+                            <select class="form-select form-select-sm" id="estado" name="estado" required>
+                                <option value="" selected>UF</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <select class="form-select form-select-sm" id="municipio" name="municipio" required>
+                                <option value="" selected>Município</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 col-12">
+                            <select class="form-select form-select-sm" id="sexo" name="sexo" required>
+                                <option value="Sexo não informado" <?= $buscaPessoa['dados']['pessoa_sexo'] == 1 ? 'selected' : '' ?>>Sexo não informado</option>
+                                <option value="Masculino" <?= $buscaPessoa['dados']['pessoa_sexo'] == 'Masculino' ? 'selected' : '' ?>>Masculino</option>
+                                <option value="Feminino" <?= $buscaPessoa['dados']['pessoa_sexo'] == 'Feminino' ? 'selected' : '' ?>>Feminino</option>
+                                <option value="Outro" <?= $buscaPessoa['dados']['pessoa_sexo'] == 'Outro' ? 'selected' : '' ?>>Outro</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 col-4">
+                            <input type="text" class="form-control form-control-sm" name="facebook" placeholder="@facebook " value="<?php echo $buscaPessoa['dados']['pessoa_facebook'] ?>">
+                        </div>
+                        <div class="col-md-2 col-4">
+                            <input type="text" class="form-control form-control-sm" name="instagram" placeholder="@instagram " value="<?php echo $buscaPessoa['dados']['pessoa_instagram'] ?>">
+                        </div>
+                        <div class="col-md-2 col-4">
+                            <input type="text" class="form-control form-control-sm" name="x" placeholder="@X (Twitter) " value="<?php echo $buscaPessoa['dados']['pessoa_x'] ?>">
+                        </div>
+                        <div class="col-md-2 col-12">
+                            <select class="form-select form-select-sm" id="orgao" name="orgao">
+                                <option value="1" selected>Órgão não informado</option>
+                                <?php
+
+                                $buscaOrgao = $orgaoController->listarOrgaos(1000, 1, 'ASC', 'orgao_nome', null, null, $_SESSION['usuario_gabinete']);
+
+                                if ($buscaOrgao['status'] === 'success') {
+                                    foreach ($buscaOrgao['dados'] as $orgao) {
+                                        if ($orgao['orgao_id'] == $buscaPessoa['dados']['pessoa_orgao']) {
+                                            echo '<option value="' . $orgao['orgao_id'] . '" selected>' . $orgao['orgao_nome'] . '</option>';
+                                        } else {
+                                            echo '<option value="' . $orgao['orgao_id'] . '">' . $orgao['orgao_nome'] . '</option>';
+                                        }
+                                    }
+                                }
+                                ?>
+
+                                <option value="+">Novo órgão + </option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 col-12">
+                            <select class="form-select form-select-sm" id="tipo" name="tipo" required>
+                                <!--<option value="1" selected>Sem tipo definido</option>-->
+                                <?php
+                                $buscaTipo = $pessoaController->listarTiposPessoa($_SESSION['usuario_gabinete']);
+                                if ($buscaTipo['status'] === 'success') {
+                                    foreach ($buscaTipo['dados'] as $tipo) {
+                                        if ($tipo['pessoa_tipo_id'] == $buscaPessoa['dados']['pessoa_tipo']) {
+                                            echo '<option value="' . $tipo['pessoa_tipo_id'] . '" selected>' . $tipo['pessoa_tipo_nome'] . '</option>';
+                                        } else {
+                                            echo '<option value="' . $tipo['pessoa_tipo_id'] . '">' . $tipo['pessoa_tipo_nome'] . '</option>';
+                                        }
+                                    }
+                                }
+                                ?>
+                                <option value="+">Novo tipo + </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <select class="form-select form-select-sm" id="profissao" name="profissao" required>
+                                <!--<option value="1" selected>Profissão não informada</option>-->
+                                <?php
+                                $buscaProfissao = $pessoaController->listarProfissoesPessoa($_SESSION['usuario_gabinete']);
+                                if ($buscaProfissao['status'] === 'success') {
+                                    foreach ($buscaProfissao['dados'] as $profissao) {
+                                        if ($profissao['pessoas_profissoes_id'] == $buscaPessoa['dados']['pessoa_profissao']) {
+                                            echo '<option value="' . $profissao['pessoas_profissoes_id'] . '" selected>' . $profissao['pessoas_profissoes_nome'] . '</option>';
+                                        } else {
+                                            echo '<option value="' . $profissao['pessoas_profissoes_id'] . '">' . $profissao['pessoas_profissoes_nome'] . '</option>';
+                                        }
+                                    }
+                                }
+                                ?>
+                                <option value="+">Nova profissao + </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <input type="text" class="form-control form-control-sm" name="cargo" placeholder="Cargo (Diretor, assessor, coordenador....)" value="<?php echo $buscaPessoa['dados']['pessoa_cargo'] ?>">
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <div class="file-upload">
+                                <input type="file" id="file-input" name="foto" style="display: none;" />
+                                <button id="file-button" type="button" class="btn btn-primary btn-sm"><i class="fa-regular fa-image"></i> Escolher Foto</button>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                            <textarea class="form-control form-control-sm" name="informacoes" rows="5" placeholder="Informações importantes dessa pessoa"><?php echo $buscaPessoa['dados']['pessoa_informacoes'] ?></textarea>
+                        </div>
+                        <div class="col-md-12 col-12">
+                            <button type="submit" class="btn btn-success btn-sm" name="btn_atualizar"><i class="fa-regular fa-floppy-disk"></i> Atualizar</button>
+                            <button type="submit" class="btn btn-danger btn-sm" name="btn_apagar"><i class="bi bi-trash-fill"></i> Apagar</button>
+                            <a href="?secao=imprimir-pessoa&id=<?php echo $pessoaGet ?>" target="_blank" class="btn btn-primary btn-sm"><i class="bi bi-printer-fill"></i> Imprimir</a>
+                            <button type="button" class="btn btn-secondary btn-sm" id="btn_foto" data-bs-toggle="modal" data-bs-target="#fotoModal"><i class="bi bi-camera"></i> Ver foto</button>
+                        </div>
+                    </form>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="fotoModal" tabindex="-1" aria-labelledby="fotoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img src="<?php echo !empty($buscaPessoa['dados']['pessoa_foto']) ? $buscaPessoa['dados']['pessoa_foto'] : './public/img/not_found.jpg' ?>" class="img-fluid" alt="Imagem">
             </div>
         </div>
     </div>
