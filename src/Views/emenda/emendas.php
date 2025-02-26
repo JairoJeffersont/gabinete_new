@@ -324,6 +324,7 @@ $municipioGet = isset($_GET['municipio']) ? htmlspecialchars($_GET['municipio'])
                             <tbody>
                                 <?php
                                 $emendas = $emendaController->listarEmendas($itens, $pagina, $ordem, $ordenarPor, $statusGet, $tipoGet, $objetivoGet, $anoGet, $estadoGet, $municipioGet, $_SESSION['usuario_gabinete']);
+                                
                                 if ($emendas['status'] == 'success') {
                                     foreach ($emendas['dados'] as $emenda) {
                                         echo '<tr>';
