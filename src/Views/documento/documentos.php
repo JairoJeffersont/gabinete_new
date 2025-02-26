@@ -29,7 +29,7 @@ $tipo_busca = (isset($_GET['tipo_busca'])) ? $_GET['tipo_busca'] : ''
                 <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-file-earmark-text"></i> Adicionar Tipo de Documento</div>
                 <div class="card-body card_descricao_body p-2">
                     <p class="card-text mb-2">Aqui você pode adicionar e editar os tipos de documentos, mantendo a organização das informações no sistema.</p>
-                    <p class="card-text mb-0">Todos os campos são obrigatórios</p>
+                    <p class="card-text mb-0">Todos os campos são obrigatórios. São permitidos arquivos <b>PDF</b>, <b>Word</b> e <b>Excel</b>. Tamanho máximo de <b>20MB</b></p>
                 </div>
             </div>
             <div class="card shadow-sm mb-2">

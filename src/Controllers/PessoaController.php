@@ -63,15 +63,16 @@ class PessoaController {
                 if ($uploadResult['status'] !== 'success') {
                     return $uploadResult;
                 }
+                
 
-                if (!empty($pessoa['dados'][0]['pessoa_foto'])) {
-                    $this->fileUpload->deleteFile($buscaPessoa['dados']['pessoa_foto']);
+                if (!empty($buscaPessoa['pessoa_foto'])) {
+                    $this->fileUpload->deleteFile($buscaPessoa['pessoa_foto']);
                 }
 
 
                 $dados['pessoa_foto'] = $uploadResult['file_path'];
             } else {
-                $dados['pessoa_foto'] = $pessoa['dados'][0]['pessoa_foto'] ?? null;
+                $dados['pessoa_foto'] = $buscaPessoa['pessoa_foto'] ?? null;
             }
 
             unset($dados['foto']);

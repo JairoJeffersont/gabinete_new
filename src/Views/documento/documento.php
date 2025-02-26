@@ -36,7 +36,7 @@ if ($buscaDocumento['status'] != 'success') {
                 <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-file-earmark-text"></i> Editar documento</div>
                 <div class="card-body card_descricao_body p-2">
                     <p class="card-text mb-2">Nesta seção, é possível editar um documentos do sistema. O arquivo deve ser em <b>PDF, Word ou Excel</b> e ter até <b>15mb</b></p>
-                    <p class="card-text mb-0">Todos os campos são obrigatórios</p>
+                    <p class="card-text mb-0">Todos os campos são obrigatórios. São permitidos arquivos <b>PDF</b>, <b>WORD</b> e <b>Excel</b>. Tamanho máximo de <b>20MB</b></p>
                 </div>
             </div>
 
@@ -67,7 +67,7 @@ if ($buscaDocumento['status'] != 'success') {
                             }, 1000);</script>';
                         } else if ($result['status'] == 'duplicated' || $result['status'] == 'bad_request') {
                             echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
-                        } else if ($result['status'] == 'error') {
+                        } else if ($result['status'] == 'error' || $result['status'] == 'format_not_allowed' || $result['status'] == 'max_file_size_exceeded' || $result['status'] == 'file_already_exists') {
                             echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
                         }
                     }
@@ -150,17 +150,31 @@ if ($buscaDocumento['status'] != 'success') {
             </div>
 
             <div class="card mb-2">
-                <div class="card-body p-1">
+                <div class="card-body card_descrica_body p-1">
                     <?php
                     $arquivo = $buscaDocumento['dados']['documento_arquivo'];
+
                     if (file_exists($arquivo)) {
-                        echo "<embed src='$arquivo' type='application/pdf' width='100%' height='1000px'>";
+                        // Verifica a extensão do arquivo
+                        $extensao = pathinfo($arquivo, PATHINFO_EXTENSION);
+
+                        if ($extensao == 'pdf') {
+                            // Exibe o PDF
+                            echo "<embed src='$arquivo' type='application/pdf' width='100%' height='1000px'>";
+                        } elseif (in_array($extensao, ['doc', 'docx', 'xls', 'xlsx'])) {
+                            // Exibe o botão de download para arquivos .doc, .docx, .xls, .xlsx
+                            echo '<a href="' . $arquivo . '"><p class="card-text mt-1 ms-2 mb-1"> Arquivo '.$extensao.'. Clique para fazer download.</a></p>';
+                        } else {
+                            echo '<center><img src="public/img/loading.gif"/></center>';
+                        }
                     } else {
+                        // Se o arquivo não existir, exibe o GIF de loading
                         echo '<center><img src="public/img/loading.gif"/></center>';
                     }
                     ?>
                 </div>
             </div>
+
 
         </div>
     </div>
