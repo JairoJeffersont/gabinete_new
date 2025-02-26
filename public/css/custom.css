@@ -61,6 +61,13 @@ a {
     font-size: 0.9em;
 }
 
+.custom-pagination {
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: left; /* Centraliza os itens */
+}
+
+
 .custom-pagination .page-link {
     font-size: 0.8em;
 }

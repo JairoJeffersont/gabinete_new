@@ -38,26 +38,42 @@ $estado = (isset($_GET['estado']) && $_GET['estado'] !== 'null') ? $_GET['estado
                     <p class="card-text mb-0">Todos os campos são obrigatórios</p>
                 </div>
             </div>
-            <div class="card shadow-sm mb-2 ">
-                <div class="card-body card_descricao_body p-0">
-                    <nav class="navbar navbar-expand bg-body-tertiary p-0 ">
-                        <div class="container-fluid p-0">
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav me-auto mb-0 mb-lg-0">
-                                    <li class="nav-item">
-                                        <a class="nav-link active p-1" aria-current="page" href="#">
-                                            <button class="btn btn-success btn-sm" style="font-size: 0.850em;" id="btn_novo_tipo" type="button"><i class="bi bi-plus-circle-fill"></i> Novo tipo</button>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+            <div class="card shadow-sm mb-2">
+                <div class="card-body p-1">
+                    <form class="row g-2 form_custom mb-0" method="post" enctype="application/x-www-form-urlencoded">
+                        <div class="col-md-12 col-12">
+                            <button type="submit" class="btn btn-success btn-sm" name="btn_xls"><i class="bi bi-file-earmark-excel-fill"></i> Excel</button>
+                            <button type="submit" class="btn btn-primary btn-sm" name="btn_csv"><i class="bi bi-filetype-csv"></i> CSV</button>
+                            <a href="?secao=imprimir-orgaos&estado=<?php echo $estado ?>" type="button" target="_blank" class="btn btn-secondary btn-sm" id="btn_imprimir"><i class="bi bi-printer-fill"></i> Imprimir</a>
                         </div>
-                    </nav>
+                    </form>
                 </div>
             </div>
             <div class="card shadow-sm mb-2">
                 <div class="card-body p-2">
                     <?php
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_csv'])) {
+
+                        $result = $orgaoController->gerarCsv($_SESSION['usuario_gabinete']);
+
+                        if ($result['status'] == 'success') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="20" role="alert">' . $result['message'] . '. <a href="' . $result['file'] . '">Download</a></div>';
+                        } else if ($result['status'] == 'not_found') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">Nenhum arquivo foi gerado</div>';
+                        }
+                    }
+
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_xls'])) {
+
+                        $result = $orgaoController->gerarXls($_SESSION['usuario_gabinete']);
+
+                        if ($result['status'] == 'success') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="20" role="alert">' . $result['message'] . '. <a href="' . $result['file'] . '">Download</a></div>';
+                        } else if ($result['status'] == 'not_found') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">Nenhum arquivo foi gerado</div>';
+                        }
+                    }
+
                     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_salvar'])) {
                         $dados = [
                             'orgao_nome' => htmlspecialchars($_POST['nome'], ENT_QUOTES, 'UTF-8'),
@@ -321,6 +337,27 @@ $estado = (isset($_GET['estado']) && $_GET['estado'] !== 'null') ? $_GET['estado
             window.location.href = "?secao=tipos-orgaos";
         } else {
             return false;
+        }
+    });
+
+    $('button[name="btn_csv"]').on('click', function(event) {
+        const confirmacao = confirm("Tem certeza que deseja criar esse arquivo? Essa operação pode levar varios minutos");
+        if (!confirmacao) {
+            event.preventDefault();
+        }
+    });
+
+    $('button[name="btn_xls"]').on('click', function(event) {
+        const confirmacao = confirm("Tem certeza que deseja criar esse arquivo? Essa operação pode levar varios minutos");
+        if (!confirmacao) {
+            event.preventDefault();
+        }
+    });
+
+    window.addEventListener('keydown', function(event) {
+        if ((event.ctrlKey || event.metaKey) && event.key === 'p') {
+            event.preventDefault(); // Impede a janela de impressão padrão
+            window.open('?secao=imprimir-orgaos&estado=<?php echo $estado ?>', '_blank'); // Abre a URL em uma nova aba
         }
     });
 </script>
