@@ -82,7 +82,7 @@ class EmailSender {
      * @return array Retorna um array associativo contendo o status da operação (`'success'` ou `'email_send_failed'`)
      *               e uma mensagem explicativa. Em caso de erro, também retorna um `error_id` único para rastreamento.
      */
-    public function sendEmail(string $toEmail, string $assunto, string $message): array {
+    public function sendEmail(string $toEmail, string $assunto, string $message, string $fromName): array {
         try {
             // Configuração do PHPMailer com as credenciais e parâmetros do arquivo de configuração
             $this->mailer->isSMTP();
@@ -94,7 +94,7 @@ class EmailSender {
             $this->mailer->Password = $this->config['smtp_password'];
             $this->mailer->Sender = $this->config['smtp_sender'];
             $this->mailer->From = $this->config['smtp_from'];
-            $this->mailer->FromName = $this->config['smtp_from_name'];
+            $this->mailer->FromName = $fromName;
             $this->mailer->addAddress($toEmail); // Destinatário
             $this->mailer->CharSet = 'UTF-8';
             $this->mailer->Encoding = 'base64';

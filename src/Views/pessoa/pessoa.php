@@ -5,6 +5,7 @@ ob_start();
 use GabineteMvc\Controllers\GabineteController;
 use GabineteMvc\Controllers\OrgaoController;
 use GabineteMvc\Controllers\PessoaController;
+use GabineteMvc\Middleware\EmailSender;
 use GabineteMvc\Middleware\Utils;
 
 require './src/Middleware/VerificaLogado.php';
@@ -13,9 +14,12 @@ require 'vendor/autoload.php';
 $pessoaController = new PessoaController();
 $orgaoController = new OrgaoController();
 $gabineteController = new GabineteController();
+$emailSender = new EmailSender();
 
 $busca = $pessoaController->listarProfissoesPessoa($_SESSION['usuario_gabinete']);
 $utils = new Utils();
+
+$buscaGabinete = $gabineteController->buscaGabinete('gabinete_id', $_SESSION['usuario_gabinete']);
 
 $pessoaGet = $_GET['id'];
 
@@ -36,7 +40,6 @@ if ($buscaPessoa['status'] == 'not_found' || is_integer($pessoaGet) || $buscaPes
                 <div class="card-body p-1">
                     <a class="btn btn-primary btn-sm custom-nav barra_navegacao" href="?secao=home" role="button"><i class="bi bi-house-door-fill"></i> Início</a>
                     <a class="btn btn-success btn-sm custom-nav barra_navegacao" href="?secao=pessoas" role="button"><i class="bi bi-arrow-left"></i> Voltar</a>
-
                 </div>
             </div>
             <div class="card mb-2">
@@ -46,28 +49,38 @@ if ($buscaPessoa['status'] == 'not_found' || is_integer($pessoaGet) || $buscaPes
                     <p class="card-text mb-0">Os campos <b>Nome</b>, <b>email</b>, <b>aniversário</b>, <b>estado</b> e <b>município</b> são <b>obrigatórios</b>. A foto deve ser em <b>JPG</b> ou <b>PNG</b> e ter no máximo <b>2MB</b></p>
                 </div>
             </div>
-            <div class="card shadow-sm mb-2 ">
-                <div class="card-body card_descricao_body p-0">
-                    <nav class="navbar navbar-expand bg-body-tertiary p-0 ">
-                        <div class="container-fluid p-0">
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav me-auto mb-0 mb-lg-0">
-                                    <li class="nav-item">
-                                        <a class="nav-link active p-1" aria-current="page" href="#">
-                                            <button class="btn btn-success btn-sm" style="font-size: 0.850em;" id="btn_novo_tipo" type="button"><i class="bi bi-plus-circle-fill"></i> Novo tipo</button>
-                                            <button class="btn btn-secondary btn-sm" style="font-size: 0.850em;" id="btn_nova_profissao" type="button"><i class="bi bi-plus-circle-fill"></i> Nova profissao</button>
-                                            <button class="btn btn-primary btn-sm" style="font-size: 0.850em;" id="btn_novo_orgao" type="button"><i class="bi bi-plus-circle-fill"></i> Novo órgão</button>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+            <div class="card shadow-sm mb-2">
+                <div class="card-body p-1">
+                    <form class="row g-2 form_custom mb-0" method="post" enctype="application/x-www-form-urlencoded">
+                        <div class="col-md-12 col-12">
+
+                            <?php
+                            if (date('d/m', strtotime($buscaPessoa['dados']['pessoa_aniversario'])) == date('d/m')) {
+                                echo '<button type="submit" class="btn btn-success btn-sm" name="btn_email"><i class="bi bi-envelope-fill"></i> Enviar mensagem</button>';
+                            } else {
+                                echo '<button type="submit" class="btn btn-success btn-sm disabled" ><i class="bi bi-cake"></i> Enviar mensagem</button>';
+                            }
+                            ?>
+
                         </div>
-                    </nav>
+                    </form>
                 </div>
             </div>
             <div class="card shadow-sm mb-2">
                 <div class="card-body p-2">
                     <?php
+
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_email'])) {
+
+                        $result = $emailSender->sendEmail($buscaPessoa['dados']['pessoa_email'], 'Feliz aniversário '.$buscaPessoa['dados']['pessoa_nome'], file_get_contents('./src/Views/pessoa/mensagem.php'), $buscaGabinete['dados']['gabinete_nome']);
+
+                        if ($result['status'] == 'success') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
+                        } else if ($result['status'] == 'email_send_failed') {
+                            echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
+                        }
+
+                    }
                     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_atualizar'])) {
                         $dados = [
                             'pessoa_id' => $pessoaGet,
@@ -95,11 +108,14 @@ if ($buscaPessoa['status'] == 'not_found' || is_integer($pessoaGet) || $buscaPes
 
                         $result = $pessoaController->atualizarPessoa($dados);
 
-
-
                         if ($result['status'] == 'success') {
                             echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '. Aguarde...</div>';
-                            $buscaPessoa = $pessoaController->buscaPessoa('pessoa_id', $pessoaGet);
+                            echo '
+                            <script>
+                                 setTimeout(function() {
+                                     window.location.href = "?secao=pessoa&id=' . $pessoaGet . '";
+                                 }, 1000);
+                             </script>';
                         } else if ($result['status'] == 'duplicated' || $result['status'] == 'file_not_permited' || $result['status'] == 'max_file_size_exceeded' || $result['status'] == 'bad_request' || $result['status'] == 'invalid_email') {
                             echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
                         } else if ($result['status'] == 'error' || $result['status'] == 'forbidden' || $result['status'] == 'file_not_permitted' || $result['status'] == 'file_too_large') {

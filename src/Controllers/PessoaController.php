@@ -2,6 +2,7 @@
 
 namespace GabineteMvc\Controllers;
 
+use GabineteMvc\Middleware\EmailSender;
 use GabineteMvc\Middleware\FileUploader;
 use GabineteMvc\Middleware\Logger;
 use GabineteMvc\Models\PessoaModel;
@@ -15,12 +16,14 @@ class PessoaController {
     private $logger;
     private $fileUpload;
     private $pasta_foto;
+    private $emailSender;
 
     public function __construct() {
         $this->pessoaModel = new PessoaModel();
         $this->logger = new Logger();
         $this->fileUpload = new FileUploader();
         $this->pasta_foto = 'public/arquivos/fotos_pessoas';
+        $this->emailSender = new EmailSender();
     }
 
     // CRIAR PESSOA
@@ -48,6 +51,8 @@ class PessoaController {
             }
         }
     }
+
+  
 
     public function gerarCsv($gabinete) {
         try {
