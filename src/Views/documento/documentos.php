@@ -33,7 +33,7 @@ $tipo_busca = (isset($_GET['tipo_busca'])) ? $_GET['tipo_busca'] : ''
                 </div>
             </div>
             <div class="card shadow-sm mb-2 ">
-                <div class="card-body card_descricao_body p-0">
+                <div class="card-body  p-0">
                     <nav class="navbar navbar-expand bg-body-tertiary p-0 ">
                         <div class="container-fluid p-0">
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">

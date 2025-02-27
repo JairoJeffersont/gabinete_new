@@ -3,9 +3,9 @@ return [
 
     'database' => [
         'host' => 'localhost',
-        'name' => 'gab_new',
-        'user' => 'jairo',
-        'password' => 'intell01',
+        'name' => 'gabinete_digital_mvc',
+        'user' => 'root',
+        'password' => 'root',
     ],
 
     'app' => [

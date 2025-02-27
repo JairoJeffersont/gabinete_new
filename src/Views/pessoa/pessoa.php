@@ -49,28 +49,28 @@ if ($buscaPessoa['status'] == 'not_found' || is_integer($pessoaGet) || $buscaPes
                     <p class="card-text mb-0">Os campos <b>Nome</b>, <b>email</b>, <b>aniversário</b>, <b>estado</b> e <b>município</b> são <b>obrigatórios</b>. A foto deve ser em <b>JPG</b> ou <b>PNG</b> e ter no máximo <b>2MB</b></p>
                 </div>
             </div>
-            <div class="card shadow-sm mb-2">
+            <!--<div class="card shadow-sm mb-2">
                 <div class="card-body p-1">
                     <form class="row g-2 form_custom mb-0" method="post" enctype="application/x-www-form-urlencoded">
                         <div class="col-md-12 col-12">
 
                             <?php
-                            if (date('d/m', strtotime($buscaPessoa['dados']['pessoa_aniversario'])) == date('d/m')) {
+                            /*if (date('d/m', strtotime($buscaPessoa['dados']['pessoa_aniversario'])) == date('d/m')) {
                                 echo '<button type="submit" class="btn btn-success btn-sm" name="btn_email"><i class="bi bi-envelope-fill"></i> Enviar mensagem</button>';
                             } else {
                                 echo '<button type="submit" class="btn btn-success btn-sm disabled" ><i class="bi bi-cake"></i> Enviar mensagem</button>';
-                            }
+                            }*/
                             ?>
 
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>-->
             <div class="card shadow-sm mb-2">
                 <div class="card-body p-2">
                     <?php
 
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_email'])) {
+                    /*if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_email'])) {
 
                         $result = $emailSender->sendEmail($buscaPessoa['dados']['pessoa_email'], 'Feliz aniversário '.$buscaPessoa['dados']['pessoa_nome'], file_get_contents('./src/Views/pessoa/mensagem.php'), $buscaGabinete['dados']['gabinete_nome']);
 
@@ -80,7 +80,7 @@ if ($buscaPessoa['status'] == 'not_found' || is_integer($pessoaGet) || $buscaPes
                             echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
                         }
 
-                    }
+                    }*/
                     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_atualizar'])) {
                         $dados = [
                             'pessoa_id' => $pessoaGet,
