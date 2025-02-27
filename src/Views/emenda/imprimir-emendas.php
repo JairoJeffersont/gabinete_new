@@ -42,58 +42,28 @@ $municipioGet = isset($_GET['municipio']) ? htmlspecialchars($_GET['municipio'])
 </script>
 
 <style>
-    body {
-        background-image: url(public/img/print_bg.jpeg);
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
-
     @media print {
+
+        body {
+            background-color: rgb(255, 255, 255) !important;
+            background-image: none !important;
+        }
+
         @page {
-            margin: 10mm;
+            margin: 15mm;
             size: A4 landscape;
         }
 
-        html,
         body {
-            height: 100%;
-            width: 100%;
-            margin: 0;
-            padding: 0;
+            background-color: rgb(255, 255, 255) !important;
+            background-image: none !important;
         }
 
-        body {
-            background-image: none;
-            background-color: white;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
+        .custom-table-print {
+            font-size: 0.7em;
         }
 
-        header,
-        footer {
-            display: none !important;
-        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            display: table-header-group;
-        }
-
-        tbody tr {
-            page-break-inside: avoid;
-        }
     }
 </style>
 <h6 class="text-center mb-4">Emendas do ano <?php echo $anoGet ?></h6>
