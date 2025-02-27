@@ -27,7 +27,8 @@ if ($buscaPessoa['status'] == 'not_found' || is_integer($pessoaGet) || $buscaPes
     @media print {
 
         body {
-            background-color: rgb(255, 255, 255);
+            background-color: rgb(255, 255, 255) !important;
+            background-image: none !important;
         }
 
         @page {
@@ -36,7 +37,8 @@ if ($buscaPessoa['status'] == 'not_found' || is_integer($pessoaGet) || $buscaPes
         }
 
         body {
-            background-color: rgb(255, 255, 255);
+            background-color: rgb(255, 255, 255) !important;
+            background-image: none !important;
         }
 
 

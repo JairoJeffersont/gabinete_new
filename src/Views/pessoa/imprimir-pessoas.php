@@ -41,7 +41,8 @@ $estado = (isset($_GET['estado']) && $_GET['estado'] !== 'null') ? $_GET['estado
     @media print {
 
         body {
-            background-color: rgb(255, 255, 255);
+            background-color: rgb(255, 255, 255) !important;
+            background-image: none !important;
         }
 
         @page {
@@ -50,7 +51,8 @@ $estado = (isset($_GET['estado']) && $_GET['estado'] !== 'null') ? $_GET['estado
         }
 
         body {
-            background-color: rgb(255, 255, 255);
+            background-color: rgb(255, 255, 255) !important;
+            background-image: none !important;
         }
 
         .custom-table-print {
