@@ -42,7 +42,6 @@ $tipo_busca = (isset($_GET['tipo_busca'])) ? $_GET['tipo_busca'] : ''
                                         <a class="nav-link active p-1" aria-current="page" href="#">
                                             <button class="btn btn-primary btn-sm" style="font-size: 0.850em;" id="btn_novo_orgao" type="button"><i class="bi bi-plus-circle-fill"></i> Novo órgão</button>
                                             <button class="btn btn-success btn-sm" style="font-size: 0.850em;" id="btn_novo_tipo" type="button"><i class="bi bi-plus-circle-fill"></i> Novo tipo</button>
-
                                         </a>
                                     </li>
                                 </ul>
@@ -135,11 +134,11 @@ $tipo_busca = (isset($_GET['tipo_busca'])) ? $_GET['tipo_busca'] : ''
                     <div class="card shadow-sm mb-2">
                         <div class="card-body p-2">
                             <form class="row g-2 form_custom mb-0" method="GET" enctype="application/x-www-form-urlencoded">
-                                <div class="col-md-1 col-3">
+                                <div class="col-md-1 col-6">
                                     <input type="hidden" name="secao" value="documentos" />
                                     <input type="text" class="form-control form-control-sm" name="busca_ano" data-mask=0000 value="<?php echo $ano_busca ?>">
                                 </div>
-                                <div class="col-md-2 col-12">
+                                <div class="col-md-2 col-6">
                                     <select class="form-select form-select-sm" name="tipo_busca" id="tipo">
                                         <option value="">Todos os documentos</option>
                                         <?php
@@ -156,7 +155,7 @@ $tipo_busca = (isset($_GET['tipo_busca'])) ? $_GET['tipo_busca'] : ''
                                         ?>
                                     </select>
                                 </div>
-                                <div class="col-md-3 col-7">
+                                <div class="col-md-3 col-10">
                                     <input type="text" class="form-control form-control-sm" name="termo" value="<?php echo $termo ?>" placeholder="Buscar...">
                                 </div>
                                 <div class="col-md-1 col-2">

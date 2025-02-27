@@ -46,7 +46,7 @@ $mes = $_GET['mes'] ?? date('m');
                     <div class="card shadow-sm mb-2">
                         <div class="card-body p-2">
                             <form class="row g-2 form_custom mb-0" method="GET" enctype="application/x-www-form-urlencoded">
-                                <div class="col-md-2 col-6">
+                                <div class="col-md-2 col-4">
                                     <input type="hidden" name="secao" value="aniversariantes" />
                                     <select class="form-select form-select-sm" name="mes" required>
                                         <option value="">Selecione um mês</option>
