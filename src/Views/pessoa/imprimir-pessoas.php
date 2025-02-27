@@ -38,62 +38,30 @@ $estado = (isset($_GET['estado']) && $_GET['estado'] !== 'null') ? $_GET['estado
 </script>
 
 <style>
-    body {
-        background-image: url(public/img/print_bg.jpeg);
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
-
     @media print {
+
+        body {
+            background-color: rgb(255, 255, 255);
+        }
+
         @page {
-            margin: 10mm;
+            margin: 15mm;
             size: A4 landscape;
         }
 
-        html,
         body {
-            height: 100%;
-            width: 100%;
-            margin: 0;
-            padding: 0;
+            background-color: rgb(255, 255, 255);
         }
 
-        body {
-            background-image: none;
-            background-color: white;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
+        .custom-table-print {
+            font-size: 0.7em;
         }
 
-        header,
-        footer {
-            display: none !important;
-        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            display: table-header-group;
-        }
-
-        tbody tr {
-            page-break-inside: avoid;
-        }
     }
 </style>
 <h6 class="text-center mb-4">Lista de pessoas <?php echo $estado ? ' - ' . $estado : ' - Todos os estados' ?></h6>
-<table class="table table-hover table-bordered table-striped mb-0 custom-table">
+<table class="table table-hover table-bordered table-striped custom-table-print mb-0">
     <thead>
         <tr>
             <th scope="col">Nome</th>
@@ -117,8 +85,8 @@ $estado = (isset($_GET['estado']) && $_GET['estado'] !== 'null') ? $_GET['estado
                 echo '<tr>';
                 echo '<td><a href="?secao=pessoa&id=' . $pessoa['pessoa_id'] . '">' . $pessoa['pessoa_nome'] . '</a></td>';
                 echo '<td>' . $pessoa['pessoa_email'] . '</td>';
-                echo '<td>' . $pessoa['pessoa_telefone'] . '</td>';
-                echo '<td>' . $pessoa['pessoa_endereco'] . '</td>';
+                echo '<td>' . (!empty($pessoa['pessoa_telefone']) ? $pessoa['pessoa_telefone'] : 'Não informado') . '</td>';
+                echo '<td>' . (!empty($pessoa['pessoa_endereco']) ? $pessoa['pessoa_endereco'] : 'Não informado') . '</td>';
                 echo '<td>' . $pessoa['pessoa_municipio'] . '/' . $pessoa['pessoa_estado'] . '</td>';
                 echo '<td>' . $pessoa['orgao_nome'] . '</td>';
                 echo '<td>' . $pessoa['pessoa_tipo_nome'] . '</td>';
