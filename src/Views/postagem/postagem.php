@@ -203,7 +203,7 @@ if ($buscaPostagem['status'] == 'not_found' || $buscaPostagem['status'] == 'erro
                             echo '</table>';
                             echo '</div>';
                         } else {
-                            echo '<p class="text-primary mb-0">Nenhum arquivo encontrado na pasta.</p>';
+                            echo '<p class="text-primary mb-0" style="font-size: 0.9em">Nenhum arquivo encontrado na pasta.</p>';
                         }
                     } else {
                         echo '<p class="text-danger mb-0">A pasta especificada não existe.</p>';
