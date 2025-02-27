@@ -34,7 +34,7 @@ class DocumentoController {
         try {
 
             if (!empty($dados['arquivo']['tmp_name'])) {
-                $uploadResult = $this->fileUpload->uploadFile($this->pasta_arquivo . '/' . $dados['documento_gabinete'], $dados['arquivo'], ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/doc', 'application/xls', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',  'application/xlsx'], 20);
+                $uploadResult = $this->fileUpload->uploadFile($this->pasta_arquivo . '/' . $dados['documento_gabinete'], $dados['arquivo'], ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/doc', 'application/xls', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',  'application/xlsx', 'application/vnd.ms-excel'], 20);
 
                 if ($uploadResult['status'] !== 'success') {
                     return $uploadResult;

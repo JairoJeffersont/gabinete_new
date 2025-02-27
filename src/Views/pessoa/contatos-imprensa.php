@@ -86,7 +86,7 @@ if ($buscaOrgaos['status'] == 'success') {
             <div class="card shadow-sm mb-2">
                 <div class="card-body p-2">
                     <div class="accordion" id="accordionPanelsStayOpenExample">
-                        
+
                         <?php
 
                         if (count($orgaosImprensa) > 0) {
@@ -123,10 +123,11 @@ if ($buscaOrgaos['status'] == 'success') {
 
 
                                 echo '</div>
-                                            </div></div>';
+                                            </div>
+                                            </div>';
                             }
                         } else {
-                            echo '<p class="card-text mb-0" ><i class="bi bi-person"></i> Não existem veículos de imprensa. <a href="?secao=orgaos">Clique para adicionar</a></p>';
+                            echo '<p class="card-text mb-0" style="font-size:0.9em"><i class="bi bi-person"></i> Não existem veículos de imprensa. <a href="?secao=orgaos">Clique para adicionar</a></p>';
                         }
                         ?>
                     </div>
