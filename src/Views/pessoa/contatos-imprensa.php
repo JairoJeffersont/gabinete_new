@@ -86,8 +86,7 @@ if ($buscaOrgaos['status'] == 'success') {
             <div class="card shadow-sm mb-2">
                 <div class="card-body p-2">
                     <div class="accordion" id="accordionPanelsStayOpenExample">
-
-
+                        
                         <?php
 
                         if (count($orgaosImprensa) > 0) {
@@ -101,9 +100,6 @@ if ($buscaOrgaos['status'] == 'success') {
                                                 <div class="accordion-body">';
 
                                 $buscaPessoas = $pessoaController->listarPessoas(1000, 1, 'asc', 'pessoa_nome', null, null, $_SESSION['usuario_gabinete']);
-
-
-
 
                                 if ($buscaPessoas['status'] == 'success') {
                                     $contatoEncontrado = false;
