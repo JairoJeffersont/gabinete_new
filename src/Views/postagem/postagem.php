@@ -167,12 +167,13 @@ if ($buscaPostagem['status'] == 'not_found' || $buscaPostagem['status'] == 'erro
                         });
 
                         if (!empty($arquivos)) {
+                            echo '<div class="table-responsive">';
                             echo '<table class="table table-hover table-bordered table-striped mb-0 custom-table">';
                             echo '<thead>';
                             echo '<tr>';
                             echo '<th>Nome do Arquivo</th>';
                             echo '<th>Data e Hora</th>';
-                            echo '<th>Apagar</th>';
+                            echo '<th>Editar</th>';
                             echo '</tr>';
                             echo '</thead>';
                             echo '<tbody>';
@@ -200,6 +201,7 @@ if ($buscaPostagem['status'] == 'not_found' || $buscaPostagem['status'] == 'erro
 
                             echo '</tbody>';
                             echo '</table>';
+                            echo '</div>';
                         } else {
                             echo '<p class="text-primary mb-0">Nenhum arquivo encontrado na pasta.</p>';
                         }
