@@ -209,11 +209,8 @@ if ($buscaPostagem['status'] == 'not_found' || $buscaPostagem['status'] == 'erro
                         echo '<p class="text-danger mb-0">A pasta especificada não existe.</p>';
                     }
                     ?>
-
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>

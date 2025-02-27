@@ -47,7 +47,7 @@ $utils = new Utils();
                         echo '<p class="card-text mb-0 mt-1">' . $aniversario . '</p>';
                     }
                     ?>
-                    
+
 
                     <?php
                     if ($buscaMensagens['status'] == 'success') {
@@ -82,13 +82,15 @@ $utils = new Utils();
 
                             foreach ($buscaPessoas['dados'] as $pessoa) {
                                 if (date('d') == date('d', strtotime($pessoa['pessoa_aniversario']))) {
-                                    echo '<a href="?secao=pessoa&id=' . $pessoa['pessoa_id'] . '" style="font-size: 0.9em" class="list-group-item list-group-item-action d-flex align-items-center">';
-                                    echo '<img src="' . (!empty($pessoa['pessoa_foto']) ? $pessoa['pessoa_foto'] : 'public/img/not_found.jpg') . '" alt="Foto de ' . htmlspecialchars($pessoa['pessoa_nome'], ENT_QUOTES, 'UTF-8') . '" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">';
-                                    echo '<div>';
-                                    echo '<h5 class="mb-1" style="font-size: 1.2em; font-weight: 600">' . htmlspecialchars($pessoa['pessoa_nome'], ENT_QUOTES, 'UTF-8') . '</h5>';
-                                    echo '<p class="mb-1" style="word-wrap: break-word; overflow-wrap: break-word; word-break: break-all;">' . htmlspecialchars($pessoa['pessoa_email'], ENT_QUOTES, 'UTF-8') . '</p>';
-                                    echo '</div>';
-                                    echo '</a>';
+                                    if ($pessoa['pessoa_id'] != $_SESSION['usuario_id']) {
+                                        echo '<a href="?secao=pessoa&id=' . $pessoa['pessoa_id'] . '" style="font-size: 0.9em" class="list-group-item list-group-item-action d-flex align-items-center">';
+                                        echo '<img src="' . (!empty($pessoa['pessoa_foto']) ? $pessoa['pessoa_foto'] : 'public/img/not_found.jpg') . '" alt="Foto de ' . htmlspecialchars($pessoa['pessoa_nome'], ENT_QUOTES, 'UTF-8') . '" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">';
+                                        echo '<div>';
+                                        echo '<h5 class="mb-1" style="font-size: 1.2em; font-weight: 600">' . htmlspecialchars($pessoa['pessoa_nome'], ENT_QUOTES, 'UTF-8') . '</h5>';
+                                        echo '<p class="mb-1" style="word-wrap: break-word; overflow-wrap: break-word; word-break: break-all;">' . htmlspecialchars($pessoa['pessoa_email'], ENT_QUOTES, 'UTF-8') . '</p>';
+                                        echo '</div>';
+                                        echo '</a>';
+                                    }
                                 }
                             }
                         } else {
