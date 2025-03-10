@@ -35,6 +35,8 @@
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item dropdown-item-custom" href="?secao=minhas-mensagens"><i class="bi bi-envelope"></i> Mensagens</a>
                         <div class="dropdown-divider"></div>
+                        <a class="dropdown-item dropdown-item-custom"  href="?secao=sobre"><i class="bi bi-info-circle"></i> Sobre</a>
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item dropdown-item-custom" id="btn-sair" href="?secao=sair"><i class="bi bi-door-open"></i> Sair</a>
                     </div>
                 </li>

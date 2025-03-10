@@ -25,6 +25,22 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:url" content="https://jscloud.com.br/gabinete/?secao=login">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Mandato Digital">
+    <meta property="og:description" content="Sistema de gestão de gabinete político">
+    <meta property="og:image" content="https://jscloud.com.br/gabinete/public/img/logo.png"><!-- Load error, please check URL -->
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="jscloud.com.br">
+    <meta property="twitter:url" content="https://jscloud.com.br/gabinete/?secao=login">
+    <meta name="twitter:title" content="Mandato Digital">
+    <meta name="twitter:description" content="Sistema de gestão de gabinete político">
+    <meta name="twitter:image" content="https://jscloud.com.br/gabinete/public/img/logo.png">
+
     <script src="public/vendor/jquery/jquery.min.js"></script>
 </head>
 
@@ -32,7 +48,7 @@
 
     <?php include './src/Views/router.php' ?>
 
-   
+
     <script src="public/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="public/vendor/startbootstrap-simple-sidebar-master/dist/js/scripts.js"></script>
     <script src="public/vendor/jquery-mask/jquery.mask.min.js"></script>
