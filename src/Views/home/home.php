@@ -1,5 +1,6 @@
 <?php
 
+use GabineteMvc\Controllers\AgendaController;
 use GabineteMvc\Controllers\GabineteController;
 use GabineteMvc\Controllers\MensagemController;
 use GabineteMvc\Controllers\UsuarioController;
@@ -17,12 +18,17 @@ $gabineteController = new GabineteController();
 $mensagemController = new MensagemController();
 $pessoaController = new PessoaController();
 $postagemController = new PostagemController();
+$agendaController = new AgendaController();
 
 
 $buscaUsuario = $usuarioController->buscaUsuario('usuario_id', $_SESSION['usuario_id']);
 $buscaGabinete = $gabineteController->buscaGabinete('gabinete_id', $buscaUsuario['dados']['usuario_gabinete']);
 $buscaMensagens = $mensagemController->listarMensagens(1000, 1, 'asc', 'mensagem_enviada_em', $_SESSION['usuario_id'], 0);
 $utils = new Utils();
+
+$dataGet = isset($_GET['data']) ? $_GET['data'] : date('Y-m-d');
+$tipoGet = (isset($_GET['tipo']) && $_GET['tipo'] !== 'null') ? $_GET['tipo'] : null;
+$situacaoGet = (isset($_GET['situacao']) && $_GET['situacao'] !== 'null') ? $_GET['situacao'] : null;
 
 ?>
 
@@ -121,6 +127,46 @@ $utils = new Utils();
                     </div>
                 </div>
             <?php } ?>
+            <div class="card mb-2">
+                <div class="card-body card_descricao_body">
+                    <h6 class="card-title mb-3">Compromissos agendados para hoje </h6>
+                    <?php
+                    $buscaAgendas = $agendaController->listarAgendas($dataGet, $tipoGet, $situacaoGet, $_SESSION['usuario_gabinete']);
+
+                    if ($buscaAgendas['status'] == 'success') {
+                        echo ' <div class="accordion" id="accordionPanelsStayOpenExample">';
+                        foreach ($buscaAgendas['dados'] as $agenda) {
+                            echo '
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" style="font-size: 0.5em" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse' . $agenda['agenda_id'] . '" aria-expanded="true" aria-controls="panelsStayOpen-collapse' . $agenda['agenda_id'] . '">
+                                                ' . date('H:i', strtotime($agenda['agenda_data'])) . ' | ' . $agenda['agenda_titulo'] . '
+                                            </button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapse' . $agenda['agenda_id'] . '" class="accordion-collapse collapse">
+                                            <div class="accordion-body" style="font-size: 1em">
+                                                <p class="card-text mb-1"><i class="bi bi-arrow-right-short"></i> ' . $agenda['agenda_tipo_nome'] . '</p>
+                                                <p class="card-text mb-3"><i class="bi bi-arrow-right-short"></i> <b>' . $agenda['agenda_situacao_nome'] . '</b></p>
+                                                <p class="card-text mb-3"><i class="bi bi-arrow-right-short"></i> ' . $agenda['agenda_local'] . ' - ' . $agenda['agenda_estado'] . '</p>
+                                                <p class="card-text mb-0"><i class="bi bi-arrow-right-short"></i> ' . $agenda['agenda_informacoes'] . '</p><hr>
+                                                
+                                                <div class="d-flex gap-1 mt-2">
+                                                    <a href="?secao=agenda&id=' . $agenda['agenda_id'] . '" class="btn btn-sm btn-primary px-2 py-1" style="font-size: 0.9em"><i class="bi bi-pencil"></i> Editar</a>
+                                                    <!--<button class="btn btn-sm btn-success px-2 py-1" style="font-size: 0.9em"><i class="bi bi-whatsapp"></i> Enviar</button>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ';
+                        }
+                        echo '</div>';
+                    } else {
+                        echo '<p class="card-text">Nenhuma agenda para o dia <b>' . date('d/m', strtotime($dataGet)) . '</b></p>';
+                    }
+                    ?>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
