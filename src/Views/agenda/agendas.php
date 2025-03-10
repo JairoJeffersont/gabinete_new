@@ -43,7 +43,7 @@ $situacaoGet = (isset($_GET['situacao']) && $_GET['situacao'] !== 'null') ? $_GE
                         <div class="col-md-12 col-12">
                             <a href="?secao=tipos-agenda" type="button" class="btn btn-success btn-sm" id="btn_novo_tipo"><i class="bi bi-plus-circle-fill"></i> Novo tipo</a>
                             <a href="?secao=situacoes-agenda" type="button" class="btn btn-primary btn-sm" id="btn_novo_situacao"><i class="bi bi-plus-circle-fill"></i> Nova situação</a>
-                            <a href="?secao=imprimir-pessoas&estado=<?php echo $estado ?>" type="button" target="_blank" class="btn btn-secondary btn-sm" id="btn_imprimir"><i class="bi bi-printer"></i> Imprimir agenda</a>
+                            <a href="?secao=imprimir-agenda&data=<?php echo $dataGet ?>&tipo=<?php echo $tipoGet ?>&situacao=<?php echo $situacaoGet ?>" type="button" target="_blank" class="btn btn-secondary btn-sm" id="btn_imprimir"><i class="bi bi-printer"></i> Imprimir agenda</a>
                         </div>
                     </form>
                 </div>
