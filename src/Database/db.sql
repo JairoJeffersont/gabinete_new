@@ -514,3 +514,46 @@ CREATE TABLE clipping (
 )ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 CREATE VIEW view_clipping AS SELECT clipping.*, usuario.usuario_nome, orgaos.orgao_nome, clipping_tipos.clipping_tipo_nome FROM clipping INNER JOIN clipping_tipos ON clipping.clipping_tipo = clipping_tipos.clipping_tipo_id INNER JOIN orgaos ON clipping.clipping_orgao = orgaos.orgao_id INNER JOIN usuario ON clipping.clipping_criado_por = usuario.usuario_id 
+
+
+CREATE TABLE agenda_tipo (
+    agenda_tipo_id varchar(36) NOT NULL,
+    agenda_tipo_nome varchar(255) NOT NULL UNIQUE,
+    agenda_tipo_descricao TEXT NOT NULL,
+    agenda_tipo_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    agenda_tipo_atualizado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    agenda_tipo_criado_por varchar(36) NOT NULL,
+    agenda_tipo_gabinete varchar(36) NOT NULL,
+    PRIMARY KEY (agenda_tipo_id),
+    CONSTRAINT fk_agenda_tipo_criado_por FOREIGN KEY (agenda_tipo_criado_por) REFERENCES usuario (usuario_id),
+    CONSTRAINT fk_agenda_tipo_status_gabinete FOREIGN KEY (agenda_tipo_gabinete) REFERENCES gabinete (gabinete_id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+INSERT INTO agenda_tipo (agenda_tipo_id, agenda_tipo_nome, agenda_tipo_descricao, agenda_tipo_criado_por, agenda_tipo_gabinete)
+VALUES (1, 'Agenda parlamentar', 'Agenda legislativa do deputado.', '1', '1'),(2, 'Agenda partidária', 'Agenda relacionada ao partido.', '1', '1'), (3, 'Agenda pessoal', 'Agenda pessoal do parlamentar.', '1', '1');
+
+
+CREATE TABLE agenda_situacao (
+    agenda_situacao_id varchar(36) NOT NULL,
+    agenda_situacao_nome varchar(255) NOT NULL UNIQUE,
+    agenda_situacao_descricao TEXT NOT NULL,
+    agenda_situacao_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    agenda_situacao_atualizado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    agenda_situacao_criado_por varchar(36) NOT NULL,
+    agenda_situacao_gabinete varchar(36) NOT NULL,
+    PRIMARY KEY (agenda_situacao_id),
+    CONSTRAINT fk_agenda_situacao_criado_por FOREIGN KEY (agenda_situacao_criado_por) REFERENCES usuario (usuario_id),
+    CONSTRAINT fk_agenda_situacao_status_gabinete FOREIGN KEY (agenda_situacao_gabinete) REFERENCES gabinete (gabinete_id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+INSERT INTO agenda_situacao (agenda_situacao_id, agenda_situacao_nome, agenda_situacao_descricao, agenda_situacao_criado_por, agenda_situacao_gabinete)
+VALUES 
+(1, 'Situação não informada', 'Situação não informada.', 1, 1),
+(2, 'Agendada', 'O compromisso foi marcado, mas ainda não ocorreu.', 1, 1),
+(3, 'Finalizada', 'O compromisso ou tarefa foi completado ou realizado com sucesso.', 1, 1),
+(4, 'Cancelada', 'O compromisso foi desmarcado ou cancelado, por algum motivo, e não será mais realizado.', 1, 1),
+(5, 'Pendente', 'O compromisso ou tarefa foi adiado ou está esperando algum tipo de ação ou decisão antes de ser realizado.', 1, 1),
+(6, 'Em Andamento', 'O compromisso ou tarefa está em execução ou já começou, mas ainda não foi concluído.', 1, 1),
+(7, 'Remarcada', 'O compromisso foi reagendado para outro dia e hora, após uma alteração ou conflito de agenda.', 1, 1),
+(8, 'Atrasada', 'O compromisso não foi cumprido no horário previsto e está atrasado.', 1, 1),
+(9, 'Confirmada', 'O compromisso foi confirmado por todas as partes envolvidas, garantindo que ocorrerá como planejado.', 1, 1);

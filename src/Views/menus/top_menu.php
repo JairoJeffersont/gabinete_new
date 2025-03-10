@@ -20,8 +20,8 @@
                         <a class="dropdown-item dropdown-item-custom" href="?secao=emendas-status">Status de emenda</a>
                         <a class="dropdown-item dropdown-item-custom" href="?secao=emendas-objetivos">Objetivos da emenda</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item dropdown-item-custom" href="?secao=tipos-agendas">Tipos de agenda</a>
-                        <a class="dropdown-item dropdown-item-custom" href="?secao=situacoes-agendas">Situações da agenda</a>
+                        <a class="dropdown-item dropdown-item-custom" href="?secao=tipos-agenda">Tipos de agenda</a>
+                        <a class="dropdown-item dropdown-item-custom" href="?secao=situacoes-agenda">Situações da agenda</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item dropdown-item-custom" href="?secao=temas-proposicoes">Temas de proposições</a>
                         <a class="dropdown-item dropdown-item-custom" href="?secao=proposicoes_tramitacoes">Tramitações de proposições</a>

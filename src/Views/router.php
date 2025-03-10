@@ -46,7 +46,11 @@ $rotas = [
     'tipo-clipping' => './src/Views/clipping/tipo-clipping.php',
     'clippings' => './src/Views/clipping/clippings.php',
     'clipping' => './src/Views/clipping/clipping.php',
-    'contatos-imprensa' => './src/Views/pessoa/contatos-imprensa.php'
+    'contatos-imprensa' => './src/Views/pessoa/contatos-imprensa.php',
+    'tipos-agenda' => './src/Views/agenda/tipos-agenda.php',
+    'tipo-agenda' => './src/Views/agenda/tipo-agenda.php',
+    'situacoes-agenda' => './src/Views/agenda/situacoes-agenda.php',
+    'situacao-agenda' => './src/Views/agenda/situacao-agenda.php',
 
 
 
