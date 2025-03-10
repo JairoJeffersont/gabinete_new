@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /gabinete/src/
+Disallow: /gabinete/logs/

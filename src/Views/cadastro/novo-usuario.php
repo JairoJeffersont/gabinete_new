@@ -63,8 +63,6 @@ $buscaUsuarios = $usuarioController->listarUsuarios(1000, 1, 'asc', 'usuario_nom
             }
         }
 
-
-
         ?>
         <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
             <div class="col-md-12 col-12">
