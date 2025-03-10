@@ -19,6 +19,11 @@ class AgendaController {
     // CRIAR NOVO EVENTO DE AGENDA
     public function novaAgenda($dados) {
         try {
+
+            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 6) {
+                return ['status' => 'forbidden', 'message' => 'Você não tem autorização para inserir compromissos.'];
+            }
+
             $this->agendaModel->criarAgenda($dados);
             return ['status' => 'success', 'message' => 'Evento de agenda inserido com sucesso'];
         } catch (PDOException $e) {
@@ -39,6 +44,10 @@ class AgendaController {
 
             if (!$buscaAgenda) {
                 return ['status' => 'not_found', 'message' => 'Evento de agenda não encontrado'];
+            }
+
+            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 6) {
+                return ['status' => 'forbidden', 'message' => 'Você não tem autorização para editar compromissos.'];
             }
 
             $this->agendaModel->atualizarAgenda($dados);
@@ -84,9 +93,15 @@ class AgendaController {
     // APAGAR EVENTO DA AGENDA
     public function apagarAgenda($id) {
         try {
+
+
             $buscaAgenda = $this->agendaModel->buscaAgenda($id);
             if (!$buscaAgenda) {
                 return ['status' => 'not_found', 'message' => 'Evento de agenda não encontrado'];
+            }
+
+            if ($_SESSION['usuario_tipo'] != 2 && $_SESSION['usuario_tipo'] != 6) {
+                return ['status' => 'forbidden', 'message' => 'Você não tem autorização para apagar compromissos.'];
             }
 
             $this->agendaModel->apagarAgenda($id);
