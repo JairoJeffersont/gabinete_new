@@ -248,6 +248,7 @@ $situacaoGet = (isset($_GET['situacao']) && $_GET['situacao'] !== 'null') ? $_GE
             return false;
         }
     });
+
     $('#btn_novo_situacao').click(function() {
         if (window.confirm("Você realmente deseja inserir uma nova situação?")) {
             window.location.href = "?secao=situacoes-agenda";
@@ -255,7 +256,6 @@ $situacaoGet = (isset($_GET['situacao']) && $_GET['situacao'] !== 'null') ? $_GE
             return false;
         }
     });
-
 
     $('#situacao').change(function() {
         if ($('#situacao').val() == '+') {
