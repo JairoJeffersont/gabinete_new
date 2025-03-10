@@ -31,7 +31,7 @@ $('button[name="btn_apagar_arquivo"]').on('click', function (event) {
 
 
 $('button[name="btn_apagar_post"]').on('click', function (event) {
-    
+
     const confirmacao = confirm("⚠️ Atenção! Ao apagar essa postagem, todos os arquivos associados a ela serão permanentemente excluídos e não poderão ser recuperados!");
     if (!confirmacao) {
         event.preventDefault();
@@ -48,6 +48,13 @@ $('button[name="btn_upload"]').on('click', function (event) {
 
 $('button[name="btn_salvar"]').on('click', function (event) {
     const confirmacao = confirm("Tem certeza que deseja inserir esse registro?");
+    if (!confirmacao) {
+        event.preventDefault();
+    }
+});
+
+$('button[name="btn_atualizar_gabinete"]').on('click', function (event) {
+    const confirmacao = confirm("Você tem certeza que deseja alterar este gabinete? ⚠️ Atenção! A mudança no tipo e no político do gabinete pode afetar o funcionamento de algumas funções do sistema.");
     if (!confirmacao) {
         event.preventDefault();
     }
