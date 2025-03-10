@@ -515,7 +515,6 @@ CREATE TABLE clipping (
 
 CREATE VIEW view_clipping AS SELECT clipping.*, usuario.usuario_nome, orgaos.orgao_nome, clipping_tipos.clipping_tipo_nome FROM clipping INNER JOIN clipping_tipos ON clipping.clipping_tipo = clipping_tipos.clipping_tipo_id INNER JOIN orgaos ON clipping.clipping_orgao = orgaos.orgao_id INNER JOIN usuario ON clipping.clipping_criado_por = usuario.usuario_id 
 
-
 CREATE TABLE agenda_tipo (
     agenda_tipo_id varchar(36) NOT NULL,
     agenda_tipo_nome varchar(255) NOT NULL UNIQUE,
@@ -557,3 +556,26 @@ VALUES
 (7, 'Remarcada', 'O compromisso foi reagendado para outro dia e hora, após uma alteração ou conflito de agenda.', 1, 1),
 (8, 'Atrasada', 'O compromisso não foi cumprido no horário previsto e está atrasado.', 1, 1),
 (9, 'Confirmada', 'O compromisso foi confirmado por todas as partes envolvidas, garantindo que ocorrerá como planejado.', 1, 1);
+
+
+CREATE TABLE agenda(
+    agenda_id varchar(36) NOT NULL,
+    agenda_titulo VARCHAR(255) NOT NULL UNIQUE,
+    agenda_situacao VARCHAR(255) NOT NULL,
+    agenda_tipo VARCHAR(255) NOT NULL,
+    agenda_data TIMESTAMP NOT NULL,
+    agenda_local TEXT NOT NULL,
+    agenda_estado VARCHAR(2) NOT NULL,
+    agenda_informacoes TEXT DEFAULT NULL,
+    agenda_criada_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    agenda_atualizada_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    agenda_criada_por varchar(36) NOT NULL,
+    agenda_gabinete varchar(36) NOT NULL,
+    PRIMARY KEY (agenda_id),
+    CONSTRAINT fk_agenda_tipo FOREIGN KEY (agenda_tipo) REFERENCES agenda_tipo(agenda_tipo_id),
+    CONSTRAINT fk_agenda_situacao FOREIGN KEY (agenda_situacao) REFERENCES agenda_situacao(agenda_situacao_id),
+    CONSTRAINT fk_agenda_criada_por FOREIGN KEY (agenda_criada_por) REFERENCES usuario(usuario_id),
+    CONSTRAINT fk_agenda_gabinete FOREIGN KEY (agenda_gabinete) REFERENCES gabinete(gabinete_id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+CREATE VIEW view_agenda AS  SELECT agenda.*, usuario.usuario_nome, agenda_tipo.agenda_tipo_nome, agenda_situacao.agenda_situacao_nome FROM agenda INNER JOIN agenda_situacao ON agenda.agenda_situacao = agenda_situacao.agenda_situacao_id INNER JOIN agenda_tipo ON agenda.agenda_tipo = agenda_tipo.agenda_tipo_id INNER JOIN usuario ON agenda.agenda_criada_por = usuario.usuario_id INNER JOIN gabinete ON agenda.agenda_gabinete = gabinete.gabinete_id;

@@ -15,6 +15,93 @@ class AgendaController {
         $this->logger = new Logger();
     }
 
+
+    // CRIAR NOVO EVENTO DE AGENDA
+    public function novaAgenda($dados) {
+        try {
+            $this->agendaModel->criarAgenda($dados);
+            return ['status' => 'success', 'message' => 'Evento de agenda inserido com sucesso'];
+        } catch (PDOException $e) {
+            if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+                return ['status' => 'duplicated', 'message' => 'O evento de agenda já está cadastrado'];
+            } else {
+                $erro_id = uniqid();
+                $this->logger->novoLog('agenda_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+                return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+            }
+        }
+    }
+
+    // ATUALIZAR EVENTO DE AGENDA
+    public function atualizarAgenda($dados) {
+        try {
+            $buscaAgenda = $this->agendaModel->buscaAgenda($dados['agenda_id']);
+
+            if (!$buscaAgenda) {
+                return ['status' => 'not_found', 'message' => 'Evento de agenda não encontrado'];
+            }
+
+            $this->agendaModel->atualizarAgenda($dados);
+            return ['status' => 'success', 'message' => 'Evento de agenda atualizado com sucesso'];
+        } catch (PDOException $e) {
+            $erro_id = uniqid();
+            $this->logger->novoLog('agenda_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
+
+    // LISTAR EVENTOS DA AGENDA
+    public function listarAgendas($data, $tipo, $situacao,  $cliente) {
+        try {
+            $agendas = $this->agendaModel->listarAgendas($data, $tipo, $situacao,  $cliente);
+
+            if (empty($agendas)) {
+                return ['status' => 'empty', 'message' => 'Nenhuma agenda registrada.'];
+            }
+
+            return ['status' => 'success', 'message' => count($agendas) . ' agenda(s) encontrada(s)', 'dados' => $agendas];
+        } catch (PDOException $e) {
+            $erro_id = uniqid();
+            $this->logger->novoLog('agenda_log', $e->getMessage() . ' | ' . $erro_id);
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
+    // BUSCAR EVENTO DE AGENDA PELO ID
+    public function buscaAgenda($id) {
+        try {
+            $resultado = $this->agendaModel->buscaAgenda($id);
+            return ['status' => 'success', 'dados' => $resultado];
+        } catch (PDOException $e) {
+            $erro_id = uniqid();
+            $this->logger->novoLog('agenda_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
+
+    // APAGAR EVENTO DA AGENDA
+    public function apagarAgenda($id) {
+        try {
+            $buscaAgenda = $this->agendaModel->buscaAgenda($id);
+            if (!$buscaAgenda) {
+                return ['status' => 'not_found', 'message' => 'Evento de agenda não encontrado'];
+            }
+
+            $this->agendaModel->apagarAgenda($id);
+            return ['status' => 'success', 'message' => 'Evento de agenda apagado com sucesso'];
+        } catch (PDOException $e) {
+            if (strpos($e->getMessage(), 'FOREIGN KEY') !== false) {
+                return ['status' => 'forbidden', 'message' => 'Não é possível apagar o evento da agenda. Existem registros dependentes.'];
+            }
+            $erro_id = uniqid();
+            $this->logger->novoLog('agenda_log', $e->getMessage() . ' | ' . $erro_id, 'ERROR');
+            return ['status' => 'error', 'message' => 'Erro interno do servidor', 'error_id' => $erro_id];
+        }
+    }
+
+
     // CRIAR NOVO TIPO DE AGENDA
     public function novoAgendaTipo($dados) {
         try {

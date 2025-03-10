@@ -12,6 +12,99 @@ class AgendaModel {
         $this->conn = Database::getConnection();
     }
 
+    // Criar um novo evento na agenda
+    public function criarAgenda($dados) {
+        $query = 'INSERT INTO agenda (agenda_id, agenda_titulo, agenda_situacao, agenda_tipo, agenda_data, agenda_local, agenda_estado, agenda_informacoes, agenda_criada_por, agenda_gabinete) 
+                  VALUES (UUID(), :agenda_titulo, :agenda_situacao, :agenda_tipo, :agenda_data, :agenda_local, :agenda_estado, :agenda_informacoes, :agenda_criada_por, :agenda_gabinete)';
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':agenda_titulo', $dados['agenda_titulo'], PDO::PARAM_STR);
+        $stmt->bindValue(':agenda_situacao', $dados['agenda_situacao'], PDO::PARAM_STR);
+        $stmt->bindValue(':agenda_tipo', $dados['agenda_tipo'], PDO::PARAM_STR);
+        $stmt->bindValue(':agenda_data', $dados['agenda_data'], PDO::PARAM_STR);
+        $stmt->bindValue(':agenda_local', $dados['agenda_local'], PDO::PARAM_STR);
+        $stmt->bindValue(':agenda_estado', $dados['agenda_estado'], PDO::PARAM_STR);
+        $stmt->bindValue(':agenda_informacoes', $dados['agenda_informacoes'], PDO::PARAM_STR);
+        $stmt->bindValue(':agenda_criada_por', $dados['agenda_criada_por'], PDO::PARAM_STR);
+        $stmt->bindValue(':agenda_gabinete', $dados['agenda_gabinete'], PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    // Atualizar um evento da agenda
+    public function atualizarAgenda($dados) {
+        $query = 'UPDATE agenda SET agenda_titulo = :agenda_titulo, agenda_situacao = :agenda_situacao, agenda_tipo = :agenda_tipo, agenda_data = :agenda_data, agenda_local = :agenda_local, agenda_estado = :agenda_estado, agenda_informacoes = :agenda_informacoes WHERE agenda_id = :agenda_id';
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':agenda_id', $dados['agenda_id'], PDO::PARAM_STR);
+        $stmt->bindValue(':agenda_titulo', $dados['agenda_titulo'], PDO::PARAM_STR);
+        $stmt->bindValue(':agenda_situacao', $dados['agenda_situacao'], PDO::PARAM_STR);
+        $stmt->bindValue(':agenda_tipo', $dados['agenda_tipo'], PDO::PARAM_STR);
+        $stmt->bindValue(':agenda_data', $dados['agenda_data'], PDO::PARAM_STR);
+        $stmt->bindValue(':agenda_local', $dados['agenda_local'], PDO::PARAM_STR);
+        $stmt->bindValue(':agenda_estado', $dados['agenda_estado'], PDO::PARAM_STR);
+        $stmt->bindValue(':agenda_informacoes', $dados['agenda_informacoes'], PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    // Listar eventos da agenda
+    public function listarAgendas($data, $tipo, $situacao, $gabinete) {
+        // Inicia a consulta básica com filtro pela data e cliente
+        $query = "SELECT * FROM view_agenda WHERE agenda_gabinete = :gabinete AND DATE(agenda_data) = :data";
+
+        // Adiciona a condição para tipo, se fornecido
+        if (!empty($tipo)) {
+            $query .= " AND agenda_tipo = :tipo";
+        }
+
+        // Adiciona a condição para situacao, se fornecido
+        if (!empty($situacao)) {
+            $query .= " AND agenda_situacao = :situacao";
+        }
+
+        // Ordena os resultados
+        $query .= " ORDER BY agenda_data ASC";
+
+        // Prepara a consulta
+        $stmt = $this->conn->prepare($query);
+
+        // Vincula os parâmetros obrigatórios
+        $stmt->bindParam(':gabinete', $gabinete, PDO::PARAM_STR);
+        $stmt->bindParam(':data', $data, PDO::PARAM_STR);
+
+        // Vincula os parâmetros opcionais (tipo e situacao) se forem fornecidos
+        if (!empty($tipo)) {
+            $stmt->bindParam(':tipo', $tipo, PDO::PARAM_STR);
+        }
+        if (!empty($situacao)) {
+            $stmt->bindParam(':situacao', $situacao, PDO::PARAM_STR);
+        }
+
+        // Executa a consulta
+        $stmt->execute();
+
+        // Retorna o resultado
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Buscar evento da agenda por ID
+    public function buscaAgenda($id) {
+        $query = 'SELECT * FROM agenda WHERE agenda_id = :id';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
+
+    // Apagar evento da agenda
+    public function apagarAgenda($id) {
+        $query = 'DELETE FROM agenda WHERE agenda_id = :id';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+        return $stmt->execute();
+    }
+
     // Criar Tipo de Agenda
     public function criarTipoAgenda($dados) {
         $query = 'INSERT INTO agenda_tipo (agenda_tipo_id, agenda_tipo_nome, agenda_tipo_descricao, agenda_tipo_criado_por, agenda_tipo_gabinete) 
