@@ -33,8 +33,8 @@ $situacaoGet = (isset($_GET['situacao']) && $_GET['situacao'] !== 'null') ? $_GE
             <div class="card mb-2">
                 <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-calendar-event"></i> Adicionar agenda</div>
                 <div class="card-body card_descricao_body p-2">
-                <p class="card-text mb-2">Nesta seção, é possível adicionar e editar os compromissos, garantindo a organização correta dessas informações no sistema.</p>
-                <p class="card-text mb-0">Todos os campos são obrigatórios</p>
+                    <p class="card-text mb-2">Nesta seção, é possível adicionar e editar os compromissos, garantindo a organização correta dessas informações no sistema.</p>
+                    <p class="card-text mb-0">Todos os campos são obrigatórios</p>
                 </div>
             </div>
             <div class="card shadow-sm mb-2">
@@ -214,7 +214,7 @@ $situacaoGet = (isset($_GET['situacao']) && $_GET['situacao'] !== 'null') ? $_GE
                                             </button>
                                         </h2>
                                         <div id="panelsStayOpen-collapse' . $agenda['agenda_id'] . '" class="accordion-collapse collapse">
-                                            <div class="accordion-body" style="font-size: 0.9em">
+                                            <div class="accordion-body" style="font-size: 1em">
                                                 <p class="card-text mb-1"><i class="bi bi-arrow-right-short"></i> ' . $agenda['agenda_tipo_nome'] . '</p>
                                                 <p class="card-text mb-3"><i class="bi bi-arrow-right-short"></i> <b>' . $agenda['agenda_situacao_nome'] . '</b></p>
                                                 <p class="card-text mb-3"><i class="bi bi-arrow-right-short"></i> ' . $agenda['agenda_local'] . ' - ' . $agenda['agenda_estado'] . '</p>
