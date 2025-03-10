@@ -12,8 +12,8 @@
         <!--<a class="list-group-item list-group-item-action list-group-item-light px-4" href="?secao=estatisticas"><i class="bi bi-arrow-return-right"></i> Estatísticas</a>-->
         <a class="list-group-item list-group-item-action list-group-item-light px-4" href="?secao=aniversariantes"><i class="bi bi-cake"></i> Aniversariantes</a>
 
-        <!--<p style="margin-left: 10px; margin-top:20px;font-weight: bolder;" class="text-muted"><i class="bi bi-list"></i> Agendas</p>
-        <a class="list-group-item list-group-item-action list-group-item-light px-4" href="?secao=agendas"><i class="bi bi-calendar3"></i> Agenda de compromissos</a>-->
+        <p style="margin-left: 10px; margin-top:20px;font-weight: bolder;" class="text-muted"><i class="bi bi-list"></i> Agendas</p>
+        <a class="list-group-item list-group-item-action list-group-item-light px-4" href="?secao=agendas"><i class="bi bi-calendar3"></i> Agenda de compromissos</a>
 
         <p style="margin-left: 10px; margin-top:20px;font-weight: bolder;" class="text-muted"><i class="bi bi-list"></i> Gestão do gabinete</p>
         <a class="list-group-item list-group-item-action list-group-item-light px-4" href="?secao=documentos"><i class="bi bi-file-earmark-text"></i> Documentos</a>
