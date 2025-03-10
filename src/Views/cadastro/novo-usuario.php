@@ -90,7 +90,9 @@ $buscaUsuarios = $usuarioController->listarUsuarios(1000, 1, 'asc', 'usuario_nom
                 <a type="button" href="?secao=login" class="btn btn-secondary">Voltar</a>
             </div>
         </form>
-        <p class="mt-3 copyright">2024 | JS Digital System</p>
+        <p class="mt-3 copyright">
+            &copy; <?php echo date('Y'); ?> | Just Solutions. Todos os direitos reservados.
+        </p>
     </div>
 </div>
 
