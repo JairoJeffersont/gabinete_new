@@ -36,7 +36,7 @@ if ($buscaOrgao['status'] != 'success') {
                 <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-building"></i> Editar tipo de Órgão/Entidade</div>
                 <div class="card-body card_descricao_body p-2">
                     <p class="card-text mb-2">Nesta seção, é possível editar um tipo de órgão ou entidades, garantindo a organização correta dessas informações no sistema.</p>
-                    <p class="card-text mb-0">Todos os campos são obrigatórios</p>
+                    <p class="card-text mb-0">Os campos <b>Nome</b>, <b>email</b>, <b>estado</b> e <b>município</b> são <b>obrigatórios</b>.</p>
                 </div>
             </div>
             <div class="card shadow-sm mb-2 ">

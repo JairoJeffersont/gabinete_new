@@ -75,7 +75,6 @@ $utils = new Utils();
                         $buscaPessoas = $pessoaController->buscarAniversarianteMes(date('m'), null, $_SESSION['usuario_gabinete']);
 
                         if ($buscaPessoas['status'] == 'success') {
-                            // Ordenar o array de pessoas por nome (pessoa_nome) em ordem crescente
                             usort($buscaPessoas['dados'], function ($a, $b) {
                                 return strcmp($a['pessoa_nome'], $b['pessoa_nome']);
                             });

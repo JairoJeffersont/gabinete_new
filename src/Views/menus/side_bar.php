@@ -1,7 +1,7 @@
 <div class="border-end bg-white no-print" id="sidebar-wrapper">
     <div class="sidebar-heading border-bottom bg-light" style="font-size: 1.2em;"><img src="public/img/logo.png" width="24" />&nbsp;&nbsp; Mandato Digital</div>
     <div class="list-group list-group-flush">
-        <p style="margin-left: 10px; margin-top:20px;font-weight: bolder;" class="text-muted"><i class="bi bi-list"></i> Assessoria Legislativa</p>
+        <!--<p style="margin-left: 10px; margin-top:20px;font-weight: bolder;" class="text-muted"><i class="bi bi-list"></i> Assessoria Legislativa</p>
         <a class="list-group-item list-group-item-action list-group-item-light px-4" id="link" href="?secao=proposicoes"><i class="bi bi-file-earmark-text"></i> Proposições do gabinete</a>
 
         <!--<a class="list-group-item list-group-item-action list-group-item-light px-4" href="?secao=reunioes"><i class="bi bi-calendar3"></i> Agenda da Câmara</a>-->
@@ -12,8 +12,8 @@
         <!--<a class="list-group-item list-group-item-action list-group-item-light px-4" href="?secao=estatisticas"><i class="bi bi-arrow-return-right"></i> Estatísticas</a>-->
         <a class="list-group-item list-group-item-action list-group-item-light px-4" href="?secao=aniversariantes"><i class="bi bi-cake"></i> Aniversariantes</a>
 
-        <p style="margin-left: 10px; margin-top:20px;font-weight: bolder;" class="text-muted"><i class="bi bi-list"></i> Agendas</p>
-        <a class="list-group-item list-group-item-action list-group-item-light px-4" href="?secao=agendas"><i class="bi bi-calendar3"></i> Agenda de compromissos</a>
+        <!--<p style="margin-left: 10px; margin-top:20px;font-weight: bolder;" class="text-muted"><i class="bi bi-list"></i> Agendas</p>
+        <a class="list-group-item list-group-item-action list-group-item-light px-4" href="?secao=agendas"><i class="bi bi-calendar3"></i> Agenda de compromissos</a>-->
 
         <p style="margin-left: 10px; margin-top:20px;font-weight: bolder;" class="text-muted"><i class="bi bi-list"></i> Gestão do gabinete</p>
         <a class="list-group-item list-group-item-action list-group-item-light px-4" href="?secao=documentos"><i class="bi bi-file-earmark-text"></i> Documentos</a>

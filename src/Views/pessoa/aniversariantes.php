@@ -38,7 +38,7 @@ $mes = $_GET['mes'] ?? date('m');
             <div class="card mb-2">
                 <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-people-fill"></i> Aniversariantes do Mês</div>
                 <div class="card-body card_descricao_body p-2">
-                    <p class="card-text mb-0">Nesta seção, é possível visualizar e organizar os aniversariantes do mês, garantindo a correta gestão e acompanhamento dessas informações no sistema.</p>
+                    <p class="card-text mb-0">Nesta seção, é possível visualizar os aniversariantes do mês, garantindo a correta gestão e acompanhamento dessas informações no sistema.</p>
                 </div>
             </div>
             <div class="row ">
