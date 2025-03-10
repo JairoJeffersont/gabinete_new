@@ -132,7 +132,7 @@ $situacaoGet = (isset($_GET['situacao']) && $_GET['situacao'] !== 'null') ? $_GE
                             <select class="form-select form-select-sm" name="agenda_estado" required>
                                 <option value="DF">Brasília</option>
                                 <option value="<?php echo $buscaGabinete['dados']['gabinete_estado_autoridade'] ?>">Estado - <?php echo $buscaGabinete['dados']['gabinete_estado_autoridade'] ?></option>
-                                <option value="Outro">Outro</option>
+                                <option value="XX">Outro</option>
                             </select>
                         </div>
 
