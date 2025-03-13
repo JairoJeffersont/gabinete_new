@@ -4,12 +4,14 @@ ob_start();
 
 use GabineteMvc\Controllers\GabineteController;
 use GabineteMvc\Controllers\ProposicaoController;
+use GabineteMvc\Controllers\NotaTecnicaController;
 
 require './src/Middleware/VerificaLogado.php';
 require 'vendor/autoload.php';
 
 $gabineteController = new GabineteController();
 $proposicaoController = new ProposicaoController();
+$notaController = new NotaTecnicaController();
 
 $gabinete = $gabineteController->buscaGabinete('gabinete_id', $_SESSION['usuario_gabinete']);
 $tipoGabinete = $gabineteController->buscaTipoGabinete($gabinete['dados']['gabinete_tipo']);

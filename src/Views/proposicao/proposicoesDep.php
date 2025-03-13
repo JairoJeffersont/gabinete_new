@@ -13,10 +13,10 @@ $paginaGet = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 ?>
 
 <div class="card mb-2">
-    <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-newspaper"></i> Proposições | <?php echo $tipoGabinete['dados']['gabinete_tipo_nome'] ?></div>
+    <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-newspaper"></i> Proposições | <?php echo $tipoGabinete['dados']['gabinete_tipo_nome'] ?> | <?php echo $gabinete['dados']['gabinete_nome'] ?></div>
     <div class="card-body card_descricao_body p-2">
         <p class="card-text mb-2">Nesta seção, você pode pesquisar pelas proposições de autoria e co-autoria do deputado, facilitando o acesso às informações relevantes de forma rápida e organizada.</p>
-        <p class="card-text mb-0">As informações são fornecidas pela Câmara dos Deputados.</p>
+        <p class="card-text mb-0">As informações são de responsabilidade da Câmara dos Deputados, podendo sofrer alterações a qualquer momento ou com algum atraso.</p>
     </div>
 </div>
 <div class="card mb-2">
@@ -79,7 +79,7 @@ $paginaGet = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
                 </thead>
                 <tbody>
                     <?php
-                    $buscaProposicao = $proposicaoController->buscarProposicoesDeputado($autorGet, $anoGet, $itensGet, $paginaGet, $tipoget);                    
+                    $buscaProposicao = $proposicaoController->buscarProposicoesDeputado($autorGet, $anoGet, $itensGet, $paginaGet, $tipoget);
 
                     if ($buscaProposicao['status'] == 'success') {
                         foreach ($buscaProposicao['dados'] as $proposicao) {
@@ -88,7 +88,6 @@ $paginaGet = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
                             echo '<td>' . $proposicao['ementa'] . '</td>';
                             echo '</tr>';
                         }
-                        
                     } else if ($buscaProposicao['status'] == 'empty') {
                         echo '<tr><td colspan="2">' . $buscaProposicao['message'] . '</td></tr>';
                     }

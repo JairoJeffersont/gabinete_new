@@ -44,7 +44,7 @@ class ProposicaoController {
         }
 
 
-        foreach ($proposicoes as &$proposicao) {  // Passagem por referência para alterar a proposição diretamente
+        foreach ($proposicoes as &$proposicao) {
             $buscaAutores = $this->buscarAutoresProposicaoCD($proposicao['id']);
             $proposicao['proposicao_autores'] = ($buscaAutores['status'] == 'success') ? $buscaAutores['dados'] : [];
         }
