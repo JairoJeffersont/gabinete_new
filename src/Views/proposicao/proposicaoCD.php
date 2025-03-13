@@ -129,8 +129,58 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
 
                             if ($result['status'] == 'success') {
                                 echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '. Aguarde...</div>';
+                                echo '<script>
+                                    setTimeout(() => {
+                                        window.location.href = "?secao=proposicaoCD&id=' . $proposicaoIdGet . '";
+                                    }, 1000);
+                                </script>
+                                ';
                             } else if ($result['status'] == 'duplicated' ||  $result['status'] == 'bad_request') {
                                 echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
+                            } else if ($result['status'] == 'error') {
+                                echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . ' ' . (isset($result['id_erro']) ? ' | Código do erro: ' . $result['id_erro'] : '') . '</div>';
+                            }
+                        }
+
+                        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_atualizar'])) {
+
+
+                            $dados = [
+                                'nota_id' => $buscaNota['dados']['nota_id'],
+                                'nota_proposicao' => $proposicaoIdGet,
+                                'nota_proposicao_apelido' => htmlspecialchars($_POST['nota_proposicao_apelido'], ENT_QUOTES, 'UTF-8'),
+                                'nota_proposicao_resumo' => htmlspecialchars($_POST['nota_proposicao_resumo'], ENT_QUOTES, 'UTF-8'),
+                                'nota_proposicao_tema' => htmlspecialchars($_POST['nota_proposicao_tema'], ENT_QUOTES, 'UTF-8'),
+                                'nota_texto' => $_POST['nota_texto'],
+                            ];
+
+                            $result = $notaController->atualizarNotaTecnica($dados);
+
+                            if ($result['status'] == 'success') {
+                                echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '. Aguarde...</div>';
+                                echo '<script>
+                                        setTimeout(() => {
+                                            window.location.href = "?secao=proposicaoCD&id=' . $proposicaoIdGet . '";
+                                            }, 1000);
+                                      </script>';
+                            } else if ($result['status'] == 'duplicated' ||  $result['status'] == 'bad_request') {
+                                echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
+                            } else if ($result['status'] == 'error') {
+                                echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . ' ' . (isset($result['id_erro']) ? ' | Código do erro: ' . $result['id_erro'] : '') . '</div>';
+                            }
+                        }
+
+                        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_apagar'])) {
+
+                            $result = $notaController->apagarNotaTecnica($buscaNota['dados']['nota_id']);
+
+                            if ($result['status'] == 'success') {
+                                echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '. Aguarde...</div>';
+                                echo '<script>
+                                        setTimeout(() => {
+                                            window.location.href = "?secao=proposicaoCD&id=' . $proposicaoIdGet . '";
+                                            }, 1000);
+                                      </script>';
                             } else if ($result['status'] == 'error') {
                                 echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . ' ' . (isset($result['id_erro']) ? ' | Código do erro: ' . $result['id_erro'] : '') . '</div>';
                             }
@@ -139,10 +189,10 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
 
                         <form class="row g-2 form_custom" method="POST">
                             <div class="col-md-3 col-12">
-                                <input type="text" class="form-control form-control-sm" name="nota_proposicao_apelido" placeholder="Título" required>
+                                <input type="text" class="form-control form-control-sm" name="nota_proposicao_apelido" value="<?php echo $buscaNota['status'] == 'success' ? $buscaNota['dados']['nota_proposicao_apelido'] : '' ?>" placeholder="Título" required>
                             </div>
                             <div class="col-md-5 col-12">
-                                <input type="text" class="form-control form-control-sm" name="nota_proposicao_resumo" placeholder="Resumo" required>
+                                <input type="text" class="form-control form-control-sm" name="nota_proposicao_resumo" placeholder="Resumo" value="<?php echo $buscaNota['status'] == 'success' ? $buscaNota['dados']['nota_proposicao_resumo'] : '' ?>" required>
                             </div>
                             <div class="col-md-2 col-12">
                                 <select class="form-control form-control-sm" name="nota_proposicao_tema" id="nota_proposicao_tema" required>
@@ -155,10 +205,22 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                             </div>
 
                             <div class="col-md-12 col-12">
-                                <textarea class="form-control form-control-sm" name="nota_texto" placeholder="Texto" rows="10"><?php echo $buscaNota['status'] == 'success' ? $buscaNota['dados'][0]['nota_texto'] : '' ?></textarea>
+                                <textarea class="form-control form-control-sm" name="nota_texto" placeholder="Texto" rows="10"><?php echo $buscaNota['status'] == 'success' ? $buscaNota['dados']['nota_texto'] : '' ?></textarea>
                             </div>
                             <div class="col-md-6 col-12">
-                                <button type="submit" class="btn btn-success btn-sm" name="btn_salvar"><i class="bi bi-floppy-fill"></i> Salvar</button>
+                                <?php
+
+                                if ($buscaNota['status'] == 'success') {
+                                    echo '<button type="submit" class="btn btn-primary btn-sm" name="btn_atualizar"><i class="bi bi-floppy-fill"></i> Atualizar</button>&nbsp;';
+                                    echo '<button type="submit" class="btn btn-danger btn-sm" name="btn_apagar"><i class="bi bi-trash-fill"></i> Apagar</button>&nbsp;';
+                                    echo '<a href="?secao=imprimir-proposicao&id=' . $proposicaoIdGet . '" target="_blank" type="button" class="btn btn-secondary btn-sm"><i class="bi bi-printer"></i> Imprimir</a>';
+                                } else {
+                                    echo '<button type="submit" class="btn btn-success btn-sm" name="btn_salvar"><i class="bi bi-floppy-fill"></i> Salvar</button>&nbsp;';
+                                    echo '<a href="?secao=imprimir-proposicao&id=' . $proposicaoIdGet . '" target="_blank" type="button" class="btn btn-secondary btn-sm"><i class="bi bi-printer"></i> Imprimir</a>';
+                                }
+
+                                ?>
+
                             </div>
                         </form>
                     </div>

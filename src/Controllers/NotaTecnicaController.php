@@ -29,7 +29,7 @@ class NotaTecnicaController {
 
     public function atualizarNotaTecnica($dados) {
         try {
-            $buscaNota = $this->notaTecnicaModel->buscaNotaTecnica('nota_id', $dados['id']);
+            $buscaNota = $this->notaTecnicaModel->buscaNotaTecnica('nota_id', $dados['nota_id']);
 
             if (!$buscaNota) {
                 return ['status' => 'not_found', 'message' => 'Nota Técnica não encontrada'];
