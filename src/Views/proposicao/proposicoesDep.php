@@ -10,6 +10,7 @@ $tipoget = isset($_GET['tipo']) ? $_GET['tipo'] : 'PL';
 $itensGet = isset($_GET['itens']) ? (int)$_GET['itens'] : 10;
 $paginaGet = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 
+
 ?>
 
 <div class="card mb-2">
@@ -80,9 +81,18 @@ $paginaGet = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 
                     if ($buscaProposicao['status'] == 'success') {
                         foreach ($buscaProposicao['dados'] as $proposicao) {
+
+                            $buscaNota = $notaController->buscarNotaTecnica('nota_proposicao', $proposicao['id']);
+
+                            if ($buscaNota['status'] == 'success') {
+                                $ementa = '<b><em>' . $buscaNota['dados']['nota_proposicao_apelido'] . '</b></em><br>' . $buscaNota['dados']['nota_proposicao_resumo'];
+                            } else {
+                                $ementa = $proposicao['ementa'];
+                            }
+
                             echo '<tr>';
                             echo '<td style="white-space: nowrap;"><a href="?secao=proposicaoCD&id=' . $proposicao['id'] . '">' . (count($proposicao['proposicao_autores']) > 1 ? '<i class="bi bi-people-fill"></i>' : '<i class="bi bi-person-fill"></i>') . ' | ' . $proposicao['siglaTipo'] . ' ' . $proposicao['numero'] . '/' . $proposicao['ano'] . '</a></td>';
-                            echo '<td>' . $proposicao['ementa'] . '</td>';
+                            echo '<td>' . $ementa . '</td>';
                             echo '</tr>';
                         }
                     } else if ($buscaProposicao['status'] == 'empty') {

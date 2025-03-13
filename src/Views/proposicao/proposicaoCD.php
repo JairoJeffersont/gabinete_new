@@ -18,8 +18,9 @@ $buscaGabinete = $gabineteController->buscaGabinete('gabinete_id', $_SESSION['us
 $proposicaoIdGet = $_GET['id'];
 
 $buscaProposicao = $proposicaoController->buscarDetalheProposicaoCD($proposicaoIdGet);
-
 $buscaAutores = $proposicaoController->buscarAutoresProposicaoCD($proposicaoIdGet);
+$buscaNota = $notaController->buscarNotaTecnica('nota_proposicao', $proposicaoIdGet);
+
 
 if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
     header('location: ?secao=proposicoes');
@@ -37,7 +38,7 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
             <div class="card mb-2 ">
                 <div class="card-body p-1">
                     <a class="btn btn-primary btn-sm custom-nav barra_navegacao" href="?secao=home" role="button"><i class="bi bi-house-door-fill"></i> Início</a>
-                    <a class="btn btn-success btn-sm custom-nav barra_navegacao" href="?secao=proposicoes" role="button"><i class="bi bi-arrow-left"></i> Início</a>
+                    <a class="btn btn-success btn-sm custom-nav barra_navegacao" href="?secao=proposicoes" role="button"><i class="bi bi-arrow-left"></i> Voltar</a>
 
                 </div>
             </div>
@@ -64,10 +65,8 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                     <p class="card-text mb-2"><i class="bi bi-archive"></i> Situação: <?php echo ($buscaProposicao['dados']['statusProposicao']['descricaoSituacao'] == 'Arquivada') ? '<b>Arquivada</b>' : 'Em tramitação' ?></p>
                     <?php
 
-                    $despacho = $buscaProposicao['dados']['statusProposicao']['despacho'];
-
-                    if ($buscaProposicao['dados']['statusProposicao'] == 'Transformado em Norma Jurídica' || (strpos(strtolower($despacho), 'aprovado') !== false || strpos(strtolower($despacho), 'aprovada') !== false)) {
-                        echo '<p class="card-text mb-3"><b><i class="bi bi-check-circle-fill"></i> Proposição Aprovada</b></p>';
+                    if ($buscaProposicao['dados']['statusProposicao'] == 'Transformado em Norma Jurídica') {
+                        echo '<p class="card-text mb-3"><b>Proposição Aprovada</b></p>';
                     }
 
                     if (!empty($buscaProposicao['dados']['uriPropPrincipal'])) {
@@ -106,6 +105,63 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
 
 
                     ?>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card mb-2 ">
+                    <div class="card-header bg-success text-white px-2 py-1 card_descricao_body"> Nota técnica</div>
+                    <div class="card-body p-2">
+                        <?php
+                        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_salvar'])) {
+
+                            $dados = [
+                                'nota_proposicao' => $proposicaoIdGet,
+                                'nota_proposicao_apelido' => htmlspecialchars($_POST['nota_proposicao_apelido'], ENT_QUOTES, 'UTF-8'),
+                                'nota_proposicao_resumo' => htmlspecialchars($_POST['nota_proposicao_resumo'], ENT_QUOTES, 'UTF-8'),
+                                'nota_proposicao_tema' => htmlspecialchars($_POST['nota_proposicao_tema'], ENT_QUOTES, 'UTF-8'),
+                                'nota_texto' => $_POST['nota_texto'],
+                                'nota_criada_por' => $_SESSION['usuario_id'],
+                                'nota_gabinete' => $_SESSION['usuario_gabinete']
+                            ];
+
+                            $result = $notaController->novaNotaTecnica($dados);
+
+                            if ($result['status'] == 'success') {
+                                echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '. Aguarde...</div>';
+                            } else if ($result['status'] == 'duplicated' ||  $result['status'] == 'bad_request') {
+                                echo '<div class="alert alert-info px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '</div>';
+                            } else if ($result['status'] == 'error') {
+                                echo '<div class="alert alert-danger px-2 py-1 mb-2 custom-alert" data-timeout="0" role="alert">' . $result['message'] . ' ' . (isset($result['id_erro']) ? ' | Código do erro: ' . $result['id_erro'] : '') . '</div>';
+                            }
+                        }
+                        ?>
+
+                        <form class="row g-2 form_custom" method="POST">
+                            <div class="col-md-3 col-12">
+                                <input type="text" class="form-control form-control-sm" name="nota_proposicao_apelido" placeholder="Título" required>
+                            </div>
+                            <div class="col-md-5 col-12">
+                                <input type="text" class="form-control form-control-sm" name="nota_proposicao_resumo" placeholder="Resumo" required>
+                            </div>
+                            <div class="col-md-2 col-12">
+                                <select class="form-control form-control-sm" name="nota_proposicao_tema" id="nota_proposicao_tema" required>
+                                    <option value="Sem tema">Sem tema</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-2 col-12">
+                                <input type="text" class="form-control form-control-sm" disabled value="<?php echo $_SESSION['usuario_nome'] ?>" required>
+                            </div>
+
+                            <div class="col-md-12 col-12">
+                                <textarea class="form-control form-control-sm" name="nota_texto" placeholder="Texto" rows="10"><?php echo $buscaNota['status'] == 'success' ? $buscaNota['dados'][0]['nota_texto'] : '' ?></textarea>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <button type="submit" class="btn btn-success btn-sm" name="btn_salvar"><i class="bi bi-floppy-fill"></i> Salvar</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
 

@@ -44,9 +44,9 @@ class NotaTecnicaController {
         }
     }
 
-    public function buscarNotaTecnica($id) {
+    public function buscarNotaTecnica($coluna, $id) {
         try {
-            $buscaNota = $this->notaTecnicaModel->buscaNotaTecnica('nota_id', $id);
+            $buscaNota = $this->notaTecnicaModel->buscaNotaTecnica($coluna, $id);
             if ($buscaNota) {
                 return ['status' => 'success', 'dados' => $buscaNota];
             } else {
