@@ -20,7 +20,6 @@ $pessoaController = new PessoaController();
 $postagemController = new PostagemController();
 $agendaController = new AgendaController();
 
-
 $buscaUsuario = $usuarioController->buscaUsuario('usuario_id', $_SESSION['usuario_id']);
 $buscaGabinete = $gabineteController->buscaGabinete('gabinete_id', $buscaUsuario['dados']['usuario_gabinete']);
 $buscaMensagens = $mensagemController->listarMensagens(1000, 1, 'asc', 'mensagem_enviada_em', $_SESSION['usuario_id'], 0);
@@ -137,9 +136,7 @@ $situacaoGet = (isset($_GET['situacao']) && $_GET['situacao'] !== 'null') ? $_GE
                         if ($buscaAgendas['status'] == 'success') {
                             foreach ($buscaAgendas['dados'] as $agenda) {
                                 echo '<a href="?secao=agendas" class="list-group-item list-group-item-action">' . date('d/m', strtotime($agenda['agenda_data'])) . ' - ' . $agenda['agenda_titulo'] . '</a>';
-
                             }
-
                         } else {
                             echo '<li class="list-group-item">Nenhuma agenda para o dia <b>' . date('d/m', strtotime($dataGet)) . '</li>';
                         }
@@ -147,7 +144,6 @@ $situacaoGet = (isset($_GET['situacao']) && $_GET['situacao'] !== 'null') ? $_GE
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
