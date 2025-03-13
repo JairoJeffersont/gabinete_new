@@ -5,7 +5,7 @@ ob_start();
 $anoGet = isset($_GET['ano']) ? $_GET['ano'] : date('Y');
 $autorGet = $gabinete['dados']['gabinete_nome_sistema'];
 
-$tipoget = isset($_GET['tipo']) ? $_GET['tipo'] : 'pl';
+$tipoget = isset($_GET['tipo']) ? $_GET['tipo'] : 'PL';
 
 $itensGet = isset($_GET['itens']) ? (int)$_GET['itens'] : 10;
 $paginaGet = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
