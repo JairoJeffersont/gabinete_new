@@ -5,16 +5,17 @@ ob_start();
 
 $anoGet = isset($_GET['ano']) ? $_GET['ano'] : date('Y');
 
-$autorGet = $utils->formatarTexto($gabinete['dados']['gabinete_nome']);
+$autorGet = $utils->sanitizarString($gabinete['dados']['gabinete_nome']);
+
+$string = $gabinete['dados']['gabinete_nome_sistema'];
+$autorGet = str_replace("-", "+", $string);
 
 $tipoget = isset($_GET['tipo']) ? $_GET['tipo'] : 'PL';
 
 $itensGet = isset($_GET['itens']) ? (int)$_GET['itens'] : 10;
 $paginaGet = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 
-
 $buscaProposicoes = $proposicaoController->buscarProposicoesSenado($autorGet, $anoGet, $tipoget);
-
 
 ?>
 
