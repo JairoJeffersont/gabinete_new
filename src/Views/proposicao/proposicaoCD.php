@@ -90,7 +90,7 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
 
                         foreach ($autores as $autor) {
                             if ($autor['nome'] == $buscaGabinete['dados']['gabinete_nome'] && !$exibiuSessao) {
-                                echo '<p class="card-text mb-1"><i class="bi bi-people-fill"></i> ' .
+                                echo '<p class="card-text mb-1"><i class="bi bi-person-fill"></i> ' .
                                     ($quantidadeAutores == 1 ? $autor['nome'] : $autor['nome'] . ' - Coautor ou subscrição') .
                                     '</p>';
                                 $exibiuSessao = true;
@@ -99,7 +99,7 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                         }
 
                         if ($quantidadeAutores > 1) {
-                            echo '<p class="card-text mb-1 ms-2">&nbsp;&nbsp;Outros autores (' . ($quantidadeAutores - 1) . ')</p>';
+                            echo '<p class="card-text"><i class="bi bi-person-fill"></i> Outros autores (' . ($quantidadeAutores - 1) . ')</p>';
                         }
                     }
 
