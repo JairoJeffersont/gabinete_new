@@ -579,3 +579,25 @@ CREATE TABLE agenda(
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 CREATE VIEW view_agenda AS  SELECT agenda.*, usuario.usuario_nome, agenda_tipo.agenda_tipo_nome, agenda_situacao.agenda_situacao_nome FROM agenda INNER JOIN agenda_situacao ON agenda.agenda_situacao = agenda_situacao.agenda_situacao_id INNER JOIN agenda_tipo ON agenda.agenda_tipo = agenda_tipo.agenda_tipo_id INNER JOIN usuario ON agenda.agenda_criada_por = usuario.usuario_id INNER JOIN gabinete ON agenda.agenda_gabinete = gabinete.gabinete_id;
+
+
+CREATE TABLE nota_tecnica(
+    nota_id varchar(36) NOT NULL,
+    nota_proposicao BIGINT NOT NULL UNIQUE,
+    nota_proposicao_apelido TEXT NULL,
+    nota_proposicao_resumo TEXT NULL,
+    nota_proposicao_tema TEXT NULL,
+    nota_texto TEXT NULL,
+    nota_criada_por varchar(36) NOT NULL,
+    nota_gabinete varchar(36) NOT NULL,
+    nota_criada_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    nota_atualizada_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (nota_id),
+    CONSTRAINT fk_nota_criada_por FOREIGN KEY (nota_criada_por) REFERENCES usuario(usuario_id),
+    CONSTRAINT fk_nota_nota_gabinete FOREIGN KEY (nota_gabinete) REFERENCES gabinete(gabinete_id)
+)ENGINE=InnoDB 
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
+
+  
+

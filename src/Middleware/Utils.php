@@ -19,6 +19,7 @@ class Utils {
         return $string;
     }
 
+
     function calculaAniversario($aniversario) {
         $dataAtual = new DateTime();
         $anoAtual = $dataAtual->format('Y');
