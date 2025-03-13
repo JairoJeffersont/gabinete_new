@@ -77,17 +77,15 @@ if ($buscaUsuario['status'] != 'success' || $buscaGabinete['status'] != 'success
 
         <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
             <div class="col-md-4 col-12">
-                <input type="text" class="form-control form-control-sm" name="gabinete_nome" value="<?php echo $buscaGabinete['dados']['gabinete_nome'] ?>" placeholder="E-mail" required>
+                <input type="text" class="form-control form-control-sm" name="gabinete_nome" value="<?php echo $buscaGabinete['dados']['gabinete_nome'] ?>" placeholder="E-mail" readonly required>
             </div>
             <div class="col-md-2 col-12">
-                <select class="form-select form-select-sm" name="gabinete_tipo" required>
+                <select class="form-select form-select-sm" name="gabinete_tipo" rea required>
                     <?php
                     foreach ($gabineteController->listarTipoGabinete()['dados'] as $tipo) {
                         if ($tipo['gabinete_tipo_id'] == $buscaGabinete['dados']['gabinete_tipo']) {
                             echo '<option value="' . $tipo['gabinete_tipo_id'] . '" selected>' . $tipo['gabinete_tipo_nome'] . '</option>';
-                        } else {
-                            echo '<option value="' . $tipo['gabinete_tipo_id'] . '">' . $tipo['gabinete_tipo_nome'] . '</option>';
-                        }
+                        } 
                     }
                     ?>
                 </select>

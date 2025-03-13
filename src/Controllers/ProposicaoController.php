@@ -43,6 +43,13 @@ class ProposicaoController {
             return ['status' => 'empty', 'message' => 'Nenhuma proposição encontrada.'];
         }
 
+
+        foreach ($proposicoes as &$proposicao) {  // Passagem por referência para alterar a proposição diretamente
+            $buscaAutores = $this->buscarAutoresProposicaoCD($proposicao['id']);
+            $proposicao['proposicao_autores'] = ($buscaAutores['status'] == 'success') ? $buscaAutores['dados'] : [];
+        }
+        unset($proposicao);
+
         return [
             'code' => '200',
             'status' => 'success',
@@ -51,15 +58,19 @@ class ProposicaoController {
         ];
     }
 
-    public function buscarDetalhe($proposicaoId) {
+    public function buscarDetalheProposicaoCD($proposicaoId) {
         return $this->getJson->pegarDadosURL('https://dadosabertos.camara.leg.br/api/v2/proposicoes/' . $proposicaoId);
     }
 
-    public function buscarTramitacoes($proposicaoId) {
+    public function buscarTramitacoesProposicaoCD($proposicaoId) {
         return $this->getJson->pegarDadosURL('https://dadosabertos.camara.leg.br/api/v2/proposicoes/' . $proposicaoId . '/tramitacoes');
     }
 
-    public function buscarAutores($proposicaoId) {
+    public function buscarAutoresProposicaoCD($proposicaoId) {
         return $this->getJson->pegarDadosURL('https://dadosabertos.camara.leg.br/api/v2/proposicoes/' . $proposicaoId . '/autores');
+    }
+
+    public function buscarTiposProposicaoCD() {
+        return $this->getJson->pegarDadosURL('https://dadosabertos.camara.leg.br/api/v2/referencias/proposicoes/siglaTipo');
     }
 }
