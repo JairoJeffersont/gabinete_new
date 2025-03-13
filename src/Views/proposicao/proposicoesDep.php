@@ -81,7 +81,7 @@ $paginaGet = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
                     if ($buscaProposicao['status'] == 'success') {
                         foreach ($buscaProposicao['dados'] as $proposicao) {
                             echo '<tr>';
-                            echo '<td style="white-space: nowrap;"><a href="?secao=proposicao&id=' . $proposicao['id'] . '">' . (count($proposicao['proposicao_autores']) > 1 ? '<i class="bi bi-people-fill"></i>' : '<i class="bi bi-person-fill"></i>') . ' | ' . $proposicao['siglaTipo'] . ' ' . $proposicao['numero'] . '/' . $proposicao['ano'] . '</a></td>';
+                            echo '<td style="white-space: nowrap;"><a href="?secao=proposicaoCD&id=' . $proposicao['id'] . '">' . (count($proposicao['proposicao_autores']) > 1 ? '<i class="bi bi-people-fill"></i>' : '<i class="bi bi-person-fill"></i>') . ' | ' . $proposicao['siglaTipo'] . ' ' . $proposicao['numero'] . '/' . $proposicao['ano'] . '</a></td>';
                             echo '<td>' . $proposicao['ementa'] . '</td>';
                             echo '</tr>';
                         }
