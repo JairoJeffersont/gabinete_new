@@ -18,6 +18,7 @@ $buscaGabinete = $gabineteController->buscaGabinete('gabinete_id', $_SESSION['us
 $proposicaoIdGet = $_GET['id'];
 
 $buscaProposicao = $proposicaoController->buscarDetalheProposicaoCD($proposicaoIdGet);
+
 $buscaAutores = $proposicaoController->buscarAutoresProposicaoCD($proposicaoIdGet);
 
 if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
@@ -63,14 +64,16 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                     <p class="card-text mb-2"><i class="bi bi-archive"></i> Situação: <?php echo ($buscaProposicao['dados']['statusProposicao']['descricaoSituacao'] == 'Arquivada') ? '<b>Arquivada</b>' : 'Em tramitação' ?></p>
                     <?php
 
-                    if ($buscaProposicao['dados']['statusProposicao'] == 'Transformado em Norma Jurídica') {
-                        echo '<p class="card-text mb-3"><b>Proposição Aprovada</b></p>';
+                    $despacho = $buscaProposicao['dados']['statusProposicao']['despacho'];
+
+                    if ($buscaProposicao['dados']['statusProposicao'] == 'Transformado em Norma Jurídica' || (strpos(strtolower($despacho), 'aprovado') !== false || strpos(strtolower($despacho), 'aprovada') !== false)) {
+                        echo '<p class="card-text mb-3"><b><i class="bi bi-check-circle-fill"></i> Proposição Aprovada</b></p>';
                     }
 
                     if (!empty($buscaProposicao['dados']['uriPropPrincipal'])) {
                         $buscaApensado = $proposicaoController->buscarDetalheProposicaoCD(basename($buscaProposicao['dados']['uriPropPrincipal']));
                         if ($buscaApensado['status'] == 'success' && !empty($buscaApensado['dados'])) {
-                            echo '<p class="card-text mb-0">Essa proposição foi apensada ao: <b><a href="?secao=proposicao&id=' . $buscaApensado['dados']['id'] . '">' . $buscaApensado['dados']['siglaTipo'] . ' ' . $buscaApensado['dados']['numero'] . '/' . $buscaApensado['dados']['ano'] . '</a></b></p>';
+                            echo '<p class="card-text mb-0">Essa proposição foi apensada ao: <b><a href="?secao=proposicaoCD&id=' . $buscaApensado['dados']['id'] . '">' . $buscaApensado['dados']['siglaTipo'] . ' ' . $buscaApensado['dados']['numero'] . '/' . $buscaApensado['dados']['ano'] . '</a></b></p>';
                         }
                     } else {
                         echo '<p class="card-text mb-0">Essa proposição não foi apensada ou é a proposição principal</p>';
@@ -185,14 +188,14 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                     <?php
                     if ($totalPagina > 0 && $totalPagina != 1) {
                         echo '<ul class="pagination custom-pagination mt-2 mb-0">';
-                        echo '<li class="page-item ' . ($pagina == 1 ? 'active' : '') . '"><a class="page-link" href="?secao=proposicao&id=' . $proposicaoIdGet . '&pagina=1">Primeira</a></li>';
+                        echo '<li class="page-item ' . ($pagina == 1 ? 'active' : '') . '"><a class="page-link" href="?secao=proposicaoCD&id=' . $proposicaoIdGet . '&pagina=1">Primeira</a></li>';
 
                         for ($i = 1; $i < $totalPagina - 1; $i++) {
                             $pageNumber = $i + 1;
-                            echo '<li class="page-item ' . ($pagina == $pageNumber ? 'active' : '') . '"><a class="page-link" href="?secao=proposicao&id=' . $proposicaoIdGet . '&pagina=' . $pageNumber . '">' . $pageNumber . '</a></li>';
+                            echo '<li class="page-item ' . ($pagina == $pageNumber ? 'active' : '') . '"><a class="page-link" href="?secao=proposicaoCD&id=' . $proposicaoIdGet . '&pagina=' . $pageNumber . '">' . $pageNumber . '</a></li>';
                         }
 
-                        echo '<li class="page-item ' . ($pagina == $totalPagina ? 'active' : '') . '"><a class="page-link" href="?secao=proposicao&id=' . $proposicaoIdGet . '&pagina=' . $totalPagina . '">Última</a></li>';
+                        echo '<li class="page-item ' . ($pagina == $totalPagina ? 'active' : '') . '"><a class="page-link" href="?secao=proposicaoCD&id=' . $proposicaoIdGet . '&pagina=' . $totalPagina . '">Última</a></li>';
                         echo '</ul>';
                     }
                     ?>
