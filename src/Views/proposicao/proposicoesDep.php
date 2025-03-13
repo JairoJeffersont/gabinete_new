@@ -45,9 +45,6 @@ $paginaGet = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
                         }
                     }
                     ?>
-                    <option value="pl" <?php echo $tipoget == 'pl' ? 'selected' : ''; ?>>Projeto de lei</option>
-                    <option value="req" <?php echo $tipoget == 'req' ? 'selected' : ''; ?>>Requerimento</option>
-                    <option value="pec" <?php echo $tipoget == 'pec' ? 'selected' : ''; ?>>PEC</option>
 
                 </select>
             </div>

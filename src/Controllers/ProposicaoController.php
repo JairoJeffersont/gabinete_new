@@ -19,7 +19,7 @@ class ProposicaoController {
         $this->utils = new Utils();
     }
 
-
+    //OPERACOES DADOS ABERTO CAMARA
     public function buscarProposicoesDeputado($autor, $ano, $itens, $pagina, $tipo) {
         $buscaDep = $this->getJson->pegarDadosURL('https://dadosabertos.camara.leg.br/arquivos/deputados/json/deputados.json');
 
@@ -72,5 +72,27 @@ class ProposicaoController {
 
     public function buscarTiposProposicaoCD() {
         return $this->getJson->pegarDadosURL('https://dadosabertos.camara.leg.br/api/v2/referencias/proposicoes/siglaTipo');
+    }
+
+
+    //OPERACOES DADOS ABERTOS SENADO
+    public function buscarProposicoesSenado($autor, $ano, $tipo) {
+        return $this->getJson->pegarDadosURL('https://legis.senado.leg.br/dadosabertos/materia/pesquisa/lista?sigla=' . $tipo . '&ano=' . $ano . '&nomeAutor=' . $autor);
+    }
+
+    public function buscarDetalheSenado($proposicaoId) {
+        return $this->getJson->pegarDadosURL('https://legis.senado.leg.br/dadosabertos/materia/' . $proposicaoId);
+    }
+
+    public function buscarTextoSenado($proposicaoId) {
+        return $this->getJson->pegarDadosURL('https://legis.senado.leg.br/dadosabertos/materia/textos/' . $proposicaoId);
+    }
+
+    public function buscarTramitacoesSenado($proposicaoId) {
+        return $this->getJson->pegarDadosURL('https://legis.senado.leg.br/dadosabertos/materia/movimentacoes/' . $proposicaoId);
+    }
+
+    public function buscarTiposProposicaoSenado() {
+        return $this->getJson->pegarDadosURL('https://legis.senado.leg.br/dadosabertos/dados/ListaSiglas.json');
     }
 }
