@@ -104,7 +104,6 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
 
                 ?>
 
-
             </div>
         </div>
         <div class="col-12">
