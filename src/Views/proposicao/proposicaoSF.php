@@ -92,7 +92,7 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                                 echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '. Aguarde...</div>';
                                 echo '<script>
                                     setTimeout(() => {
-                                        window.location.href = "?secao=proposicaoCD&id=' . $proposicaoIdGet . '";
+                                        window.location.href = "?secao=proposicaoSF&id=' . $proposicaoIdGet . '";
                                     }, 1000);
                                 </script>
                                 ';
@@ -121,7 +121,7 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                                 echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '. Aguarde...</div>';
                                 echo '<script>
                                         setTimeout(() => {
-                                            window.location.href = "?secao=proposicaoCD&id=' . $proposicaoIdGet . '";
+                                            window.location.href = "?secao=proposicaoSF&id=' . $proposicaoIdGet . '";
                                             }, 1000);
                                       </script>';
                             } else if ($result['status'] == 'duplicated' ||  $result['status'] == 'bad_request') {
@@ -139,7 +139,7 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                                 echo '<div class="alert alert-success px-2 py-1 mb-2 custom-alert" data-timeout="3" role="alert">' . $result['message'] . '. Aguarde...</div>';
                                 echo '<script>
                                         setTimeout(() => {
-                                            window.location.href = "?secao=proposicaoCD&id=' . $proposicaoIdGet . '";
+                                            window.location.href = "?secao=proposicaoSF&id=' . $proposicaoIdGet . '";
                                             }, 1000);
                                       </script>';
                             } else if ($result['status'] == 'error') {
@@ -243,7 +243,7 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                     </div>
                 </div>
             </div>
-            <div class="card mb-2 card-description">
+            <div class="card mb-2">
                 <div class="card-header bg-primary text-white px-2 py-1"><i class="bi bi-fast-forward-btn"></i> Tramitações</div>
 
                 <div class="card-body p-2">

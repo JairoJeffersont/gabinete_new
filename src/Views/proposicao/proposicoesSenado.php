@@ -103,7 +103,7 @@ $buscaProposicoes = $proposicaoController->buscarProposicoesSenado($autorGet, $a
 
 
                             if ($buscaNota['status'] == 'success') {
-                                $ementa = '<b><em>' . $buscaNota['dados'][0]['nota_proposicao_apelido'] . '</b></em><br>' . $buscaNota['dados'][0]['nota_proposicao_resumo'];
+                                $ementa = '<b><em>' . $buscaNota['dados']['nota_proposicao_apelido'] . '</b></em><br>' . $buscaNota['dados']['nota_proposicao_resumo'];
                             } else {
                                 $ementa = $materia['Ementa'];
                             }
