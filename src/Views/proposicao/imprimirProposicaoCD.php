@@ -92,7 +92,6 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
         <div class="col-10">
             <div class="card-body card_descricao_body p-3">
 
-
                 <hr class="mb-2 mt-0">
                 <p class="card-text mb-1"><i class="bi bi-calendar2-week"></i> Data de apresentação: <?php echo date('d/m/Y', strtotime($buscaProposicao['dados']['dataApresentacao'])) ?></p>
                 <p class="card-text mb-2"><i class="bi bi-archive"></i> Situação: <?php echo ($buscaProposicao['dados']['statusProposicao']['descricaoSituacao'] == 'Arquivada') ? '<b>Arquivada</b>' : 'Em tramitação' ?></p>

@@ -60,7 +60,7 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                         ?>
                     </h5>
                     <p class="card-text mb-2"><?php echo $buscaProposicao['dados']['ementa'] ?></p>
-                    <hr class="mb-2 mt-0">
+                    <hr class="mb-3 mt-0">
                     <p class="card-text mb-1"><i class="bi bi-calendar2-week"></i> Data de apresentação: <?php echo date('d/m/Y', strtotime($buscaProposicao['dados']['dataApresentacao'])) ?></p>
                     <p class="card-text mb-2"><i class="bi bi-archive"></i> Situação: <?php echo ($buscaProposicao['dados']['statusProposicao']['descricaoSituacao'] == 'Arquivada') ? '<b>Arquivada</b>' : 'Em tramitação' ?></p>
                     <?php
