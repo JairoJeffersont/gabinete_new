@@ -197,10 +197,10 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                                 if ($buscaNota['status'] == 'success') {
                                     echo '<button type="submit" class="btn btn-primary btn-sm" name="btn_atualizar"><i class="bi bi-floppy-fill"></i> Atualizar</button>&nbsp;';
                                     echo '<button type="submit" class="btn btn-danger btn-sm" name="btn_apagar"><i class="bi bi-trash-fill"></i> Apagar</button>&nbsp;';
-                                    echo '<a href="?secao=imprimir-proposicaoCD&id=' . $proposicaoIdGet . '" target="_blank" type="button" class="btn btn-secondary btn-sm"><i class="bi bi-printer"></i> Imprimir</a>';
+                                    echo '<a href="?secao=imprimir-proposicaoSF&id=' . $proposicaoIdGet . '" target="_blank" type="button" class="btn btn-secondary btn-sm"><i class="bi bi-printer"></i> Imprimir</a>';
                                 } else {
                                     echo '<button type="submit" class="btn btn-success btn-sm" name="btn_salvar"><i class="bi bi-floppy-fill"></i> Salvar</button>&nbsp;';
-                                    echo '<a href="?secao=imprimir-proposicaoCD&id=' . $proposicaoIdGet . '" target="_blank" type="button" class="btn btn-secondary btn-sm"><i class="bi bi-printer"></i> Imprimir</a>';
+                                    echo '<a href="?secao=imprimir-proposicaoSF&id=' . $proposicaoIdGet . '" target="_blank" type="button" class="btn btn-secondary btn-sm"><i class="bi bi-printer"></i> Imprimir</a>';
                                 }
 
                                 ?>

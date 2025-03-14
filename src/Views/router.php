@@ -60,6 +60,8 @@ $rotas = [
     'proposicoes-temas' => './src/Views/proposicao/proposicoesTema.php',
     'imprimir-proposicaoCD' => './src/Views/proposicao/imprimirProposicaoCD.php',
     'proposicaoSF' => './src/Views/proposicao/proposicaoSF.php',
+    'imprimir-proposicaoSF' => './src/Views/proposicao/imprimirProposicaoSF.php',
+
 
 
 
