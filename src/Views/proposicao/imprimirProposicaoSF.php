@@ -175,10 +175,8 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-
 </div>
