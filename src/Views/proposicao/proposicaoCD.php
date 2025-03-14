@@ -275,6 +275,7 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                     </div>
                 </div>
             </div>
+            
             <div class="card mb-2">
                 <div class="card-body p-2">
                     <div class="table-responsive mb-0">
