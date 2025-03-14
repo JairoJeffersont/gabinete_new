@@ -95,6 +95,10 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                                     '</p>';
                                 $exibiuSessao = true;
                                 break;
+                            } else {
+                                if ($autor['ordemAssinatura'] == 1 && $autor['proponente'] == 1) {
+                                    echo '<p class="card-text mb-1"><i class="bi bi-person-fill"></i>' . $autor['nome'] . '</p>';
+                                }
                             }
                         }
 
@@ -275,7 +279,7 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                     </div>
                 </div>
             </div>
-            
+
             <div class="card mb-2">
                 <div class="card-body p-2">
                     <div class="table-responsive mb-0">

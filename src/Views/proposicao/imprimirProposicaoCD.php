@@ -89,7 +89,7 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                 </div>
             </div>
         </div>
-        <div class="col-10">
+        <div class="col-12">
             <div class="card-body card_descricao_body p-3">
 
                 <hr class="mb-2 mt-0">
@@ -100,7 +100,7 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
 
             </div>
         </div>
-        <div class="col-10">
+        <div class="col-12">
             <div class="card" style="background: none; border: none;">
                 <div class="card-body  card_descricao_bg" style="background: none;">
                     <h6 class="card-title">Nota técnica</h6>
@@ -118,7 +118,7 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                 </div>
             </div>
         </div>
-        <div class="col-10">
+        <div class="col-12">
             <div class="card" style="background: none; border: none;">
                 <div class="card-body" style="background: none;">
                     <h6 class="card-title">Últimas Tramitações</h6>
