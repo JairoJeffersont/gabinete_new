@@ -17,8 +17,7 @@ $buscaGabinete = $gabineteController->buscaGabinete('gabinete_id', $_SESSION['us
 
 $proposicaoIdGet = $_GET['id'];
 
-$buscaProposicao = $proposicaoController->buscarDetalheProposicaoCD($proposicaoIdGet);
-$buscaAutores = $proposicaoController->buscarAutoresProposicaoCD($proposicaoIdGet);
+$buscaProposicao = $proposicaoController->buscarDetalheSenado($proposicaoIdGet);
 $buscaNota = $notaController->buscarNotaTecnica('nota_proposicao', $proposicaoIdGet);
 $buscaTema = $proposicaoController->listarProposicoesTemas($_SESSION['usuario_gabinete']);
 
@@ -27,7 +26,6 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
 }
 
 ?>
-
 
 <div class="d-flex" id="wrapper">
     <?php include './src/Views/menus/side_bar.php'; ?>
@@ -54,64 +52,23 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
             <div class="card mb-2">
                 <div class="card-body card_descricao_body p-3">
                     <h5 class="card-title mb-3">
-                        <?php
-                        echo $buscaProposicao['dados']['siglaTipo'] . ' ' . $buscaProposicao['dados']['numero'] . '/' . $buscaProposicao['dados']['ano'];
-                        echo isset($buscaNota['dados'][0]['nota_proposicao_apelido']) ? ' | ' . $buscaNota['dados'][0]['nota_proposicao_apelido'] : '';
-                        ?>
+                        <?php echo $buscaProposicao['dados']['DetalheMateria']['Materia']['IdentificacaoMateria']['DescricaoIdentificacaoMateria']; ?>
+                        <small><?php echo isset($buscaNota['dados'][0]['nota_proposicao_apelido']) ? ' | ' . $buscaNota['dados'][0]['nota_proposicao_apelido'] : ''; ?></small>
                     </h5>
-                    <p class="card-text mb-2"><?php echo $buscaProposicao['dados']['ementa'] ?></p>
-                    <hr class="mb-3 mt-0">
-                    <p class="card-text mb-1"><i class="bi bi-calendar2-week"></i> Data de apresentação: <?php echo date('d/m/Y', strtotime($buscaProposicao['dados']['dataApresentacao'])) ?></p>
-                    <p class="card-text mb-2"><i class="bi bi-archive"></i> Situação: <?php echo ($buscaProposicao['dados']['statusProposicao']['descricaoSituacao'] == 'Arquivada') ? '<b>Arquivada</b>' : 'Em tramitação' ?></p>
+                    <p class="card-text mb-2"><?php echo $buscaProposicao['dados']['DetalheMateria']['Materia']['DadosBasicosMateria']['EmentaMateria'] ?></p>
+                    <hr class="mb-2 mt-0">
+                    <p class="card-text mb-1"><i class="bi bi-calendar2-week"></i> Data de apresentação: <?php echo date('d/m/Y', strtotime($buscaProposicao['dados']['DetalheMateria']['Materia']['DadosBasicosMateria']['DataApresentacao'])) ?></p>
                     <?php
 
-                    if ($buscaProposicao['dados']['statusProposicao'] == 'Transformado em Norma Jurídica') {
-                        echo '<p class="card-text mb-3"><b>Proposição Aprovada</b></p>';
-                    }
-
-                    if (!empty($buscaProposicao['dados']['uriPropPrincipal'])) {
-                        $buscaApensado = $proposicaoController->buscarDetalheProposicaoCD(basename($buscaProposicao['dados']['uriPropPrincipal']));
-                        if ($buscaApensado['status'] == 'success' && !empty($buscaApensado['dados'])) {
-                            echo '<p class="card-text mb-0">Essa proposição foi apensada ao: <b><a href="?secao=proposicaoCD&id=' . $buscaApensado['dados']['id'] . '">' . $buscaApensado['dados']['siglaTipo'] . ' ' . $buscaApensado['dados']['numero'] . '/' . $buscaApensado['dados']['ano'] . '</a></b></p>';
-                        }
+                    if ($buscaProposicao['dados']['DetalheMateria']['Materia']['IdentificacaoMateria']['IndicadorTramitando'] == 'Sim') {
+                        echo '<p class="card-text mb-2"><i class="bi bi-archive"></i> Situação: Tramitando</p>';
                     } else {
-                        echo '<p class="card-text mb-0">Essa proposição não foi apensada ou é a proposição principal</p>';
+                        echo '<p class="card-text mb-2"><i class="bi bi-archive"></i> Situação: Arquivada</p>';
                     }
-                    ?>
-                    <hr>
-                    <?php
-
-                    if ($buscaAutores['status'] == 'success' && !empty($buscaAutores['dados'])) {
-                        echo '<p class="card-text mb-1"><b>Autor(es):</b></p>';
-
-                        $autores = $buscaAutores['dados'];
-                        $quantidadeAutores = count($autores);
-                        $exibiuSessao = false;
-
-                        foreach ($autores as $autor) {
-                            if ($autor['nome'] == $buscaGabinete['dados']['gabinete_nome'] && !$exibiuSessao) {
-                                echo '<p class="card-text mb-1"><i class="bi bi-person-fill"></i> ' .
-                                    ($quantidadeAutores == 1 ? $autor['nome'] : $autor['nome'] . ' - Coautor ou subscrição') .
-                                    '</p>';
-                                $exibiuSessao = true;
-                                break;
-                            } else {
-                                if ($autor['ordemAssinatura'] == 1 && $autor['proponente'] == 1) {
-                                    echo '<p class="card-text mb-1"><i class="bi bi-person-fill"></i>' . $autor['nome'] . '</p>';
-                                }
-                            }
-                        }
-
-                        if ($quantidadeAutores > 1) {
-                            echo '<p class="card-text"><i class="bi bi-person-fill"></i> Outros autores (' . ($quantidadeAutores - 1) . ')</p>';
-                        }
-                    }
-
 
                     ?>
                 </div>
             </div>
-
             <div class="col-12">
                 <div class="card mb-2 ">
                     <div class="card-header bg-success text-white px-2 py-1 card_descricao_body"> Nota técnica</div>
@@ -253,34 +210,42 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                     </div>
                 </div>
             </div>
-
             <div class="card mb-2">
                 <div class="card-body card_descricao_body p-2">
                     <div class="accordion" id="accordionPanelsStayOpenExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" style="font-size: 0.5em" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                                    <i class="bi bi-file-text"></i> &nbsp; &nbsp;Ver inteiro teor
-                                </button>
-                            </h2>
-                            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
-                                <div class="accordion-body">
-                                    <?php
 
-                                    if (isset($buscaProposicao['dados']['urlInteiroTeor'])) {
-                                        echo '<embed src="' . $buscaProposicao['dados']['urlInteiroTeor'] . '" type="application/pdf" width="100%" height="1000px">';
-                                    } else {
-                                        echo '<p class="card-text">Documento não disponível</p>';
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
+                        <?php
+                        $buscaTexto = $proposicaoController->buscarTextoSenado($proposicaoIdGet);
+
+                        if (isset($buscaTexto['dados']['TextoMateria']['Materia']['Textos']['Texto'])) {
+                            foreach ($buscaTexto['dados']['TextoMateria']['Materia']['Textos']['Texto'] as $texto) {
+
+                                echo ' <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" style="font-size: 0.5em" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse' . $texto['CodigoTexto'] . '" aria-expanded="false" aria-controls="panelsStayOpen-collapse' . $texto['CodigoTexto'] . '">
+                                                    <i class="bi bi-file-text"></i> &nbsp; &nbsp;' . $texto['DescricaoTipoTexto'] . '
+                                                </button>
+                                            </h2>
+                                            <div id="panelsStayOpen-collapse' . $texto['CodigoTexto'] . '" class="accordion-collapse collapse">
+                                                <div class="accordion-body">
+                                                    <iframe src="https://docs.google.com/gview?url=' . urlencode($texto['UrlTexto']) . '&embedded=true" width="100%" height="1000px"></iframe>
+                                                </div>
+                                            </div>
+                                        </div>';
+                            }
+                        } else if ($buscaTexto['status'] == 'success' && empty($buscaTexto['dados'])) {
+                            echo '<tr><td colspan=3>Nenhum texto encontrado</td></tr>';
+                        } else {
+                            echo '<tr><td colspan=3>' . $buscaTexto['message'] . '</td></tr>';
+                        }
+                        ?>
+
                     </div>
                 </div>
             </div>
+            <div class="card mb-2 card-description">
+                <div class="card-header bg-primary text-white px-2 py-1"><i class="bi bi-fast-forward-btn"></i> Tramitações</div>
 
-            <div class="card mb-2">
                 <div class="card-body p-2">
                     <div class="table-responsive mb-0">
                         <table class="table table-hover custom-table table-bordered table-striped mb-0">
@@ -293,73 +258,62 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                             </thead>
                             <tbody>
                                 <?php
+                                $itensPorPagina = 10;
+                                $paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 
-                                $buscaTramitacoes = $proposicaoController->buscarTramitacoesProposicaoCD($buscaProposicao['dados']['id']);
+                                $buscaTramitacoes = $proposicaoController->buscarTramitacoesSenado($proposicaoIdGet);
 
-                                if ($buscaTramitacoes['status'] == 'success' && is_array($buscaTramitacoes['dados'])) {
-                                    $itens = 10;
-                                    $pagina = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
-
-                                    usort($buscaTramitacoes['dados'], function ($a, $b) {
-                                        return strtotime($b['dataHora']) - strtotime($a['dataHora']);
-                                    });
-
-                                    $totalRegistros = count($buscaTramitacoes['dados']);
-                                    $totalPagina = ceil($totalRegistros / $itens);
-
-                                    $offset = ($pagina - 1) * $itens;
-
-                                    foreach (array_slice($buscaTramitacoes['dados'], $offset, $itens) as $tramitacao) {
-                                        echo '<tr>';
-                                        echo '<td style="white-space: nowrap;">' . date('d/m/Y H:i', strtotime($tramitacao['dataHora'])) . '</td>';
-                                        echo '<td>' . htmlspecialchars($tramitacao['despacho']);
-
-                                        if (isset($tramitacao['url'])) {
-                                            echo ' - <a href="' . $tramitacao['url'] . '" target="_blank">ver documento</a>';
+                                if ($buscaTramitacoes['status'] == 'success' && !empty($buscaTramitacoes['dados'])) {
+                                    $movimentacoes = [];
+                                    foreach ($buscaTramitacoes['dados']['MovimentacaoMateria']['Materia']['Autuacoes']['Autuacao'] as $tramitacao) {
+                                        foreach ($tramitacao['InformesLegislativos']['InformeLegislativo'] as $informe) {
+                                            $movimentacoes[] = $informe; // Armazene os informes
                                         }
+                                    }
 
-                                        echo '</td>';
-                                        echo '<td>' . htmlspecialchars($tramitacao['siglaOrgao']) . '</td>';
+                                    $totalPaginas = ceil(count($movimentacoes) / $itensPorPagina);
+
+                                    $offset = ($paginaAtual - 1) * $itensPorPagina;
+                                    $itensDaPagina = array_slice($movimentacoes, $offset, $itensPorPagina);
+
+                                    foreach ($itensDaPagina as $informe) {
+                                        echo '<tr>';
+                                        echo '<td>' . date('d/m/y', strtotime($informe['Data'])) . '</td>';
+                                        echo '<td>' . $informe['Descricao'] . '</td>';
+                                        echo '<td>' . $informe['Local']['SiglaLocal'] . '</td>';
                                         echo '</tr>';
                                     }
-                                } else if ($buscaTramitacoes['status'] == 'error') {
-                                    echo '<p class="card-text">' . $buscaTramitacoes['message'] . '</p>';
+                                } else if ($buscaTramitacoes['status'] == 'success' && empty($buscaTramitacoes['dados'])) {
+                                    echo '<tr><td colspan=3>Nenhuma tramitação encontrada</td></tr>';
+                                } else {
+                                    echo '<tr><td colspan=3>' . $buscaTramitacoes['message'] . '</td></tr>';
                                 }
-
                                 ?>
-
                             </tbody>
                         </table>
                     </div>
                     <?php
-                    if ($totalPagina > 0 && $totalPagina != 1) {
+                    if (isset($totalPaginas) && $totalPaginas > 1) {
                         echo '<ul class="pagination custom-pagination mt-2 mb-0">';
-                        echo '<li class="page-item ' . ($pagina == 1 ? 'active' : '') . '"><a class="page-link" href="?secao=proposicaoCD&id=' . $proposicaoIdGet . '&pagina=1">Primeira</a></li>';
 
-                        for ($i = 1; $i < $totalPagina - 1; $i++) {
+                        // Primeira página
+                        echo '<li class="page-item ' . ($paginaAtual == 1 ? 'active' : '') . '"><a class="page-link" href="?secao=proposicaoSF&id=' . $proposicaoIdGet . '&pagina=1">Primeira</a></li>';
+
+                        // Páginas intermediárias
+                        for ($i = 1; $i < $totalPaginas - 1; $i++) {
                             $pageNumber = $i + 1;
-                            echo '<li class="page-item ' . ($pagina == $pageNumber ? 'active' : '') . '"><a class="page-link" href="?secao=proposicaoCD&id=' . $proposicaoIdGet . '&pagina=' . $pageNumber . '">' . $pageNumber . '</a></li>';
+                            echo '<li class="page-item ' . ($paginaAtual == $pageNumber ? 'active' : '') . '"><a class="page-link" href="?secao=proposicaoSF&id=' . $proposicaoIdGet . '&pagina=' . $pageNumber . '">' . $pageNumber . '</a></li>';
                         }
 
-                        echo '<li class="page-item ' . ($pagina == $totalPagina ? 'active' : '') . '"><a class="page-link" href="?secao=proposicaoCD&id=' . $proposicaoIdGet . '&pagina=' . $totalPagina . '">Última</a></li>';
+                        // Última página
+                        echo '<li class="page-item ' . ($paginaAtual == $totalPaginas ? 'active' : '') . '"><a class="page-link" href="?secao=proposicaoSF&id=' . $proposicaoIdGet . '&pagina=' . $totalPaginas . '">Última</a></li>';
+
                         echo '</ul>';
                     }
                     ?>
                 </div>
-            </div>
-            
 
+            </div>
         </div>
     </div>
 </div>
-<script>
-    $('#nota_proposicao_tema').change(function() {
-        if ($('#nota_proposicao_tema').val() == '+') {
-            if (window.confirm("Você realmente deseja inserir um novo tema?")) {
-                window.location.href = "?secao=proposicoes-temas";
-            } else {
-                $('#nota_proposicao_tema').val(1000).change();
-            }
-        }
-    });
-</script>

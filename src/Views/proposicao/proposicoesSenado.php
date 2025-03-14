@@ -110,7 +110,7 @@ $buscaProposicoes = $proposicaoController->buscarProposicoesSenado($autorGet, $a
 
 
                             echo '<tr>';
-                            echo '<td style="white-space: nowrap;"><a href="?secao=proposicao-senado&id=' . $materia['Codigo'] . '">' . $materia['Sigla'] . ' ' . ltrim($materia['Numero'], '0') . '/' . $materia['Ano'] . '</a></td>';
+                            echo '<td style="white-space: nowrap;"><a href="?secao=proposicaoSF&id=' . $materia['Codigo'] . '">' . $materia['Sigla'] . ' ' . ltrim($materia['Numero'], '0') . '/' . $materia['Ano'] . '</a></td>';
                             echo '<td>' . $ementa . '</td>';
                             echo '</tr>';
                         }
