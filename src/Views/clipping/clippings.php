@@ -42,7 +42,7 @@ $busca = $clippingController->listarClippings($termo, $ano, $_SESSION['usuario_g
                                 <ul class="navbar-nav me-auto mb-0 mb-lg-0">
                                     <li class="nav-item">
                                         <a class="nav-link active p-1" aria-current="page" href="#">
-                                            <button class="btn btn-primary btn-sm" style="font-size: 0.850em;" id="btn_novo_status" type="button"><i class="bi bi-plus-circle-fill"></i> Novo status</button>
+                                            <button class="btn btn-primary btn-sm" style="font-size: 0.850em;" id="btn_novo_status" type="button"><i class="bi bi-plus-circle-fill"></i> Novo tipo</button>
                                         </a>
                                     </li>
                                 </ul>
