@@ -581,23 +581,65 @@ CREATE TABLE agenda(
 CREATE VIEW view_agenda AS  SELECT agenda.*, usuario.usuario_nome, agenda_tipo.agenda_tipo_nome, agenda_situacao.agenda_situacao_nome FROM agenda INNER JOIN agenda_situacao ON agenda.agenda_situacao = agenda_situacao.agenda_situacao_id INNER JOIN agenda_tipo ON agenda.agenda_tipo = agenda_tipo.agenda_tipo_id INNER JOIN usuario ON agenda.agenda_criada_por = usuario.usuario_id INNER JOIN gabinete ON agenda.agenda_gabinete = gabinete.gabinete_id;
 
 
+
+  
+
+CREATE TABLE proposicao_tema (
+    proposicao_tema_id varchar(36) NOT NULL,
+    proposicao_tema_nome varchar(255) NOT NULL UNIQUE,
+    proposicao_tema_criado_por varchar(36) NOT NULL,
+    proposicao_tema_gabinete varchar(36) NOT NULL,
+    proposicao_tema_criado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    proposicao_tema_atualizado_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (proposicao_tema_id),
+    CONSTRAINT fk_proposicao_tema_criado_por FOREIGN KEY (proposicao_tema_criado_por) REFERENCES usuario(usuario_id),
+    CONSTRAINT fk_proposicao_tema_gabinete FOREIGN KEY (proposicao_tema_gabinete) REFERENCES gabinete(gabinete_id)
+) ENGINE=InnoDB 
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
+
+
+  INSERT INTO proposicao_tema (proposicao_tema_id, proposicao_tema_nome, proposicao_tema_criado_por, proposicao_tema_gabinete)
+VALUES 
+('1', 'Reforma Tributária', '1', '1'),
+('2', 'Direitos Humanos', '1', '1'),
+('3', 'Educação Pública', '1', '1'),
+('4', 'Meio Ambiente', '1', '1'),
+('5', 'Saúde Pública', '1', '1'),
+('6', 'Tecnologia e Inovação', '1', '1'),
+('7', 'Segurança Pública', '1', '1'),
+('8', 'Infraestrutura e Transportes', '1', '1'),
+('9', 'Reforma Trabalhista', '1', '1'),
+('10', 'Cultura e Lazer', '1', '1'),
+('11', 'Política Externa', '1', '1'),
+('12', 'Justiça e Direito', '1', '1'),
+('13', 'Agronegócio', '1', '1'),
+('14', 'Emprego e Renda', '1', '1'),
+('15', 'Igualdade de Gênero', '1', '1'),
+('16', 'Impostos e Taxas', '1', '1'),
+('17', 'Combate à Corrupção', '1', '1'),
+('18', 'Reforma da Previdência', '1', '1'),
+('19', 'Assistência Social', '1', '1'),
+('20', 'Proteção aos Animais', '1', '1'),
+('21', 'Sem tema definido', '1', '1');
+
+CREATE VIEW view_proposicao_tema AS SELECT proposicao_tema.*, usuario.usuario_nome FROM proposicao_tema INNER JOIN usuario ON proposicao_tema.proposicao_tema_criado_por = usuario.usuario_id;
+
 CREATE TABLE nota_tecnica(
     nota_id varchar(36) NOT NULL,
     nota_proposicao BIGINT NOT NULL UNIQUE,
     nota_proposicao_apelido TEXT NULL,
     nota_proposicao_resumo TEXT NULL,
-    nota_proposicao_tema TEXT NULL,
+    nota_proposicao_tema varchar(36) NOT NULL,
     nota_texto TEXT NULL,
     nota_criada_por varchar(36) NOT NULL,
     nota_gabinete varchar(36) NOT NULL,
     nota_criada_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     nota_atualizada_em timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (nota_id),
+    CONSTRAINT fk_nota_proposicao_tema FOREIGN KEY (nota_proposicao_tema) REFERENCES proposicao_tema(proposicao_tema_id),
     CONSTRAINT fk_nota_criada_por FOREIGN KEY (nota_criada_por) REFERENCES usuario(usuario_id),
     CONSTRAINT fk_nota_nota_gabinete FOREIGN KEY (nota_gabinete) REFERENCES gabinete(gabinete_id)
 )ENGINE=InnoDB 
   DEFAULT CHARSET=utf8mb4 
   COLLATE=utf8mb4_general_ci;
-
-  
-

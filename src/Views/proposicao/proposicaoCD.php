@@ -20,7 +20,7 @@ $proposicaoIdGet = $_GET['id'];
 $buscaProposicao = $proposicaoController->buscarDetalheProposicaoCD($proposicaoIdGet);
 $buscaAutores = $proposicaoController->buscarAutoresProposicaoCD($proposicaoIdGet);
 $buscaNota = $notaController->buscarNotaTecnica('nota_proposicao', $proposicaoIdGet);
-
+$buscaTema = $proposicaoController->listarProposicoesTemas($_SESSION['usuario_gabinete']);
 
 if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
     header('location: ?secao=proposicoes');
@@ -196,7 +196,30 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                             </div>
                             <div class="col-md-2 col-12">
                                 <select class="form-control form-control-sm" name="nota_proposicao_tema" id="nota_proposicao_tema" required>
-                                    <option value="Sem tema">Sem tema</option>
+
+                                    <?php
+                                    if ($buscaTema['status'] == 'success') {
+                                        foreach ($buscaTema['dados'] as $tema) {
+
+                                            if (empty($buscaNota['dados']['nota_proposicao_tema'])) {
+                                                if ($tema['proposicao_tema_id'] == 21) {
+                                                    echo '<option value="' . $tema['proposicao_tema_id'] . '" selected>' . $tema['proposicao_tema_nome'] . '</option>';
+                                                } else {
+                                                    echo '<option value="' . $tema['proposicao_tema_id'] . '">' . $tema['proposicao_tema_nome'] . '</option>';
+                                                }
+                                            } else {
+                                                if ($buscaNota['dados']['nota_proposicao_tema'] == $tema['proposicao_tema_id']) {
+                                                    echo '<option value="' . $tema['proposicao_tema_id'] . '" selected>' . $tema['proposicao_tema_nome'] . '</option>';
+                                                } else {
+                                                    echo '<option value="' . $tema['proposicao_tema_id'] . '">' . $tema['proposicao_tema_nome'] . '</option>';
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    ?>
+                                    <option value="+">+ Novo Tema</option>
+
                                 </select>
                             </div>
 
@@ -213,10 +236,10 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                                 if ($buscaNota['status'] == 'success') {
                                     echo '<button type="submit" class="btn btn-primary btn-sm" name="btn_atualizar"><i class="bi bi-floppy-fill"></i> Atualizar</button>&nbsp;';
                                     echo '<button type="submit" class="btn btn-danger btn-sm" name="btn_apagar"><i class="bi bi-trash-fill"></i> Apagar</button>&nbsp;';
-                                    echo '<a href="?secao=imprimir-proposicao&id=' . $proposicaoIdGet . '" target="_blank" type="button" class="btn btn-secondary btn-sm"><i class="bi bi-printer"></i> Imprimir</a>';
+                                    echo '<a href="?secao=imprimir-proposicaoCD&id=' . $proposicaoIdGet . '" target="_blank" type="button" class="btn btn-secondary btn-sm"><i class="bi bi-printer"></i> Imprimir</a>';
                                 } else {
                                     echo '<button type="submit" class="btn btn-success btn-sm" name="btn_salvar"><i class="bi bi-floppy-fill"></i> Salvar</button>&nbsp;';
-                                    echo '<a href="?secao=imprimir-proposicao&id=' . $proposicaoIdGet . '" target="_blank" type="button" class="btn btn-secondary btn-sm"><i class="bi bi-printer"></i> Imprimir</a>';
+                                    echo '<a href="?secao=imprimir-proposicaoCD&id=' . $proposicaoIdGet . '" target="_blank" type="button" class="btn btn-secondary btn-sm"><i class="bi bi-printer"></i> Imprimir</a>';
                                 }
 
                                 ?>
@@ -320,7 +343,17 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                 </div>
             </div>
 
-
         </div>
     </div>
 </div>
+<script>
+    $('#nota_proposicao_tema').change(function() {
+        if ($('#nota_proposicao_tema').val() == '+') {
+            if (window.confirm("Você realmente deseja inserir um novo tema?")) {
+                window.location.href = "?secao=proposicoes-temas";
+            } else {
+                $('#nota_proposicao_tema').val(1000).change();
+            }
+        }
+    });
+</script>
