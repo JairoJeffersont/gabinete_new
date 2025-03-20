@@ -28,7 +28,6 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
 
 ?>
 
-
 <div class="d-flex" id="wrapper">
     <?php include './src/Views/menus/side_bar.php'; ?>
     <div id="page-content-wrapper">
@@ -347,7 +346,7 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
                     ?>
                 </div>
             </div>
-            
+
 
         </div>
     </div>
@@ -362,4 +361,6 @@ if ($buscaProposicao['status'] == 'error' || empty($buscaProposicao['dados'])) {
             }
         }
     });
+
+
 </script>

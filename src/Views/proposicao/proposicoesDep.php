@@ -113,16 +113,15 @@ $paginaGet = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 
         if ($totalPagina > 0 && $totalPagina != 1) {
             echo '<ul class="pagination custom-pagination mt-2 mb-0">';
-            echo '<li class="page-item ' . ($paginaGet == 1 ? 'active' : '') . '"><a class="page-link" href="?secao=proposicoes&itens=' . $itensGet . '&pagina=1&tipo=' . $tipoget . '&ano=' . $anoGet . '">Primeira</a></li>';
+            echo '<li class="page-item ' . ($paginaGet == 1 ? 'active' : '') . '"><a class="page-link" href="?secao=proposicoes&itens=' . $itensGet . '&pagina=1&tipo=' . $tipoget . '&ano=' . $anoGet . '" id="teste">Primeira</a></li>';
 
             for ($i = 1; $i < $totalPagina - 1; $i++) {
                 $pageNumber = $i + 1;
-                echo '<li class="page-item ' . ($paginaGet == $pageNumber ? 'active' : '') . '"><a class="page-link" href="?secao=proposicoes&itens=' . $itensGet . '&pagina=' . $pageNumber . '&tipo=' . $tipoget . '&ano=' . $anoGet . '">' . $pageNumber . '</a></li>';
+                echo '<li class="page-item ' . ($paginaGet == $pageNumber ? 'active' : '') . '"><a class="page-link" href="?secao=proposicoes&itens=' . $itensGet . '&pagina=' . $pageNumber . '&tipo=' . $tipoget . '&ano=' . $anoGet . '" id="link">' . $pageNumber . '</a></li>';
             }
 
-            echo '<li class="page-item ' . ($paginaGet == $totalPagina ? 'active' : '') . '"><a class="page-link" href="?secao=proposicoes&itens=' . $itensGet . '&pagina=' . $totalPagina . '&tipo=' . $tipoget . '&ano=' . $anoGet . '">Última</a></li>';
+            echo '<li class="page-item ' . ($paginaGet == $totalPagina ? 'active' : '') . '"><a class="page-link" href="?secao=proposicoes&itens=' . $itensGet . '&pagina=' . $totalPagina . '&tipo=' . $tipoget . '&ano=' . $anoGet . '" id="link">Última</a></li>';
             echo '</ul>';
         }
         ?>
     </div>
-</div>

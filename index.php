@@ -48,6 +48,20 @@
 
     <?php include './src/Views/router.php' ?>
 
+    <!-- Modal -->
+    <div class="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <!-- Ícone de carregamento e texto -->
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p>Aguarde, carregando...</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="public/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="public/vendor/startbootstrap-simple-sidebar-master/dist/js/scripts.js"></script>
