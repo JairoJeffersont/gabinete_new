@@ -124,7 +124,7 @@ function mostrarModal(duracao) {
 
 // Excluir o comportamento do modal para os botões com id "sidebarToggle", "btn_imprimir" e "navbar-toggler"
 $('button').not('#sidebarToggle, #btn_imprimir, .navbar-toggler').not('.accordion-button').on('click', function () {
-    mostrarModal(10000); // 10 segundos
+    mostrarModal(30000); // 10 segundos
 });
 
 // Caso o botão específico do menu seja clicado, ele não vai exibir o modal
@@ -139,12 +139,12 @@ $('.navbar-toggler').on('click', function (e) {
 
 // Ao clicar no link com id "link", exibe o modal
 $('#link').on('click', function () {
-    mostrarModal(10000); // 10 segundos
+    mostrarModal(30000); // 10 segundos
 });
 
 // Excluir o comportamento do modal para links específicos e elementos dentro do menu
 $('a').not('#btn_imprimir, #sidebarToggle, #navbarDropdown, .dropdown-item, .accordion-button', '#btn_copiar').on('click', function () {
-    mostrarModal(10000); // 10 segundos
+    mostrarModal(30000); // 10 segundos
 });
 
 // Excluir o comportamento do modal para os itens dentro do accordion

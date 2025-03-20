@@ -226,6 +226,80 @@ $config = require $configPath;
                 </div>
             </div>
 
+
+            <div class="card mb-2">
+                <div class="card-header bg-secondary text-white px-2 py-1 card_descricao_body">
+                    <i class="bi bi-people-fill"></i> Senadores aniversariantes do mês
+                </div>
+                <div class="card-body p-2">
+                    <?php
+
+                    $aniversariantes = [];
+
+
+
+                    if ($estadoDep == null) {
+                        $url = 'https://legis.senado.leg.br/dadosabertos/senador/lista/legislatura/57?participacao=T&exercicio=S&v=4';
+                    } else {
+                        $url = 'https://legis.senado.leg.br/dadosabertos/senador/lista/legislatura/'.$config['app']['legislatura_atual'].'?uf=' . $estado . '&participacao=T&exercicio=S&v=4';
+                    }
+
+
+                    $senadores = $getJson->pegarDadosURL($url);
+
+
+                    foreach ($senadores['dados']['ListaParlamentarLegislatura']['Parlamentares']['Parlamentar'] as $senador) {
+                        $idSenador = $senador['IdentificacaoParlamentar']['CodigoParlamentar'];
+                        $detSenador = $getJson->pegarDadosURL('https://legis.senado.leg.br/dadosabertos/senador/' . $idSenador . '?v=6');
+
+                        $dataNascimento = $detSenador['dados']['DetalheParlamentar']['Parlamentar']['DadosBasicosParlamentar']['DataNascimento'];
+                        $mesNascimento = date('m', strtotime($dataNascimento));
+
+                        if ($mesNascimento == $mes) {
+                            $dia = date('d/m', strtotime($dataNascimento));
+                            $aniversariantes[$dia][] = [
+                                'id' => $idSenador,
+                                'nome' => $detSenador['dados']['DetalheParlamentar']['Parlamentar']['IdentificacaoParlamentar']['NomeParlamentar']
+                            ];
+                        }
+                    }
+
+                    ksort($aniversariantes); // Ordena por data
+                    $diaAtual = date('d/m');
+                    ?>
+
+                    <table class="table table-striped table-bordered custom-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Senador(a)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($aniversariantes)): ?>
+                                <tr>
+                                    <td colspan="2">Nenhum aniversariante encontrado</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($aniversariantes as $dia => $senadores): ?>
+                                    <tr>
+                                        <td><?= $dia ?><?= ($dia == $diaAtual) ? ' | <b>Hoje</b>' : ''; ?></td>
+                                        <td>
+                                            <?php foreach ($senadores as $index => $aniversariante): ?>
+                                                <a href="https://www25.senado.leg.br/web/senadores/senador/-/perfil/<?= $aniversariante['id'] ?>" target="_blank" id="btn_imprimir">
+                                                    <?= $aniversariante['nome'] ?>
+                                                </a><?= $index < count($senadores) - 1 ? '<br> ' : '' ?>
+                                            <?php endforeach; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </div>
