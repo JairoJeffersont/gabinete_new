@@ -183,7 +183,7 @@ if ($buscaUsuario['status'] != 'success' || $buscaGabinete['status'] != 'success
         <p class="card-text mb-2">Para cadastrar novos usuários no sistema, envie o endereço abaixo e solicite que criem uma conta.</p>
         <p class="card-text">Link para o cadastro de novos usuários:
             <span id="link-cadastro" style="display: none;"><?php echo $config['app']['base_url'] ?>?secao=novo-usuario&token=<?php echo $buscaGabinete['dados']['gabinete_id'] ?></span>
-            <a href="javascript:void(0);" onclick="copyToClipboard()"><b>Copiar</b></a>
+            <a href="javascript:void(0);" onclick="copyToClipboard()" id="btn_imprimir"><b>Copiar</b></a>
         </p>
     </div>
 </div>

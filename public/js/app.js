@@ -143,7 +143,7 @@ $('#link').on('click', function () {
 });
 
 // Excluir o comportamento do modal para links específicos e elementos dentro do menu
-$('a').not('#btn_imprimir, #sidebarToggle, #navbarDropdown, .dropdown-item, .accordion-button').on('click', function () {
+$('a').not('#btn_imprimir, #sidebarToggle, #navbarDropdown, .dropdown-item, .accordion-button', '#btn_copiar').on('click', function () {
     mostrarModal(10000); // 10 segundos
 });
 

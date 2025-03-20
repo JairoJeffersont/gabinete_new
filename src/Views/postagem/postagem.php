@@ -183,7 +183,7 @@ if ($buscaPostagem['status'] == 'not_found' || $buscaPostagem['status'] == 'erro
                                 $extensao = strtolower(pathinfo($arquivo, PATHINFO_EXTENSION));
                                 $dataHora = date('d/m/Y H:i:s', filemtime($caminhoArquivo));
 
-                                $link = '<a href="' . htmlspecialchars($caminhoArquivo) . '" ';
+                                $link = '<a id="btn_imprimir" href="' . htmlspecialchars($caminhoArquivo) . '" ';
                                 $link .= in_array($extensao, ['jpg', 'jpeg', 'png']) ? 'target="_blank">' : 'download>';
                                 $link .= htmlspecialchars($arquivo) . '</a>';
 
