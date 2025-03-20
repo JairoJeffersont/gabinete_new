@@ -224,7 +224,7 @@ $estado = (isset($_GET['estado']) && $_GET['estado'] !== 'null') ? $_GET['estado
                         <div class="col-md-3 col-12">
                             <div class="file-upload">
                                 <input type="file" id="file-input" name="foto" style="display: none;" />
-                                <button id="file-button" type="button" class="btn btn-primary btn-sm"><i class="fa-regular fa-image"></i> Escolher Foto</button>
+                                <a id="file-button"  class="btn btn-primary btn-sm file-button"><i class="fa-regular fa-image"></i> Escolher Foto</a>
                             </div>
                         </div>
                         <div class="col-md-12 col-12">

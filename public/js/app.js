@@ -116,7 +116,7 @@ function copyToClipboard() {
 
 // Função para exibir o modal e fechá-lo após um tempo
 function mostrarModal(duracao) {
-    $('.modal').modal('show');
+    $('.modal').not('#fotoModal').modal('show');
     setTimeout(function () {
         $('.modal').modal('hide');
     }, duracao);
@@ -143,9 +143,11 @@ $('#link').on('click', function () {
 });
 
 // Excluir o comportamento do modal para links específicos e elementos dentro do menu
-$('a').not('#btn_imprimir, #sidebarToggle, #navbarDropdown, .dropdown-item, .accordion-button', '#btn_copiar').on('click', function () {
-    mostrarModal(30000); // 10 segundos
-});
+$('a')
+    .not('#btn_imprimir, #sidebarToggle, #navbarDropdown, .dropdown-item, .accordion-button, #btn_copiar, .file-button, #btn_foto')
+    .on('click', function () {
+        mostrarModal(30000); // 10 segundos
+    });
 
 // Excluir o comportamento do modal para os itens dentro do accordion
 $('.accordion-button').on('click', function (e) {

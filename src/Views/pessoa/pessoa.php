@@ -261,7 +261,7 @@ if ($buscaPessoa['status'] == 'not_found' || is_integer($pessoaGet) || $buscaPes
                             <button type="submit" class="btn btn-success btn-sm" name="btn_atualizar"><i class="bi bi-floppy-fill"></i> Atualizar</button>
                             <button type="submit" class="btn btn-danger btn-sm" name="btn_apagar"><i class="bi bi-trash-fill"></i> Apagar</button>
                             <a href="?secao=imprimir-pessoa&id=<?php echo $pessoaGet ?>" target="_blank" class="btn btn-primary btn-sm"><i class="bi bi-printer-fill"></i> Imprimir</a>
-                            <button type="button" class="btn btn-secondary btn-sm" id="btn_foto" data-bs-toggle="modal" data-bs-target="#fotoModal"><i class="bi bi-camera"></i> Ver foto</button>
+                            <a class="btn btn-secondary btn-sm" id="btn_foto" data-bs-toggle="modal" data-bs-target="#fotoModal"><i class="bi bi-camera"></i> Ver foto</a>
                         </div>
                     </form>
                 </div>
