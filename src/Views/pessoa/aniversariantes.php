@@ -170,7 +170,7 @@ $config = require $configPath;
                     $aniversariantes = [];
 
                     foreach ($deputados['dados'] as $deputado) {
-                        if ($deputado['idLegislaturaFinal'] == $config['app']['legislatura_atual'] && date('m', strtotime($deputado['dataNascimento'])) == date('m')) {
+                        if ($deputado['idLegislaturaFinal'] == $config['app']['legislatura_atual'] && date('m', strtotime($deputado['dataNascimento'])) == $mes) {
 
                             if ($estado == null) {
                                 $dia = date('d/m', strtotime($deputado['dataNascimento']));
@@ -202,22 +202,29 @@ $config = require $configPath;
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($aniversariantes as $dia => $deputados): ?>
+                            <?php if (empty($aniversariantes)): ?>
                                 <tr>
-                                    <td><?= $dia ?><?= ($dia == $diaAtual) ? ' | <b>Hoje</b>' : ''; ?></td>
-                                    <td>
-                                        <?php foreach ($deputados as $index => $aniversariante): ?>
-                                            <a href="https://www.camara.leg.br/deputados/<?= $aniversariante['id'] ?>" target="_blank">
-                                                <?= $aniversariante['nome'] ?>
-                                            </a><?= $index < count($deputados) - 1 ? '<br> ' : '' ?>
-                                        <?php endforeach; ?>
-                                    </td>
+                                    <td colspan="2">Nenhum aniversariante encontrado</td>
                                 </tr>
-                            <?php endforeach; ?>
+                            <?php else: ?>
+                                <?php foreach ($aniversariantes as $dia => $deputados): ?>
+                                    <tr>
+                                        <td><?= $dia ?><?= ($dia == $diaAtual) ? ' | <b>Hoje</b>' : ''; ?></td>
+                                        <td>
+                                            <?php foreach ($deputados as $index => $aniversariante): ?>
+                                                <a href="https://www.camara.leg.br/deputados/<?= $aniversariante['id'] ?>" target="_blank" id="btn_imprimir">
+                                                    <?= $aniversariante['nome'] ?>
+                                                </a><?= $index < count($deputados) - 1 ? '<br> ' : '' ?>
+                                            <?php endforeach; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
