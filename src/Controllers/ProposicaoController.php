@@ -24,6 +24,18 @@ class ProposicaoController {
 
     //OPERACOES DADOS ABERTO CAMARA
     public function buscarProposicoesDeputado($autor, $ano, $itens, $pagina, $tipo) {
+        // Gerar uma chave única para o cache baseada nos parâmetros da requisição
+        $cacheKey = md5($autor . $ano . $itens . $pagina . $tipo);
+        $cacheFile = '/tmp/cache_' . $cacheKey . '.cache';
+
+        // Verificar se o cache existe e não expirou (cache válido por 10 minutos)
+        if (file_exists($cacheFile) && (filemtime($cacheFile) > (time() - 600))) {
+            // Se o cache não expirou, leia os dados armazenados no arquivo
+            $dados = unserialize(file_get_contents($cacheFile));
+            return $dados; // Retornar os dados diretamente do cache
+        }
+
+        // Buscar o deputado
         $buscaDep = $this->getJson->pegarDadosURL('https://dadosabertos.camara.leg.br/arquivos/deputados/json/deputados.json');
 
         if ($buscaDep['status'] == 'success' && !empty($buscaDep['dados'])) {
@@ -36,6 +48,7 @@ class ProposicaoController {
             return $buscaDep;
         }
 
+        // Buscar as proposições do deputado
         $response = $this->getJson->pegarDadosURL('https://dadosabertos.camara.leg.br/api/v2/proposicoes?idDeputadoAutor=' . $ideDep . '&itens=' . $itens . '&pagina=' . $pagina . '&ano=' . $ano . '&ordem=DESC&ordenarPor=id&siglaTipo=' . $tipo);
 
         $proposicoes = $response['dados'];
@@ -46,20 +59,27 @@ class ProposicaoController {
             return ['status' => 'empty', 'message' => 'Nenhuma proposição encontrada.'];
         }
 
-
+        // Adicionar autores às proposições
         foreach ($proposicoes as &$proposicao) {
             $buscaAutores = $this->buscarAutoresProposicaoCD($proposicao['id']);
             $proposicao['proposicao_autores'] = ($buscaAutores['status'] == 'success') ? $buscaAutores['dados'] : [];
         }
         unset($proposicao);
 
-        return [
+        // Preparar a resposta para cache
+        $dados = [
             'code' => '200',
             'status' => 'success',
             'dados' => $proposicoes,
             'total_paginas' => $total_paginas
         ];
+
+        // Armazenar os dados no cache
+        file_put_contents($cacheFile, serialize($dados));
+
+        return $dados;
     }
+
 
     public function buscarDetalheProposicaoCD($proposicaoId) {
         return $this->getJson->pegarDadosURL('https://dadosabertos.camara.leg.br/api/v2/proposicoes/' . $proposicaoId);
