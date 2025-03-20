@@ -9,7 +9,8 @@ return [
     ],
 
     'app' => [
-        'base_url' => rtrim($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']) . '/', '')
+        'base_url' => rtrim($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']) . '/', ''),
+        'legislatura_atual' => 57
     ],
 
     'email' => [
