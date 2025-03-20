@@ -1,3 +1,8 @@
+<?php
+if (!ob_start("ob_gzhandler")) {
+    ob_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
