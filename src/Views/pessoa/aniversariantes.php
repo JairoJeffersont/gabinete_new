@@ -194,11 +194,12 @@ $config = require $configPath;
                     $diaAtual = date('d/m');
                     ?>
 
+
                     <table class="table table-striped table-bordered custom-table mb-0">
                         <thead>
                             <tr>
                                 <th>Data</th>
-                                <th>Deputados</th>
+                                <th>Deputado(a)</th>
                             </tr>
                         </thead>
                         <tbody>
