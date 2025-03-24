@@ -50,7 +50,7 @@ $eleicoesController = new EleicoesController($anoGet, $estadoDep);
             <div class="card mb-2">
                 <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-newspaper"></i> Eleições Gerais de <?php echo $anoGet ?> | <?php echo $buscaGab['dados']['gabinete_nome'] ?></div>
                 <div class="card-body card_descricao_body p-2">
-                    <p class="card-text mb-2">Nesta seção, você pode consultar resultados de uma eleição.</p>
+                    <p class="card-text mb-2">Nesta seção, você pode consultar os votos do gabinete em uma eleição.</p>
                     <p class="card-text mb-0">As informações são de responsabilidade do Tribunal Superior Eleitoral (TSE).</p>
                 </div>
             </div>
