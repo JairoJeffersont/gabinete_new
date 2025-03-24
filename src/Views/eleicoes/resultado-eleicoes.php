@@ -97,7 +97,7 @@ $eleicoesController = new EleicoesController($anoGet, $estadoDep);
                             echo '<li class="list-group-item">Não participou dessa eleição</li>';
                         } else {
                             foreach ($busca as $votos) {
-                                echo '<li class="list-group-item"><b>' . $votos['DS_CARGO'] . ':</b> ' . number_format($votos['QT_VOTOS_NOMINAIS_VALIDOS'], 0, ',', '.') . '<br>' . $votos['DS_SIT_TOT_TURNO'] . '</li>';
+                                echo '<li class="list-group-item"><b>' . $votos['DS_CARGO'] . ':</b> ' . number_format($votos['QT_VOTOS_NOMINAIS_VALIDOS'], 0, ',', '.') . ' <small>(' . $votos['DS_SIT_TOT_TURNO'] . ')</small></li>';
                             }
                         }
                         ?>
