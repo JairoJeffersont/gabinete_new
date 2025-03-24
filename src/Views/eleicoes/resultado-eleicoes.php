@@ -128,7 +128,7 @@ $eleicoesController = new EleicoesController($anoGet, $estadoDep);
 
                             foreach ($resultadoAgrupado as $municipio => $dados) {
                                 $percentual = ($dados['QT_VOTOS'] / $totalVotosCargo) * 100;
-                                echo '<li class="list-group-item"><b>' . $municipio . ':</b> '
+                                echo '<li class="list-group-item" style="font-size:0.900em"><b>' . $municipio . ':</b> '
                                     . number_format($dados['QT_VOTOS'], 0, ',', '.')
                                     . ' (' . number_format($percentual, 2, ',', '.') . '%)</li>';
                             }
