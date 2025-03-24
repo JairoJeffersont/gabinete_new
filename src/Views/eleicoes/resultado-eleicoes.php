@@ -30,6 +30,7 @@ if (!in_array($anoGet, $anosEleicoes)) {
         }
     }
 }
+
 $eleicoesController = new EleicoesController($anoGet, $estadoDep);
 
 ?>
@@ -95,8 +96,6 @@ $eleicoesController = new EleicoesController($anoGet, $estadoDep);
 
                         $totalVotosCargo = $busca['total_votos'];
 
-                        // print_r($busca);
-
                         if (empty($busca) || empty($busca['dados'])) {
                             echo '<li class="list-group-item">Não participou dessa eleição</li>';
                         } else {
@@ -104,12 +103,10 @@ $eleicoesController = new EleicoesController($anoGet, $estadoDep);
                             $totalVotosGeral = 0;
                             $totalVotosCargo = $busca['total_votos'] ?? 1; // Evita divisão por zero
 
-                            // Agrupar e somar os votos por município
                             foreach ($busca['dados'] as $votos) {
                                 $municipio = $votos['NM_MUNICIPIO'];
                                 $cargo = $votos['DS_CARGO'];
 
-                                // Verifica qual campo de votos está presente
                                 $quantidadeVotos = $votos['QT_VOTOS_NOMINAIS_VALIDOS'] ?? $votos['QT_VOTOS_NOMINAIS'] ?? 0;
 
                                 $situacao = $votos['DS_SIT_TOT_TURNO'];
@@ -122,15 +119,13 @@ $eleicoesController = new EleicoesController($anoGet, $estadoDep);
                                 }
 
                                 $resultadoAgrupado[$municipio]['QT_VOTOS'] += $quantidadeVotos;
-                                $totalVotosGeral += $quantidadeVotos; // Soma ao total geral
+                                $totalVotosGeral += $quantidadeVotos;
                             }
 
-                            // Ordenar em ordem decrescente pelos votos
                             uasort($resultadoAgrupado, function ($a, $b) {
-                                return $b['QT_VOTOS'] <=> $a['QT_VOTOS']; // Ordena do maior para o menor
+                                return $b['QT_VOTOS'] <=> $a['QT_VOTOS']; 
                             });
 
-                            // Exibir os resultados agrupados e ordenados com porcentagem
                             foreach ($resultadoAgrupado as $municipio => $dados) {
                                 $percentual = ($dados['QT_VOTOS'] / $totalVotosCargo) * 100;
                                 echo '<li class="list-group-item"><b>' . $municipio . ':</b> '
@@ -138,15 +133,10 @@ $eleicoesController = new EleicoesController($anoGet, $estadoDep);
                                     . ' (' . number_format($percentual, 2, ',', '.') . '%)</li>';
                             }
 
-                            // Exibir a soma total no final
                             echo '<li class="list-group-item list-group-item-info"><b>Total de votos:</b> '
                                 . number_format($totalVotosGeral, 0, ',', '.') . '</li>';
                         }
                         ?>
-
-
-
-
                     </ul>
                 </div>
             </div>
