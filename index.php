@@ -57,12 +57,12 @@ if (!ob_start("ob_gzhandler")) {
     <div class="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-body text-center">
+                <div class="modal-body text-center mb-0">
                     <!-- Ícone de carregamento e texto -->
-                    <div class="spinner-border" role="status">
+                    <div class="spinner-border mb-2" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
-                    <p>Aguarde, carregando...</p>
+                    <p class="mb-0">Aguarde, carregando...</p>
                 </div>
             </div>
         </div>

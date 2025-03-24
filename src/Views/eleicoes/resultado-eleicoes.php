@@ -102,7 +102,6 @@ $eleicoesController = new EleicoesController($anoGet, $estadoDep);
                         }
                         ?>
                     </ul>
-
                 </div>
             </div>
         </div>
