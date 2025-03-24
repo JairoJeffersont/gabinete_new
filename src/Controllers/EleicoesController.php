@@ -11,25 +11,33 @@ class EleicoesController {
 
     public function __construct($ano, $estado) {
         $this->utils = new Utils();
-        $this->dadosJson = json_decode(file_get_contents('public/resultados/' . $ano . '/votacao_nominal/votos_' . $ano . '_' . $estado . '.json'), true);
+        $this->dadosJson = json_decode(file_get_contents('public/resultados/' . $ano . '/votacao_candidato_munzona_' . $ano . '_' . $estado . '.json'), true);
     }
 
 
-    public function getTotalVotos($candidato){
-        
+    public function getTotalVotos($candidato) {
         $busca = $this->dadosJson;
 
         $resultados = [];
+        $total_votos = 0;
+        $cargo = null;
+        $candidato = mb_strtoupper(trim($candidato));
 
-        foreach($busca as $votos){
-            if($votos['NM_URNA_CANDIDATO'] == mb_strtoupper($candidato)){
+        foreach ($busca as $votos) {
+            if ($votos['NM_URNA_CANDIDATO'] === $candidato) {
                 $resultados[] = $votos;
+                $cargo = $votos['DS_CARGO'];
             }
         }
 
-        return $resultados;
+        if ($cargo) {
+            foreach ($busca as $votos) {
+                if ($votos['DS_CARGO'] === $cargo) {
+                    $total_votos += isset($votos['QT_VOTOS_NOMINAIS_VALIDOS']) ? $votos['QT_VOTOS_NOMINAIS_VALIDOS'] : $votos['QT_VOTOS_NOMINAIS'];
+                }
+            }
+        }
 
+        return ['dados' => $resultados, 'total_votos' => $total_votos];
     }
-
-
 }

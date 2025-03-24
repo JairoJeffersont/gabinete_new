@@ -48,9 +48,9 @@ $eleicoesController = new EleicoesController($anoGet, $estadoDep);
             </div>
 
             <div class="card mb-2">
-                <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-newspaper"></i> Eleições Gerais de <?php echo $anoGet ?> | <?php echo $buscaGab['dados']['gabinete_nome'] ?></div>
+                <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-newspaper"></i> Eleições de <?php echo $anoGet ?> | <?php echo $buscaGab['dados']['gabinete_nome'] ?></div>
                 <div class="card-body card_descricao_body p-2">
-                    <p class="card-text mb-2">Nesta seção, você pode consultar os votos do gabinete em uma eleição.</p>
+                    <p class="card-text mb-2">Nesta seção, você pode consultar os votos do gabinete em uma eleição. Serão mostrados todos os votos nominais válidos</p>
                     <p class="card-text mb-0">As informações são de responsabilidade do Tribunal Superior Eleitoral (TSE).</p>
                 </div>
             </div>
@@ -93,14 +93,60 @@ $eleicoesController = new EleicoesController($anoGet, $estadoDep);
                         <?php
                         $busca = $eleicoesController->getTotalVotos($nomeDep);
 
-                        if (empty($busca)) {
+                        $totalVotosCargo = $busca['total_votos'];
+
+                        // print_r($busca);
+
+                        if (empty($busca) || empty($busca['dados'])) {
                             echo '<li class="list-group-item">Não participou dessa eleição</li>';
                         } else {
-                            foreach ($busca as $votos) {
-                                echo '<li class="list-group-item"><b>' . $votos['DS_CARGO'] . ':</b> ' . number_format($votos['QT_VOTOS_NOMINAIS_VALIDOS'], 0, ',', '.') . ' <small>(' . $votos['DS_SIT_TOT_TURNO'] . ')</small></li>';
+                            $resultadoAgrupado = [];
+                            $totalVotosGeral = 0;
+                            $totalVotosCargo = $busca['total_votos'] ?? 1; // Evita divisão por zero
+
+                            // Agrupar e somar os votos por município
+                            foreach ($busca['dados'] as $votos) {
+                                $municipio = $votos['NM_MUNICIPIO'];
+                                $cargo = $votos['DS_CARGO'];
+
+                                // Verifica qual campo de votos está presente
+                                $quantidadeVotos = $votos['QT_VOTOS_NOMINAIS_VALIDOS'] ?? $votos['QT_VOTOS_NOMINAIS'] ?? 0;
+
+                                $situacao = $votos['DS_SIT_TOT_TURNO'];
+
+                                if (!isset($resultadoAgrupado[$municipio])) {
+                                    $resultadoAgrupado[$municipio] = [
+                                        'QT_VOTOS' => 0,
+                                        'DS_SIT_TOT_TURNO' => $situacao
+                                    ];
+                                }
+
+                                $resultadoAgrupado[$municipio]['QT_VOTOS'] += $quantidadeVotos;
+                                $totalVotosGeral += $quantidadeVotos; // Soma ao total geral
                             }
+
+                            // Ordenar em ordem decrescente pelos votos
+                            uasort($resultadoAgrupado, function ($a, $b) {
+                                return $b['QT_VOTOS'] <=> $a['QT_VOTOS']; // Ordena do maior para o menor
+                            });
+
+                            // Exibir os resultados agrupados e ordenados com porcentagem
+                            foreach ($resultadoAgrupado as $municipio => $dados) {
+                                $percentual = ($dados['QT_VOTOS'] / $totalVotosCargo) * 100;
+                                echo '<li class="list-group-item"><b>' . $municipio . ':</b> '
+                                    . number_format($dados['QT_VOTOS'], 0, ',', '.')
+                                    . ' (' . number_format($percentual, 2, ',', '.') . '%)</li>';
+                            }
+
+                            // Exibir a soma total no final
+                            echo '<li class="list-group-item list-group-item-info"><b>Total de votos:</b> '
+                                . number_format($totalVotosGeral, 0, ',', '.') . '</li>';
                         }
                         ?>
+
+
+
+
                     </ul>
                 </div>
             </div>
