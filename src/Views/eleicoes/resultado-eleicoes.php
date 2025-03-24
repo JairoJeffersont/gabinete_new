@@ -3,7 +3,6 @@
 use GabineteMvc\Controllers\EleicoesController;
 use GabineteMvc\Controllers\GabineteController;
 
-
 ob_start();
 
 require './src/Middleware/VerificaLogado.php';
