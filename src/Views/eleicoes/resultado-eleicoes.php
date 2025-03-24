@@ -9,32 +9,31 @@ ob_start();
 require './src/Middleware/VerificaLogado.php';
 require 'vendor/autoload.php';
 
-
 $gabineteController = new GabineteController();
 $buscaGab = $gabineteController->buscaGabinete('gabinete_id', $_SESSION['usuario_gabinete']);
+
 $estadoDep = $buscaGab['dados']['gabinete_estado_autoridade'];
 $nomeDep = strtoupper($buscaGab['dados']['gabinete_nome']);
 $gabineteTipo = $buscaGab['dados']['gabinete_tipo'];
 
-$anoGet = $_GET['ano'] ?? 2024;
-$ordenarPorGet = $_GET['ordenarPor'] ?? 'NM_URNA_CANDIDATO';
-$ordem = $_GET['ordem'] ?? 'asc';
+$anoCorrente = date('Y');
+$anosEleicoes = [2024, 2022, 2020, 2018, 2016, 2014, 2012, 2010, 2008, 2006, 2004, 2002, 2000];
 
-$anosEleicoes = [2022, 2018, 2014, 2010, 2006, 2002];
+$anoGet = $_GET['ano'] ?? $anoCorrente;
+
+$anoGet = (int) $anoGet;
 
 if (!in_array($anoGet, $anosEleicoes)) {
-    $anoGet = 2022;
+    foreach ($anosEleicoes as $ano) {
+        if ($ano <= $anoCorrente) {
+            $anoGet = $ano;
+            break;
+        }
+    }
 }
-
-$eleicoesController = new EleicoesController($anoGet, 'AP');
-
-
-
-$cargoGet = $_GET['cargo'] ?? 'Deputado Federal';
-
+$eleicoesController = new EleicoesController($anoGet, $estadoDep);
 
 ?>
-
 
 
 <div class="d-flex" id="wrapper">
@@ -50,7 +49,7 @@ $cargoGet = $_GET['cargo'] ?? 'Deputado Federal';
             </div>
 
             <div class="card mb-2">
-                <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-newspaper"></i> Eleições Gerais de <?php echo $anoGet ?></div>
+                <div class="card-header bg-primary text-white px-2 py-1 card_descricao_bg"><i class="bi bi-newspaper"></i> Eleições Gerais de <?php echo $anoGet ?> | <?php echo $buscaGab['dados']['gabinete_nome'] ?></div>
                 <div class="card-body card_descricao_body p-2">
                     <p class="card-text mb-2">Nesta seção, você pode consultar resultados de uma eleição.</p>
                     <p class="card-text mb-0">As informações são de responsabilidade do Tribunal Superior Eleitoral (TSE).</p>
@@ -62,46 +61,21 @@ $cargoGet = $_GET['cargo'] ?? 'Deputado Federal';
                     <div class="card shadow-sm mb-2">
                         <div class="card-body p-2">
                             <form class="row g-2 form_custom mb-0" method="GET" enctype="application/x-www-form-urlencoded">
-                                <div class="col-md-2 col-6">
-                                    <input type="hidden" name="secao" value="resultado-eleicoes" />
-                                    <select class="form-select form-select-sm" name="cargo" required>
-                                        <?php
-                                        foreach ($eleicoesController->getCargos() as $cargo) {
-                                            if ($cargoGet == $cargo) {
-                                                echo '<option value="' . $cargo . '" selected>' . $cargo . '</option>';
-                                            } else {
-                                                echo '<option value="' . $cargo . '">' . $cargo . '</option>';
-                                            }
-                                        }
-                                        ?>
-                                    </select>
+                                <input type="hidden" name="secao" value="resultado-eleicoes" />
+                                <div class="col-md-1 col-3">
 
-                                </div>
-                                <div class="col-md-1 col-6">
                                     <select class="form-select form-select-sm" name="ano" required>
                                         <?php
-                                        foreach ($eleicoesController->getAnos() as $anos) {
-                                            if (in_array($anos, $anosEleicoes)) {
-                                                if ($anoGet == $anos) {
-                                                    echo '<option value="' . $anos . '" selected>' . $anos . '</option>';
-                                                } else {
-                                                    echo '<option value="' . $anos . '">' . $anos . '</option>';
-                                                }
+
+                                        foreach ($anosEleicoes as $ano) {
+                                            if ($anoGet == $ano) {
+                                                echo '<option value="' . $ano . '" selected>' . $ano . '</option>';
+                                            } else {
+                                                echo '<option value="' . $ano . '">' . $ano . '</option>';
                                             }
                                         }
+
                                         ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-1 col-6">
-                                    <select class="form-select form-select-sm" name="ordenarPor" required>
-                                        <option value="NM_URNA_CANDIDATO" <?php echo ($ordenarPorGet == 'NM_URNA_CANDIDATO') ? 'selected' : ''; ?>>Por nome</option>
-                                        <option value="QT_VOTOS_NOMINAIS_VALIDOS" <?php echo ($ordenarPorGet == 'QT_VOTOS_NOMINAIS_VALIDOS') ? 'selected' : ''; ?>>Por votos</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-1 col-6">
-                                    <select class="form-select form-select-sm" name="ordem" required>
-                                        <option value="asc" <?php echo ($ordem == 'asc') ? 'selected' : ''; ?>>Crescente</option>
-                                        <option value="desc" <?php echo ($ordem == 'desc') ? 'selected' : ''; ?>>Decrescente</option>
                                     </select>
                                 </div>
 
@@ -116,35 +90,20 @@ $cargoGet = $_GET['cargo'] ?? 'Deputado Federal';
 
             <div class="card mb-2">
                 <div class="card-body p-2">
-                    <div class="table-responsive mb-0">
-                        <table class="table table-hover custom-table table-bordered table-striped mb-0">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Candidato</th>
-                                    <th scope="col">Cargo</th>
-                                    <th scope="col">Votos</th>
-                                    <th scope="col">Situação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
+                    <ul class="list-group">
+                        <?php
+                        $busca = $eleicoesController->getTotalVotos($nomeDep);
 
-                                $busca = $eleicoesController->votacaoNominal($cargoGet, $ordenarPorGet, $ordem);
+                        if (empty($busca)) {
+                            echo '<li class="list-group-item">Não participou dessa eleição</li>';
+                        } else {
+                            foreach ($busca as $votos) {
+                                echo '<li class="list-group-item"><b>' . $votos['DS_CARGO'] . ':</b> ' . number_format($votos['QT_VOTOS_NOMINAIS_VALIDOS'], 0, ',', '.') . '</li>';
+                            }
+                        }
+                        ?>
+                    </ul>
 
-                                foreach ($busca as $resultado) {
-                                    echo '<tr>';
-                                    echo '<td>' . $resultado['NM_URNA_CANDIDATO'] . '</td>';
-                                    echo '<td>' . $resultado['DS_CARGO'] . '</td>';
-                                    echo '<td>' . (isset($resultado['QT_VOTOS_NOMINAIS_VALIDOS']) ? $resultado['QT_VOTOS_NOMINAIS_VALIDOS'] : $resultado['QT_VOTOS_NOMINAIS']) . '</td>';
-                                    echo '<td>' . $resultado['DS_SIT_TOT_TURNO'] . '</td>';
-                                    echo '</tr>';
-                                }
-
-                                ?>
-                            </tbody>
-
-                        </table>
-                    </div>
                 </div>
             </div>
         </div>
