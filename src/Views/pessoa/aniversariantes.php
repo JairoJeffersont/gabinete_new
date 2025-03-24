@@ -214,7 +214,7 @@ $config = require $configPath;
                                         <td>
                                             <?php foreach ($deputados as $index => $aniversariante): ?>
                                                 <a href="https://www.camara.leg.br/deputados/<?= $aniversariante['id'] ?>" target="_blank" id="btn_imprimir">
-                                                    <?= $aniversariante['nome'] ?>
+                                                    Deputado(a) <?= $aniversariante['nome'] ?>
                                                 </a><?= $index < count($deputados) - 1 ? '<br> ' : '' ?>
                                             <?php endforeach; ?>
                                         </td>
@@ -287,7 +287,7 @@ $config = require $configPath;
                                         <td>
                                             <?php foreach ($senadores as $index => $aniversariante): ?>
                                                 <a href="https://www25.senado.leg.br/web/senadores/senador/-/perfil/<?= $aniversariante['id'] ?>" target="_blank" id="btn_imprimir">
-                                                    <?= $aniversariante['nome'] ?>
+                                                    Senador(a) <?= $aniversariante['nome'] ?>
                                                 </a><?= $index < count($senadores) - 1 ? '<br> ' : '' ?>
                                             <?php endforeach; ?>
                                         </td>
