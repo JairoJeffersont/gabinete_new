@@ -5,19 +5,39 @@ namespace GabineteMvc\Controllers;
 use GabineteMvc\Middleware\Utils;
 
 class EleicoesController {
-
     private $utils;
     private $dadosJson;
 
     public function __construct($ano, $estado) {
         $this->utils = new Utils();
-        $this->dadosJson = json_decode(file_get_contents('public/resultados/' . $ano . '/votacao_candidato_munzona_' . $ano . '_' . $estado . '.json'), true);
+        $this->dadosJson = $this->lerJsonGzip('public/resultados/' . $ano . '/votacao_candidato_munzona_' . $ano . '_' . $estado . '.jsonl.gz');
     }
 
+    private function lerJsonGzip($caminhoArquivo) {
+        $dados = [];
+
+        if (!file_exists($caminhoArquivo)) {
+            die("Erro: Arquivo não encontrado - $caminhoArquivo");
+        }
+
+        $handle = gzopen($caminhoArquivo, "r");
+        if (!$handle) {
+            die("Erro ao abrir o arquivo $caminhoArquivo");
+        }
+
+        while (!gzeof($handle)) {
+            $linha = gzgets($handle);
+            if ($linha) {
+                $dados[] = json_decode($linha, true); // Decodifica cada linha JSON
+            }
+        }
+
+        gzclose($handle);
+        return $dados;
+    }
 
     public function getTotalVotos($candidato) {
         $busca = $this->dadosJson;
-
         $resultados = [];
         $total_votos = 0;
         $cargo = null;
@@ -33,7 +53,9 @@ class EleicoesController {
         if ($cargo) {
             foreach ($busca as $votos) {
                 if ($votos['DS_CARGO'] === $cargo) {
-                    $total_votos += isset($votos['QT_VOTOS_NOMINAIS_VALIDOS']) ? $votos['QT_VOTOS_NOMINAIS_VALIDOS'] : $votos['QT_VOTOS_NOMINAIS'];
+                    $total_votos += isset($votos['QT_VOTOS_NOMINAIS_VALIDOS']) ? 
+                        $votos['QT_VOTOS_NOMINAIS_VALIDOS'] : 
+                        $votos['QT_VOTOS_NOMINAIS'];
                 }
             }
         }
