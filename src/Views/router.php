@@ -62,8 +62,6 @@ $rotas = [
     'proposicaoSF' => './src/Views/proposicao/proposicaoSF.php',
     'imprimir-proposicaoSF' => './src/Views/proposicao/imprimirProposicaoSF.php'
 
-
-
 ];
 
 if (array_key_exists($pagina, $rotas)) {
