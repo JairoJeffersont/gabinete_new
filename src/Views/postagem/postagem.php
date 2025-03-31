@@ -103,7 +103,20 @@ if ($buscaPostagem['status'] == 'not_found' || $buscaPostagem['status'] == 'erro
                             </select>
                         </div>
                         <div class="col-md-12 col-12">
-                            <textarea class="form-control form-control-sm" name="postagem_informacoes" placeholder="Informações" rows="4" required><?php echo $buscaPostagem['dados']['postagem_informacoes'] ?></textarea>
+                            <script>
+                                tinymce.init({
+                                    selector: 'textarea',
+                                    language: 'pt_BR',
+                                    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+                                    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+                                    setup: function(editor) {
+                                        editor.on('change', function() {
+                                            tinymce.triggerSave(); // Atualiza a `<textarea>`
+                                        });
+                                    }
+                                });
+                            </script>
+                            <textarea class="form-control form-control-sm" name="postagem_informacoes" placeholder="Informações" rows="4"><?php echo $buscaPostagem['dados']['postagem_informacoes'] ?></textarea>
                         </div>
                         <div class="col-md-3 col-12">
                             <button type="submit" class="btn btn-success btn-sm" name="btn_atualizar"><i class="bi bi-floppy-fill"></i> Atualizar</button>

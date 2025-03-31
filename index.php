@@ -47,6 +47,7 @@ if (!ob_start("ob_gzhandler")) {
     <meta name="twitter:image" content="https://jscloud.com.br/gabinete/public/img/logo.png">
 
     <script src="public/vendor/jquery/jquery.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/9ebpappotq2edw5qf3ik3e6m9owenjuy9buc8ddrbngfw88f/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 
 <body>
