@@ -227,14 +227,14 @@ $config = require $configPath;
             </div>
 
 
-            <div class="card mb-2">
+            <!--<div class="card mb-2">
                 <div class="card-header bg-secondary text-white px-2 py-1 card_descricao_body">
                     <i class="bi bi-people-fill"></i> Senadores aniversariantes do mês
                 </div>
                 <div class="card-body p-2">
                     <?php
 
-                    $aniversariantes = [];
+                   /* $aniversariantes = [];
 
 
 
@@ -265,7 +265,7 @@ $config = require $configPath;
                     }
 
                     ksort($aniversariantes); // Ordena por data
-                    $diaAtual = date('d/m');
+                    $diaAtual = date('d/m');*/
                     ?>
 
                     <table class="table table-striped table-bordered custom-table mb-0">
@@ -297,7 +297,7 @@ $config = require $configPath;
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div>-->
 
 
         </div>
