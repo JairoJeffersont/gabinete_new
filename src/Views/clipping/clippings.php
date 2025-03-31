@@ -83,6 +83,8 @@ $busca = $clippingController->listarClippings($termo, $ano, $_SESSION['usuario_g
                     <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
                         <div class="col-md-2 col-12">
                             <input type="url" class="form-control form-control-sm" name="clipping_link" placeholder="Link (http://...)" required>
+                            <input type="hidden" name="clipping_orgao" value="1" />
+
                         </div>
                         <div class="col-md-2 col-12">
                             <input type="text" class="form-control form-control-sm" name="clipping_titulo" placeholder="Titulo" required>
@@ -90,24 +92,7 @@ $busca = $clippingController->listarClippings($termo, $ano, $_SESSION['usuario_g
                         <div class="col-md-1 col-12">
                             <input type="date" class="form-control form-control-sm" name="clipping_data" value="<?php echo date('Y-m-d') ?>" placeholder="Data" required>
                         </div>
-                        <div class="col-md-2 col-12">
-                            <select class="form-select form-select-sm" name="clipping_orgao" id="orgao" required>
-                                <option value="1">Veículo não informado</option>
-                                <?php
-                                $buscaOrgaos = $orgaoController->listarOrgaos(1000, 1, 'asc', 'orgao_nome', null, null, $_SESSION['usuario_gabinete']);
-                                if ($buscaOrgaos['status'] == 'success') {
-                                    foreach ($buscaOrgaos['dados'] as $orgaos) {
-                                        if ($orgaos['orgao_id'] == 1000) {
-                                            echo '<option value="' . $orgaos['orgao_id'] . '" selected>' . $orgaos['orgao_nome'] . '</option>';
-                                        } else {
-                                            echo '<option value="' . $orgaos['orgao_id'] . '">' . $orgaos['orgao_nome'] . '</option>';
-                                        }
-                                    }
-                                }
-                                ?>
-                                <option value="+">Novo veículo + </option>
-                            </select>
-                        </div>
+
 
                         <div class="col-md-2 col-12">
                             <select class="form-select form-select-sm" name="clipping_tipo" id="clipping_tipo" required>
@@ -168,7 +153,6 @@ $busca = $clippingController->listarClippings($termo, $ano, $_SESSION['usuario_g
                                 <tr>
                                     <th scope="col">Titulo</th>
                                     <th scope="col">Tipo</th>
-                                    <th scope="col">Veículo</th>
                                     <th scope="col">Criado por - em</th>
                                 </tr>
                             </thead>
@@ -180,7 +164,6 @@ $busca = $clippingController->listarClippings($termo, $ano, $_SESSION['usuario_g
                                         echo '<tr>';
                                         echo '<td style="white-space: nowrap;"><a href="?secao=clipping&id=' . $clippingTipo['clipping_id'] . '">' . $clippingTipo['clipping_titulo'] . '</a></td>';
                                         echo '<td style="white-space: nowrap;">' . $clippingTipo['clipping_tipo_nome'] . '</td>';
-                                        echo '<td style="white-space: nowrap;">' . ($clippingTipo['clipping_orgao'] == 1 ? 'Veículo não informado' : $clippingTipo['orgao_nome']) . '</td>';
                                         echo '<td style="white-space: nowrap;">' . $clippingTipo['usuario_nome'] . ' - ' . date('d/m - H:i', strtotime($clippingTipo['clipping_criado_em'])) . '</td>';
                                         echo '</tr>';
                                     }

@@ -85,6 +85,7 @@ if ($buscaClipping['status'] != 'success') {
                     <form class="row g-2 form_custom" id="form_novo" method="POST" enctype="multipart/form-data">
                         <div class="col-md-2 col-12">
                             <input type="url" class="form-control form-control-sm" name="clipping_link" placeholder="Link (http://...)" value="<?php echo $buscaClipping['dados']['clipping_link'] ?>" required>
+                            <input type="hidden" name="clipping_orgao" value="1"/>
                         </div>
                         <div class="col-md-2 col-12">
                             <input type="text" class="form-control form-control-sm" name="clipping_titulo" placeholder="Titulo" value="<?php echo $buscaClipping['dados']['clipping_titulo'] ?>" required>
@@ -92,25 +93,7 @@ if ($buscaClipping['status'] != 'success') {
                         <div class="col-md-1 col-12">
                             <input type="date" class="form-control form-control-sm" name="clipping_data" value="<?php echo $buscaClipping['dados']['clipping_data'] ?>" placeholder="Data" required>
                         </div>
-                        <div class="col-md-2 col-12">
-                            <select class="form-select form-select-sm" name="clipping_orgao" id="orgao" required>
-                                <option value="1">Veículo não informado</option>
-                                <?php
-                                $buscaOrgaos = $orgaoController->listarOrgaos(1000, 1, 'asc', 'orgao_nome', null, null, $_SESSION['usuario_gabinete']);
-                                if ($buscaOrgaos['status'] == 'success') {
-                                    foreach ($buscaOrgaos['dados'] as $orgaos) {
-                                        if ($orgaos['orgao_id'] == $buscaClipping['dados']['clipping_orgao']) {
-                                            echo '<option value="' . $orgaos['orgao_id'] . '" selected>' . $orgaos['orgao_nome'] . '</option>';
-                                        } else {
-                                            echo '<option value="' . $orgaos['orgao_id'] . '">' . $orgaos['orgao_nome'] . '</option>';
-                                        }
-                                    }
-                                }
-                                ?>
-                                <option value="+">Novo veículo + </option>
-                            </select>
-                        </div>
-
+                        
                         <div class="col-md-2 col-12">
                             <select class="form-select form-select-sm" name="clipping_tipo" id="clipping_tipo" required>
                                 <?php
