@@ -153,6 +153,7 @@ $busca = $clippingController->listarClippings($termo, $ano, $_SESSION['usuario_g
                                 <tr>
                                     <th scope="col">Titulo</th>
                                     <th scope="col">Tipo</th>
+                                    <th scope="col">Publicação</th>
                                     <th scope="col">Criado por - em</th>
                                 </tr>
                             </thead>
@@ -164,6 +165,7 @@ $busca = $clippingController->listarClippings($termo, $ano, $_SESSION['usuario_g
                                         echo '<tr>';
                                         echo '<td style="white-space: nowrap;"><a href="?secao=clipping&id=' . $clippingTipo['clipping_id'] . '">' . $clippingTipo['clipping_titulo'] . '</a></td>';
                                         echo '<td style="white-space: nowrap;">' . $clippingTipo['clipping_tipo_nome'] . '</td>';
+                                        echo '<td style="white-space: nowrap;">' . date('d/m/Y', strtotime($clippingTipo['clipping_data'])) . '</td>';
                                         echo '<td style="white-space: nowrap;">' . $clippingTipo['usuario_nome'] . ' - ' . date('d/m - H:i', strtotime($clippingTipo['clipping_criado_em'])) . '</td>';
                                         echo '</tr>';
                                     }

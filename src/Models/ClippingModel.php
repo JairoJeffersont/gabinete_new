@@ -60,12 +60,12 @@ class ClippingModel {
 
     public function listarClipping($busca, $ano, $gabinete) {
         if ($busca === '') {
-            $query = 'SELECT * FROM view_clipping WHERE YEAR(clipping_data) = :ano AND clipping_gabinete = :clipping_gabinete ORDER BY clipping_criado_em DESC';
+            $query = 'SELECT * FROM view_clipping WHERE YEAR(clipping_data) = :ano AND clipping_gabinete = :clipping_gabinete ORDER BY clipping_data DESC';
             $stmt = $this->conn->prepare($query);
             $stmt->bindValue(':clipping_gabinete', $gabinete, PDO::PARAM_STR);
             $stmt->bindValue(':ano', $ano, PDO::PARAM_STR);
         } else {
-            $query = 'SELECT * FROM view_clipping WHERE (clipping_titulo LIKE :busca OR clipping_resumo LIKE :busca) AND clipping_gabinete = :clipping_gabinete ORDER BY clipping_criado_em DESC';
+            $query = 'SELECT * FROM view_clipping WHERE (clipping_titulo LIKE :busca OR clipping_resumo LIKE :busca) AND clipping_gabinete = :clipping_gabinete ORDER BY clipping_data DESC';
             $stmt = $this->conn->prepare($query);
             $busca = '%' . $busca . '%';
             $stmt->bindValue(':busca', $busca, PDO::PARAM_STR);
