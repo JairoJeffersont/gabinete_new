@@ -153,7 +153,14 @@ $situacao = isset($_GET['situacao']) ? strtolower(htmlspecialchars($_GET['situac
                                         <?php
                                         $buscaSituacao = $postagemController->listarPostagemStatus($_SESSION['usuario_gabinete']);
                                         foreach ($buscaSituacao['dados'] as $status) {
-                                            echo '<option value="' . $status['postagem_status_id'] . '" ' . ($buscaSituacao == $status['postagem_status_id'] ? 'selected' : '') . '>' . $status['postagem_status_nome'] . '</option>';
+                                            if($situacao == $status['postagem_status_id']){
+                                                
+                                                echo '<option value="' . $status['postagem_status_id'] . '" selected>' . $status['postagem_status_nome'] . '</option>';
+
+                                            }else{
+                                                echo '<option value="' . $status['postagem_status_id'] . '">' . $status['postagem_status_nome'] . '</option>';
+
+                                            }
                                         }
                                         ?>
                                     </select>
