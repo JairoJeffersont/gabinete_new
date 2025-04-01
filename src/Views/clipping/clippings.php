@@ -115,6 +115,19 @@ $busca = $clippingController->listarClippings($termo, $ano, $_SESSION['usuario_g
                             <input type="file" class="form-control form-control-sm" name="arquivo" placeholder="Arquivo" required>
                         </div>
                         <div class="col-md-12 col-12">
+                             <script>
+                                tinymce.init({
+                                    selector: 'textarea',
+                                    language: 'pt_BR',
+                                    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+                                    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+                                    setup: function(editor) {
+                                        editor.on('change', function() {
+                                            tinymce.triggerSave(); // Atualiza a `<textarea>`
+                                        });
+                                    }
+                                });
+                            </script>
                             <textarea class="form-control form-control-sm" name="clipping_resumo" rows="10" placeholder="Texto do clipping" required></textarea>
                         </div>
                         <div class="col-md-2 col-12">
